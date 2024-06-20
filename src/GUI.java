@@ -16,7 +16,7 @@ public class GUI {
         initializeFrame();
 
         try {
-            font = Font.createFont(Font.TRUETYPE_FONT, new File("Font\\Ayasamin.ttf")).deriveFont(12f);
+            font = Font.createFont(Font.TRUETYPE_FONT, new File("Font\\Ayasamin.ttf"));
         } catch (FontFormatException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
