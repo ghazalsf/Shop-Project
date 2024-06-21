@@ -6,10 +6,10 @@ import java.io.IOException;
 
 public class GUI {
     final Dimension SIZE = new Dimension(1000,800);
-    Color mainColor = new Color(238, 245, 255);
-    Color secondColor = new Color(158, 184, 217);
-    Color thirdColor = new Color(124, 147, 195);
-    Color forthColor = new Color(162, 87, 114);
+    Color mainColor = new Color(141, 141, 170);
+    Color secondColor = new Color(223, 223, 222);
+    Color thirdColor = new Color(247, 245, 242);
+    Color forthColor = new Color(245, 109, 145);
     Font font;
     JFrame frame;
     public GUI(){
@@ -27,7 +27,7 @@ public class GUI {
     public void initializeFrame(){
         frame = new JFrame("");
         frame.setVisible(true);
-        frame.setResizable(false);
+        frame.setResizable(true);
         frame.setBackground(mainColor);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(SIZE);
@@ -37,7 +37,7 @@ public class GUI {
     public void register(){}
     public void login(){}
     public void logout(){}
-    public void showInfo(){}
+    public void showInfo(String name, String adress, String phoneNumber, String Budget){}
     public void showProducts(){}
 
 }
