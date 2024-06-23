@@ -37,7 +37,7 @@ public class userGUI extends GUI{
         NameLabel.setForeground(thirdColor);
         phoneNumberLabel.setForeground(thirdColor);
         addressLabel.setForeground(thirdColor);
-        budgetLabel.setForeground(thirdColor);
+        budgetLabel.setForeground(forthColor);
 
         SILabel.setBounds(350,40,400,200);
         NameLabel.setBounds(300,130,400,200);

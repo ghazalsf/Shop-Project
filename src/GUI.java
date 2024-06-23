@@ -9,7 +9,7 @@ public class GUI {
     Color mainColor = new Color(141, 141, 170);
     Color secondColor = new Color(223, 223, 222);
     Color thirdColor = new Color(247, 245, 242);
-    Color forthColor = new Color(245, 109, 145);
+    Color forthColor = new Color(100, 13, 107);
     Font font;
     JFrame frame;
     public GUI(){
