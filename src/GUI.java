@@ -14,7 +14,13 @@ public class GUI {
     JFrame frame;
     public GUI(){
         initializeFrame();
-
+        try {
+            font = Font.createFont(Font.TRUETYPE_FONT, new File("Font\\Ayasamin.ttf"));
+        } catch (FontFormatException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void initializeFrame(){

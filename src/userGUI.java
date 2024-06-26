@@ -94,35 +94,41 @@ public class userGUI extends GUI{
 
         Border b = BorderFactory.createLineBorder(forthColor,2);
 
+        JLabel enterL = new JLabel("ورود کاربر",SwingConstants.CENTER);
+        enterL.setBounds(360,80,267,80);
+        enterL.setFont(font.deriveFont(40f));
+        enterL.setForeground(forthColor);
+
         JLabel enterUserL = new JLabel("نام کاربری خود را وارد کنید:",SwingConstants.CENTER);
-        enterUserL.setBounds(333,100,267,80);
+        enterUserL.setBounds(360,200,267,80);
         enterUserL.setFont(font.deriveFont(25f));
         enterUserL.setForeground(secondColor);
 
         JTextField enterUserTF = new JTextField();
-        enterUserTF.setBounds(333,220,267,60);
+        enterUserTF.setBounds(360,280,267,40);
         enterUserTF.setBorder(b);
 
         JLabel enterPassL = new JLabel("رمز عبور خود را وارد کنید:",SwingConstants.CENTER);
-        enterPassL.setBounds(333,340,267,80);
+        enterPassL.setBounds(360,340,267,80);
 
         enterPassL.setForeground(secondColor);
         enterPassL.setFont(font.deriveFont(25f));
 
-        JTextField enterPassTF = new JTextField();
-        enterPassTF.setBounds(333,460,267,60);
-        enterPassTF.setBorder(b);
+        JPasswordField enterPassPF = new JPasswordField();
+        enterPassPF.setBounds(360,420,267,40);
+        enterPassPF.setBorder(b);
 
         JButton loginButton = new JButton("ورود");
-        loginButton.setBounds(333,580,267,80);
-        loginButton.setBackground(secondColor);
+        loginButton.setBounds(450,530,100,50);
+        loginButton.setBackground(forthColor);
         loginButton.setForeground(secondColor);
         loginButton.setFont(font.deriveFont(25f));
 
+        infoPanel.add(enterL);
         infoPanel.add(enterUserL);
         infoPanel.add(enterUserTF);
         infoPanel.add(enterPassL);
-        infoPanel.add(enterPassTF);
+        infoPanel.add(enterPassPF);
         infoPanel.add(loginButton);
         frame.add(infoPanel);
         frame.setVisible(true);
