@@ -26,7 +26,7 @@ public class GUI {
 
     public void initializeFrame(){
         frame = new JFrame("");
-        frame.setVisible(true);
+
         frame.setResizable(true);
         frame.setBackground(mainColor);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -34,7 +34,8 @@ public class GUI {
 
     }
     public void main(){}
-    public void register(){}
+    public void register(){
+    }
     public void login(){}
     public void logout(){}
     public void showInfo(String name, String adress, String phoneNumber, String Budget){}
