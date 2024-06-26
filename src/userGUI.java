@@ -114,6 +114,14 @@ public class userGUI extends GUI{
         registerPanel.add(passwordField);
         registerPanel.add(repeatPasswordField);
 
+        //set button
+        JButton registerButton=new JButton("ثبت");
+        registerButton.setFont(font.deriveFont(17f));
+        registerButton.setBounds(330,530,100,50);
+        registerButton.setBackground(forthColor);
+        registerButton.setForeground(secondColor);
+        registerPanel.add(registerButton);
+
 
         frame.add(titleLabel);
         frame.add(registerPanel);
