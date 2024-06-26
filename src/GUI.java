@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
@@ -12,6 +13,8 @@ public class GUI {
     Color forthColor = new Color(100, 13, 107);
     Font font;
     JFrame frame;
+    JButton menuButton;
+
     public GUI(){
         initializeFrame();
 
@@ -26,12 +29,12 @@ public class GUI {
 
     public void initializeFrame(){
         frame = new JFrame("");
-        frame.setVisible(true);
+        //frame.setVisible(true);
         frame.setResizable(true);
         frame.setBackground(mainColor);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(SIZE);
-
+        frame.setVisible(true);
     }
     public void main(){}
     public void register(){}
@@ -40,4 +43,40 @@ public class GUI {
     public void showInfo(String name, String adress, String phoneNumber, String Budget){}
     public void showProducts(){}
 
+    public static void movePanelToLeft(JPanel panel, int distance) {
+        int startX = panel.getLocation().x;
+        int endX = startX - distance;
+        Timer timer = new Timer(10, new ActionListener() {
+            int currentX = startX;
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (currentX > endX) {
+                    currentX -= 5; // speed
+                    panel.setLocation(currentX, panel.getLocation().y);
+                } else {
+                    ((Timer) e.getSource()).stop();
+                }
+            }
+        });
+        timer.start();
+    }
+
+    public static void movePanelToOriginalPosition(JPanel panel, int distance) {
+        int startX = panel.getLocation().x;
+        int endX = distance;
+        Timer timer = new Timer(10, new ActionListener() {
+            int currentX = startX;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (currentX < endX) {
+                    currentX += 5;
+                    panel.setLocation(currentX, panel.getLocation().y);
+                } else {
+                    ((Timer) e.getSource()).stop();
+                }
+            }
+        });
+        timer.start();
+    }
 }

@@ -1,6 +1,8 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -17,7 +19,7 @@ public class userGUI extends GUI{
         //SI stands for ShowInfo
         JPanel menuPanel = menubar();
         JPanel SIPanel = new JPanel();
-        SIPanel.setSize(800, 800);
+        SIPanel.setSize(1000, 800);
         SIPanel.setLayout(null);
         SIPanel.setBackground(super.mainColor);
 
@@ -39,19 +41,54 @@ public class userGUI extends GUI{
         addressLabel.setForeground(thirdColor);
         budgetLabel.setForeground(forthColor);
 
-        SILabel.setBounds(350,40,400,200);
-        NameLabel.setBounds(300,130,400,200);
-        addressLabel.setBounds(300,170,400,200);
-        phoneNumberLabel.setBounds(300,210,400,200);
-        budgetLabel.setBounds(300,250,400,200);
+        SILabel.setBounds(550,40,400,200);
+        NameLabel.setBounds(500,130,400,200);
+        addressLabel.setBounds(500,170,400,200);
+        phoneNumberLabel.setBounds(500,210,400,200);
+        budgetLabel.setBounds(500,250,400,200);
 
+        addMenuButton(SIPanel, menuPanel);
+
+        SIPanel.add(menuButton);
         SIPanel.add(SILabel);
         SIPanel.add(NameLabel);
         SIPanel.add(addressLabel);
         SIPanel.add(phoneNumberLabel);
         SIPanel.add(budgetLabel);
         frame.add(SIPanel);
-        frame.add(menuPanel);
+        frame.setVisible(true);
+    }
+
+    public void addMenuButton(JPanel panel1, JPanel panel2){
+        menuButton = new JButton("منو");
+        menuButton.setBounds(940,10,50,50);
+        menuButton.setBackground(forthColor);
+        menuButton.setFont(font.deriveFont(13f));
+        menuButton.setForeground(secondColor);
+
+        final boolean[] panel2Visible = {false};
+        menuButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!panel2Visible[0]) {
+                    // move panel1 to left
+                    movePanelToLeft(panel1, 200); // move 200 pixel
+                    // show panel2 to left
+                    frame.add(panel2);
+                    frame.revalidate();
+                    frame.repaint();
+                    panel2Visible[0] = true;
+                } else {
+                    // move panel 1 using animation
+                    movePanelToOriginalPosition(panel1, 0); // return to first place
+                    // remove panel2 from main
+                    frame.remove(panel2);
+                    frame.revalidate();
+                    frame.repaint();
+                    panel2Visible[0] = false;
+                }
+            }
+        });
     }
 
     public JPanel menubar(){
@@ -83,4 +120,5 @@ public class userGUI extends GUI{
         button.setFont(font.deriveFont(15f));
         button.setHorizontalAlignment(SwingConstants.CENTER);
     }
+
 }
