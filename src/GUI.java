@@ -15,18 +15,10 @@ public class GUI {
     public GUI(){
         initializeFrame();
 
-        try {
-            font = Font.createFont(Font.TRUETYPE_FONT, new File("Font\\Ayasamin.ttf"));
-        } catch (FontFormatException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public void initializeFrame(){
         frame = new JFrame("");
-        frame.setVisible(true);
         frame.setResizable(true);
         frame.setBackground(mainColor);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -35,7 +27,7 @@ public class GUI {
     }
     public void main(){}
     public void register(){}
-    public void login(){}
+    public void login(String name, String password){}
     public void logout(){}
     public void showInfo(String name, String adress, String phoneNumber, String Budget){}
     public void showProducts(){}

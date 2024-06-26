@@ -1,5 +1,6 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -9,10 +10,7 @@ public class userGUI extends GUI{
 
     public userGUI(){
     }
-    @Override
-    public void initializeFrame() {
-        super.initializeFrame();
-    }
+
     public void showInfo(String name, String address, String phoneNumber, String budget){
         //SI stands for ShowInfo
         JPanel menuPanel = menubar();
@@ -52,6 +50,7 @@ public class userGUI extends GUI{
         SIPanel.add(budgetLabel);
         frame.add(SIPanel);
         frame.add(menuPanel);
+        frame.setVisible(true);
     }
 
     public JPanel menubar(){
@@ -82,5 +81,54 @@ public class userGUI extends GUI{
         button.setContentAreaFilled(false); // remove bg
         button.setFont(font.deriveFont(15f));
         button.setHorizontalAlignment(SwingConstants.CENTER);
+    }
+
+    @Override
+    public void login(String name, String password) {
+        super.login(name, password);
+//         Information-Insertion panel :
+        JPanel infoPanel = new JPanel();
+        infoPanel.setSize(1000,800);
+        infoPanel.setLayout(null);
+        infoPanel.setBackground(super.mainColor);
+
+        Border b = BorderFactory.createLineBorder(forthColor,2);
+
+        JLabel enterUserL = new JLabel("نام کاربری خود را وارد کنید:",SwingConstants.CENTER);
+        enterUserL.setBounds(333,100,267,80);
+        enterUserL.setFont(font.deriveFont(25f));
+        enterUserL.setForeground(secondColor);
+
+        JTextField enterUserTF = new JTextField();
+        enterUserTF.setBounds(333,220,267,60);
+        enterUserTF.setBorder(b);
+
+        JLabel enterPassL = new JLabel("رمز عبور خود را وارد کنید:",SwingConstants.CENTER);
+        enterPassL.setBounds(333,340,267,80);
+
+        enterPassL.setForeground(secondColor);
+        enterPassL.setFont(font.deriveFont(25f));
+
+        JTextField enterPassTF = new JTextField();
+        enterPassTF.setBounds(333,460,267,60);
+        enterPassTF.setBorder(b);
+
+        JButton loginButton = new JButton("ورود");
+        loginButton.setBounds(333,580,267,80);
+        loginButton.setBackground(secondColor);
+        loginButton.setForeground(secondColor);
+        loginButton.setFont(font.deriveFont(25f));
+
+        infoPanel.add(enterUserL);
+        infoPanel.add(enterUserTF);
+        infoPanel.add(enterPassL);
+        infoPanel.add(enterPassTF);
+        infoPanel.add(loginButton);
+        frame.add(infoPanel);
+        frame.setVisible(true);
+    }
+    @Override
+    public void initializeFrame() {
+        super.initializeFrame();
     }
 }
