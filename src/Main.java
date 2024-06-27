@@ -13,7 +13,7 @@ public class Main {
         users.add(new User("Alice"));
         users.add(new User("Bob"));
         users.add(new User("Bob"));
-        users.add(new User("Bob"));
+        users.add(new User("kdnflaknd"));
 
         adminGUI panelTest = new adminGUI();
         panelTest.userList(users);
