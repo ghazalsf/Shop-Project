@@ -3,6 +3,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class userGUI extends GUI{
     public userGUI(){
@@ -10,6 +11,40 @@ public class userGUI extends GUI{
     @Override
     public void initializeFrame() {
         super.initializeFrame();
+    }
+
+    public void cart(ArrayList<Product> selectedProducts){
+        int numberOfSelected = selectedProducts.size();
+        int rows = numberOfSelected + 3;
+        JPanel selectedList = new JPanel();
+        selectedList.setBackground(mainColor);
+        selectedList.setLayout(new GridLayout(rows, 1, 0, 10)); //hgap is 0 for consistent spacing
+
+        JLabel cost = new JLabel("98645", SwingConstants.CENTER);
+        JLabel emptyLabel = new JLabel("   ");
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(mainColor);
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10)); // FlowLayout for buttons with spacing
+
+        JButton backButton = new JButton("برگشت");
+        JButton confirmButton = new JButton("تایید نهایی");
+
+        for(Product p : selectedProducts){
+            JLabel showPro = new JLabel(p.getName(), SwingConstants.CENTER);
+            showPro.setForeground(secondColor);
+            selectedList.add(showPro);
+        }
+
+        buttonPanel.add(backButton);
+        buttonPanel.add(confirmButton);
+
+        selectedList.add(cost);
+        selectedList.add(emptyLabel);
+        selectedList.add(buttonPanel);
+
+        frame.add(selectedList);
+        frame.setVisible(true);
     }
     public void register(){
         JPanel registerPanel = new JPanel();
@@ -27,15 +62,15 @@ public class userGUI extends GUI{
         JLabel passwordLabel =  new JLabel("رمز عبور: ", SwingConstants.LEFT);
         JLabel repeatPasswordLabel =  new JLabel("تکرار رمز عبور: ", SwingConstants.LEFT);
 
-        titleLabel.setFont(font.deriveFont(40f));
-        nameLabel.setFont(font.deriveFont(20f));
-        lastNameLabel.setFont(font.deriveFont(20f));
-        addressLabel.setFont(font.deriveFont(20f));
-        emailLabel.setFont(font.deriveFont(20f));
-        phoneNumberLabel.setFont(font.deriveFont(20f));
-        userNameLabel.setFont(font.deriveFont(20f));
-        passwordLabel.setFont(font.deriveFont(20f));
-        repeatPasswordLabel.setFont(font.deriveFont(20f));
+//        titleLabel.setFont(font.deriveFont(40f));
+//        nameLabel.setFont(font.deriveFont(20f));
+//        lastNameLabel.setFont(font.deriveFont(20f));
+//        addressLabel.setFont(font.deriveFont(20f));
+//        emailLabel.setFont(font.deriveFont(20f));
+//        phoneNumberLabel.setFont(font.deriveFont(20f));
+//        userNameLabel.setFont(font.deriveFont(20f));
+//        passwordLabel.setFont(font.deriveFont(20f));
+//        repeatPasswordLabel.setFont(font.deriveFont(20f));
 
         titleLabel.setForeground(forthColor);
         nameLabel.setForeground(thirdColor);
@@ -109,7 +144,7 @@ public class userGUI extends GUI{
         registerPanel.add(repeatPasswordField);
 
         JButton registerButton=new JButton("ثبت");
-        registerButton.setFont(font.deriveFont(17f));
+//        registerButton.setFont(font.deriveFont(17f));
         registerButton.setBounds(460,530,100,50);
         registerButton.setBackground(forthColor);
         registerButton.setForeground(secondColor);
@@ -133,11 +168,11 @@ public class userGUI extends GUI{
         JLabel phoneNumberLabel =  new JLabel("شماره تماس: " + phoneNumber, SwingConstants.RIGHT);
         JLabel budgetLabel =  new JLabel("موجودی: " + budget, SwingConstants.RIGHT);
 
-        SILabel.setFont(font.deriveFont(40f));
-        NameLabel.setFont(font.deriveFont(25f));
-        addressLabel.setFont(font.deriveFont(25f));
-        phoneNumberLabel.setFont(font.deriveFont(25f));
-        budgetLabel.setFont(font.deriveFont(25f));
+//        SILabel.setFont(font.deriveFont(40f));
+//        NameLabel.setFont(font.deriveFont(25f));
+//        addressLabel.setFont(font.deriveFont(25f));
+//        phoneNumberLabel.setFont(font.deriveFont(25f));
+//        budgetLabel.setFont(font.deriveFont(25f));
 
         SILabel.setForeground(thirdColor);
         NameLabel.setForeground(thirdColor);
@@ -163,71 +198,9 @@ public class userGUI extends GUI{
         frame.setVisible(true);
     }
 
-    public void addMenuButton(JPanel panel1, JPanel panel2){
-        menuButton = new JButton("منو");
-        menuButton.setBounds(940,10,50,50);
-        menuButton.setBackground(forthColor);
-        menuButton.setFont(font.deriveFont(13f));
-        menuButton.setForeground(secondColor);
-
-        final boolean[] panel2Visible = {false};
-        menuButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (!panel2Visible[0]) {
-                    // move panel1 to left
-                    movePanelToLeft(panel1, 200); // move 200 pixel
-                    // show panel2 to left
-                    frame.add(panel2);
-                    frame.revalidate();
-                    frame.repaint();
-                    panel2Visible[0] = true;
-                } else {
-                    // move panel 1 using animation
-                    movePanelToOriginalPosition(panel1, 0); // return to first place
-                    // remove panel2 from main
-                    frame.remove(panel2);
-                    frame.revalidate();
-                    frame.repaint();
-                    panel2Visible[0] = false;
-                }
-            }
-        });
-    }
-
-    public JPanel menubar(){
-        JPanel panel = new JPanel(null);
-        panel.setPreferredSize(new Dimension(100, 800));
-        panel.setBounds(0,0,100,800);
-
-        JButton homeButton = new JButton("صفحه اصلی");
-        homeButton.setBounds(800, 130, 200, 30);
-        JButton contactUsButton = new JButton("ارتباط با ما");
-        contactUsButton.setBounds(800, 190, 200, 30);
-        JButton cartButton = new JButton("سبد خرید");
-        cartButton.setBounds(800, 250, 200, 30);
-
-        flatButton(homeButton);
-        flatButton(contactUsButton);
-        flatButton(cartButton);
-
-        panel.add(homeButton);
-        panel.add(contactUsButton);
-        panel.add(cartButton);
-
-        return panel;
-    }
-
-    private void flatButton(JButton button) {
-        button.setBorderPainted(false); // remove border
-        button.setContentAreaFilled(false); // remove bg
-        button.setFont(font.deriveFont(15f));
-        button.setHorizontalAlignment(SwingConstants.CENTER);
-    }
 
     @Override
-    public void login(String name, String password) {
-        super.login(name, password);
+    public void login() {
 //      Information-Insertion panel :
         JPanel infoPanel = new JPanel();
         infoPanel.setSize(1000,800);
@@ -238,12 +211,10 @@ public class userGUI extends GUI{
 
         JLabel enterL = new JLabel("ورود کاربر",SwingConstants.CENTER);
         enterL.setBounds(360,80,267,80);
-        enterL.setFont(font.deriveFont(40f));
         enterL.setForeground(forthColor);
 
         JLabel enterUserL = new JLabel("نام کاربری خود را وارد کنید:",SwingConstants.CENTER);
         enterUserL.setBounds(360,200,267,80);
-        enterUserL.setFont(font.deriveFont(25f));
         enterUserL.setForeground(secondColor);
 
         JTextField enterUserTF = new JTextField();
@@ -252,9 +223,7 @@ public class userGUI extends GUI{
 
         JLabel enterPassL = new JLabel("رمز عبور خود را وارد کنید:",SwingConstants.CENTER);
         enterPassL.setBounds(360,340,267,80);
-
         enterPassL.setForeground(secondColor);
-        enterPassL.setFont(font.deriveFont(25f));
 
         JPasswordField enterPassPF = new JPasswordField();
         enterPassPF.setBounds(360,420,267,40);
@@ -264,7 +233,11 @@ public class userGUI extends GUI{
         loginButton.setBounds(450,530,100,50);
         loginButton.setBackground(forthColor);
         loginButton.setForeground(secondColor);
-        loginButton.setFont(font.deriveFont(25f));
+
+//        enterL.setFont(font.deriveFont(40f));
+//        enterUserL.setFont(font.deriveFont(25f));
+//        enterPassL.setFont(font.deriveFont(25f));
+//        loginButton.setFont(font.deriveFont(25f));
 
         infoPanel.add(enterL);
         infoPanel.add(enterUserL);
