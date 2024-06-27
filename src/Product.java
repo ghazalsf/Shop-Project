@@ -3,6 +3,7 @@ public class Product {
     private double score;
     private int stock;
     private String name;
+    private String category;
 
     private String description;
 
@@ -26,11 +27,9 @@ public class Product {
     public void setName(String name){
         this.name=name;
     }
-
     public void setDescription(String description){
         this.description=description;
     }
-
     public int getPrice(){
         return this.price;
     }
@@ -43,7 +42,6 @@ public class Product {
     public String getName(){
         return this.name;
     }
-
     public  String getDescription(){
         return this.description;
     }

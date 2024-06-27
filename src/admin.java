@@ -1,7 +1,5 @@
 public class admin extends Human{
-
-    public admin(String firstName,String lastName, String userName, String password){
-        super(firstName,lastName,userName,password);
+    admin(String name, String lastName, String userName, String password) {
+        super(name, lastName, userName,password);
     }
-
 }

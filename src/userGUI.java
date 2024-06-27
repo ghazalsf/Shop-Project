@@ -1,9 +1,9 @@
-import javax.print.attribute.standard.PrinterURI;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class userGUI extends GUI{
     public userGUI(){
@@ -11,6 +11,44 @@ public class userGUI extends GUI{
     @Override
     public void initializeFrame() {
         super.initializeFrame();
+    }
+
+    public void cart(ArrayList<Product> selectedProducts){
+        int numberOfSelected = selectedProducts.size();
+        int rows = numberOfSelected + 3;
+        JPanel selectedList = new JPanel();
+        selectedList.setBackground(mainColor);
+        selectedList.setLayout(new GridLayout(rows, 1, 0, 10)); //hgap is 0 for consistent spacing
+
+        JLabel cost = new JLabel("جمع خرید شما: 98645", SwingConstants.CENTER);
+        JLabel emptyLabel = new JLabel("   ");
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(mainColor);
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10)); // FlowLayout for buttons with spacing
+
+        JButton backButton = new JButton("برگشت");
+        JButton confirmButton = new JButton("تایید نهایی");
+
+        cost.setFont(font.deriveFont(20f));
+        //backButton.setFont(font);
+        //confirmButton.setFont(font);
+
+        for(Product p : selectedProducts){
+            JLabel showPro = new JLabel(p.getName(), SwingConstants.CENTER);
+            showPro.setForeground(secondColor);
+            selectedList.add(showPro);
+        }
+
+        buttonPanel.add(backButton);
+        buttonPanel.add(confirmButton);
+
+        selectedList.add(cost);
+        selectedList.add(emptyLabel);
+        selectedList.add(buttonPanel);
+
+        frame.add(selectedList);
+        frame.setVisible(true);
     }
     public void register(){
         super.register();
@@ -74,15 +112,9 @@ public class userGUI extends GUI{
         showProductPanel.add(submitscorelabel);
         showProductPanel.add(addbutton);
 
-
-
-
         frame.add(showProductPanel);
         frame.setVisible(true);
-
-
     }
-
     @Override
     public void login(String name, String password) {
         super.login(name, password);

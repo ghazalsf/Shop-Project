@@ -13,7 +13,6 @@ public class Human {
         this.userName=userName;
         this.password=password;
     }
-
     public void setFirstName(String firstName){
         this.firstName=firstName;
     }
@@ -52,6 +51,4 @@ public class Human {
     public int getBudget(){
         return this.budget;
     }
-
-
 }
