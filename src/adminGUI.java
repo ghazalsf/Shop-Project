@@ -8,7 +8,7 @@ public class adminGUI extends GUI {
     }
     @Override
     public void initializeFrame() {
-            super.initializeFrame();
+        super.initializeFrame();
     }
     public void adminCheck(){
         JPanel adminCheckPanel = new JPanel();
@@ -39,8 +39,8 @@ public class adminGUI extends GUI {
     public void register(){
         super.register();
     }
-    public void login(String name, String password) {
-        super.login(name, password);
+    public void login() {
+        super.login();
     }
     public void showProduct(Product product){
         JPanel showProductPanel = new JPanel();

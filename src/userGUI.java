@@ -116,7 +116,7 @@ public class userGUI extends GUI{
         frame.setVisible(true);
     }
     @Override
-    public void login(String name, String password) {
-        super.login(name, password);
+    public void login() {
+        super.login();
     }
 }
