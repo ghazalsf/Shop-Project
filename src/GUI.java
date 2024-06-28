@@ -37,14 +37,19 @@ public class GUI {
         frame.setVisible(true);
     }
     public void main(ArrayList<Product> products){
+
         frame.setLayout(new BorderLayout());
 
-        JPanel commandsPanel = new JPanel();
-        JPanel menuPanel = menubar();
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BorderLayout());
 
+        JPanel commandsPanel = new JPanel();
         commandsPanel.setLayout(null);
         commandsPanel.setPreferredSize(new Dimension(1000,200));
         commandsPanel.setBounds(0,0,1000,200);
+
+        JPanel menuPanel = menubar();
+
 
         JTextField searchBar = new JTextField();
         searchBar.setBounds(140,40,150,40);
@@ -60,15 +65,11 @@ public class GUI {
 
         commandsPanel.setBackground(mainColor);
         searchButton.setBackground(forthColor);
-        sortButton.setBackground(forthColor);
-
         searchButton.setForeground(secondColor);
         name.setForeground(forthColor);
+        sortButton.setBackground(forthColor);
         sortButton.setForeground(secondColor);
 
-        addMenuButton(commandsPanel, menuPanel);
-
-        commandsPanel.add(menuButton);
         commandsPanel.add(name);
         commandsPanel.add(searchBar);
         commandsPanel.add(searchButton);
@@ -99,10 +100,13 @@ public class GUI {
             productPanel.add(proButton);
         }
 
-        initializeFrame();
-        frame.add(commandsPanel,BorderLayout.NORTH);
-        frame.add(productPanel,BorderLayout.CENTER);
+        addMenuButton(mainPanel, menuPanel);
+        mainPanel.add(menuButton);
+        mainPanel.add(commandsPanel,BorderLayout.NORTH);
+        mainPanel.add(productPanel,BorderLayout.CENTER);
+        frame.add(mainPanel);
         frame.setVisible(true);
+
     }
     public void addMenuButton(JPanel panel1, JPanel panel2){
         menuButton = new JButton("منو");
