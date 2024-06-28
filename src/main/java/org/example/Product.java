@@ -8,12 +8,20 @@ public class Product {
 
     private String description;
 
-    public Product(int price,double score,int stock,String name,String description){
+    public Product(int price,double score,int stock,String name,String description, String category){
         this.price=price;
         this.score=score;
         this.stock=stock;
         this.name=name;
         this.description=description;
+        this.category= category;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+    public String setCategory(String category){
+        return this.category;
     }
 
     public void setPrice(int price){

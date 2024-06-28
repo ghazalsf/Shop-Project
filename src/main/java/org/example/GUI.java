@@ -6,40 +6,93 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.io.IOException;
-import java.io.File;
-public class GUI {
+
+public class GUI extends JFrame implements ActionListener{
     final Dimension SIZE = new Dimension(1000,800);
     Color mainColor = new Color(141, 141, 170);
     Color secondColor = new Color(223, 223, 222);
     Color thirdColor = new Color(247, 245, 242);
     Color forthColor = new Color(100, 13, 107);
     Font font;
-    JFrame frame;
     JButton menuButton;
+    JFrame frame = new JFrame("");
+
+    //**********  buttons and textfeilds in need of action listener in our main panel  **********
+    JButton searchButton = new JButton("جستجو");
+    JTextField searchBar = new JTextField();
+
+    //this button sorts the products from the lowest price to the largest
+    JButton sortButton = new JButton("مرتب سازی از کمترین قیمت:");
+
+    //this button sorts the product from the largest prices to the lowest
+    JButton sortButtonBigger = new JButton("مرتب سازی از بیشترین قیمت:");
+
+    //this button sorts the product by their categories
+    JButton sortButtonCategory = new JButton("مرتب سازی بر اساس دسته بندی:");
+
+    //this is where we store all the products
+    ArrayList<Product> products = new ArrayList<>();
+
+    //********** first panel fields *********
+    JPanel firstPanel = new JPanel();
+    JButton  enterAsAdmin = new JButton("ورود کاربر");
+    JButton enterAAsUser = new JButton("ورود ادمین");
+
+    //*********** login panel**********
+    //      Information-Insertion panel :
+    JPanel infoPanel = new JPanel();
 
     public GUI(){
-        initializeFrame();
-        try {
-            font = Font.createFont(Font.TRUETYPE_FONT, new File("Font\\Ayasamin.ttf"));
-        } catch (FontFormatException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+//        initializeFrame();
+//        try {
+//            font = Font.createFont(Font.TRUETYPE_FONT, new File("Font\\Ayasamin.ttf"));
+//        } catch (FontFormatException e) {
+//            throw new RuntimeException(e);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+        addActionEvent();
+
     }
 
     public void initializeFrame(){
-        frame = new JFrame("");
         frame.setResizable(true);
         frame.setBackground(mainColor);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(SIZE);
         frame.setVisible(true);
     }
-    public void main(ArrayList<Product> products){
 
+    public void startPanel(){
         frame.setLayout(new BorderLayout());
+        firstPanel.setBackground(mainColor);
+        firstPanel.setLayout(new GridBagLayout());
+        firstPanel.setPreferredSize(new Dimension(1000, 800));
+        JLabel enter = new JLabel("ورود");
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.anchor = GridBagConstraints.CENTER;
+        Dimension buttonSize = new Dimension(200, 100);
+        enterAAsUser.setPreferredSize(buttonSize);
+        enterAsAdmin.setPreferredSize(buttonSize);
+
+        enterAAsUser.setBackground(forthColor);
+        enterAAsUser.setForeground(secondColor);
+        enterAsAdmin.setBackground(forthColor);
+        enterAsAdmin.setForeground(secondColor);
+
+        firstPanel.add(enter, gbc);
+        gbc.gridy=1;
+        firstPanel.add(enterAAsUser, gbc);
+        gbc.gridy = 2;
+        firstPanel.add(enterAsAdmin, gbc);
+        initializeFrame();
+        frame.add(firstPanel, BorderLayout.CENTER);
+        frame.setVisible(true);
+    }
+    public void main(ArrayList<Product> products){
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
@@ -51,28 +104,18 @@ public class GUI {
 
         JPanel menuPanel = menubar();
 
-
-        JTextField searchBar = new JTextField();
         searchBar.setBounds(140,25,150,30);
 
-        JButton searchButton = new JButton("جستجو");
         searchButton.setBounds(290,25,80,30);
 
         JLabel name = new JLabel("هقداژدفو",SwingConstants.RIGHT);
         name.setBounds(550,50,200,100);
-        name.setFont(font.deriveFont(50f));
+//        name.setFont(font.deriveFont(50f));
 
-
-        //this button sorts the products from the lowest price to the largest
-        JButton sortButton = new JButton("مرتب سازی از کمترین قیمت:");
         sortButton.setBounds(140,65,230,30);
 
-        //this button sorts the product from the largest prices to the lowest
-        JButton sortButtonBigger = new JButton("مرتب سازی از بیشترین قیمت:");
         sortButtonBigger.setBounds(140,105,230,30);
 
-        //this button sorts the product by their categories
-        JButton sortButtonCategory = new JButton("مرتب سازی بر اساس دسته بندی:");
         sortButtonCategory.setBounds(140, 145,230,30);
 
         commandsPanel.setBackground(mainColor);
@@ -109,10 +152,8 @@ public class GUI {
 
         productPanel.setLayout(new GridLayout(y, 4,50,20));
 
-        ArrayList<JButton> productButtons = new ArrayList<>();
-
         for (Product p : products) {
-            JButton proButton = new JButton(p.getName());
+            JButton proButton = new JButton(p.getName()+", "+ p.getPrice()+", "+p.getScore()+", "+p.getCategory());
             proButton.setBackground(forthColor);
             proButton.setForeground(secondColor);
             productPanel.add(proButton);
@@ -122,6 +163,7 @@ public class GUI {
         mainPanel.add(menuButton);
         mainPanel.add(commandsPanel,BorderLayout.NORTH);
         mainPanel.add(productPanel,BorderLayout.CENTER);
+        initializeFrame();
         frame.add(mainPanel);
         frame.setVisible(true);
 
@@ -130,7 +172,7 @@ public class GUI {
         menuButton = new JButton("منو");
         menuButton.setBounds(940,10,50,50);
         menuButton.setBackground(forthColor);
-        menuButton.setFont(font.deriveFont(13f));
+//        menuButton.setFont(font.deriveFont(13f));
         menuButton.setForeground(secondColor);
 
         final boolean[] panel2Visible = {false};
@@ -158,7 +200,6 @@ public class GUI {
         });
     }
 
-    public void login(){}
     public void register(){
         JPanel registerPanel = new JPanel();
         registerPanel.setSize(800, 800);
@@ -175,15 +216,15 @@ public class GUI {
         JLabel passwordLabel =  new JLabel("رمز عبور: ", SwingConstants.LEFT);
         JLabel repeatPasswordLabel =  new JLabel("تکرار رمز عبور: ", SwingConstants.LEFT);
 
-        titleLabel.setFont(font.deriveFont(40f));
-        nameLabel.setFont(font.deriveFont(20f));
-        lastNameLabel.setFont(font.deriveFont(20f));
-        addressLabel.setFont(font.deriveFont(20f));
-        emailLabel.setFont(font.deriveFont(20f));
-        phoneNumberLabel.setFont(font.deriveFont(20f));
-        userNameLabel.setFont(font.deriveFont(20f));
-        passwordLabel.setFont(font.deriveFont(20f));
-        repeatPasswordLabel.setFont(font.deriveFont(20f));
+//        titleLabel.setFont(font.deriveFont(40f));
+//        nameLabel.setFont(font.deriveFont(20f));
+//        lastNameLabel.setFont(font.deriveFont(20f));
+//        addressLabel.setFont(font.deriveFont(20f));
+//        emailLabel.setFont(font.deriveFont(20f));
+//        phoneNumberLabel.setFont(font.deriveFont(20f));
+//        userNameLabel.setFont(font.deriveFont(20f));
+//        passwordLabel.setFont(font.deriveFont(20f));
+//        repeatPasswordLabel.setFont(font.deriveFont(20f));
 
         titleLabel.setForeground(forthColor);
         nameLabel.setForeground(thirdColor);
@@ -257,7 +298,7 @@ public class GUI {
         registerPanel.add(repeatPasswordField);
 
         JButton registerButton=new JButton("ثبت");
-        registerButton.setFont(font.deriveFont(17f));
+//        registerButton.setFont(font.deriveFont(17f));
         registerButton.setBounds(460,530,100,50);
         registerButton.setBackground(forthColor);
         registerButton.setForeground(secondColor);
@@ -267,9 +308,7 @@ public class GUI {
         frame.add(registerPanel);
         frame.setVisible(true);
     }
-    public void login(String name, String password) {
-//      Information-Insertion panel :
-        JPanel infoPanel = new JPanel();
+        public void login() {
         infoPanel.setSize(1000,800);
         infoPanel.setLayout(null);
         infoPanel.setBackground(mainColor);
@@ -278,12 +317,12 @@ public class GUI {
 
         JLabel enterL = new JLabel("ورود کاربر",SwingConstants.CENTER);
         enterL.setBounds(360,80,267,80);
-        enterL.setFont(font.deriveFont(40f));
+//        enterL.setFont(font.deriveFont(40f));
         enterL.setForeground(forthColor);
 
         JLabel enterUserL = new JLabel("نام کاربری خود را وارد کنید:",SwingConstants.CENTER);
         enterUserL.setBounds(360,200,267,80);
-        enterUserL.setFont(font.deriveFont(25f));
+//        enterUserL.setFont(font.deriveFont(25f));
         enterUserL.setForeground(secondColor);
 
         JTextField enterUserTF = new JTextField();
@@ -294,7 +333,7 @@ public class GUI {
         enterPassL.setBounds(360,340,267,80);
 
         enterPassL.setForeground(secondColor);
-        enterPassL.setFont(font.deriveFont(25f));
+//        enterPassL.setFont(font.deriveFont(25f));
 
         JPasswordField enterPassPF = new JPasswordField();
         enterPassPF.setBounds(360,420,267,40);
@@ -304,7 +343,7 @@ public class GUI {
         loginButton.setBounds(450,530,100,50);
         loginButton.setBackground(forthColor);
         loginButton.setForeground(secondColor);
-        loginButton.setFont(font.deriveFont(25f));
+//        loginButton.setFont(font.deriveFont(25f));
 
         infoPanel.add(enterL);
         infoPanel.add(enterUserL);
@@ -319,7 +358,7 @@ public class GUI {
     private void flatButton(JButton button) {
         button.setBorderPainted(false); // remove border
         button.setContentAreaFilled(false); // remove bg
-        button.setFont(font.deriveFont(15f));
+//        button.setFont(font.deriveFont(15f));
         button.setHorizontalAlignment(SwingConstants.CENTER);
     }
     public JPanel menubar(){
@@ -356,10 +395,10 @@ public class GUI {
         JLabel addressLabel=new JLabel("آدرس: وسط اقیانوس اطلس| چلچله خوش اشتها| حیاط پشتی منزل لاکوود",SwingConstants.RIGHT);
         JLabel telegramLabel= new JLabel("تلگرام:t.me/haghdazhdefo",SwingConstants.RIGHT);
 
-        emailLabel.setFont(font.deriveFont(20f));
-        phonenumberLabel.setFont(font.deriveFont(20f));
-        addressLabel.setFont(font.deriveFont(20f));
-        telegramLabel.setFont(font.deriveFont(20f));
+//        emailLabel.setFont(font.deriveFont(20f));
+//        phonenumberLabel.setFont(font.deriveFont(20f));
+//        addressLabel.setFont(font.deriveFont(20f));
+//        telegramLabel.setFont(font.deriveFont(20f));
 
         emailLabel.setForeground(forthColor);
         phonenumberLabel.setForeground(forthColor);
@@ -393,11 +432,11 @@ public class GUI {
         JLabel phoneNumberLabel =  new JLabel("شماره تماس: " + phoneNumber, SwingConstants.RIGHT);
         JLabel budgetLabel =  new JLabel("موجودی: " + budget, SwingConstants.RIGHT);
 
-        SILabel.setFont(font.deriveFont(40f));
-        NameLabel.setFont(font.deriveFont(25f));
-        addressLabel.setFont(font.deriveFont(25f));
-        phoneNumberLabel.setFont(font.deriveFont(25f));
-        budgetLabel.setFont(font.deriveFont(25f));
+//        SILabel.setFont(font.deriveFont(40f));
+//        NameLabel.setFont(font.deriveFont(25f));
+//        addressLabel.setFont(font.deriveFont(25f));
+//        phoneNumberLabel.setFont(font.deriveFont(25f));
+//        budgetLabel.setFont(font.deriveFont(25f));
 
         SILabel.setForeground(thirdColor);
         NameLabel.setForeground(thirdColor);
@@ -459,5 +498,50 @@ public class GUI {
             }
         });
         timer.start();
+    }
+    public void notFound(){
+        JPanel nothing = new JPanel();
+        nothing.setLayout(new FlowLayout());
+        JLabel nothingL = new JLabel("یافت نشد");
+
+        nothing.add(nothingL);
+        initializeFrame();
+        frame.add(nothing);
+        frame.setVisible(true);
+    }
+
+    public ArrayList<Product> searchNameAndCategory(ArrayList<Product> products, String searchString) {
+        ArrayList<Product> shownProducts = new ArrayList<>();
+
+        // Convert the search string to lowercase for case-insensitive matching
+        String searchLower = searchString.toLowerCase();
+        int legth= products.size();
+        System.out.println(legth);
+        for(Product p : products) {
+            String categoryLower = p.getCategory().toLowerCase();
+            String nameLower = p.getName().toLowerCase();
+            System.out.println(categoryLower+ searchLower);
+            if(categoryLower.contains(searchLower) || nameLower.contains(searchLower)) {
+                System.out.println("Product matched: " + p.getName());
+                shownProducts.add(p);
+            }
+        }
+        return shownProducts;
+    }
+
+
+    public void addActionEvent(){
+        searchButton.addActionListener(this);
+        searchBar.addActionListener(this);
+        enterAAsUser.addActionListener(this);
+        enterAsAdmin.addActionListener(this);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource()==searchButton){
+            System.out.println("hvlzd");
+            //TO DO
+        }
     }
 }
