@@ -15,10 +15,7 @@ import java.sql.SQLException;
 
 
 public class ConnectDB {
-
     private Connection connection;
-
-
     public ConnectDB() {
         String url = "jdbc:sqlite:mydb.db"; // Specify your database URL
 

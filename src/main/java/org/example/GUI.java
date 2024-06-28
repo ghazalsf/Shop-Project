@@ -545,5 +545,4 @@ public class GUI extends JFrame implements ActionListener {
         frame.setVisible(true);
     }
 
-
 }

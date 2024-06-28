@@ -2,16 +2,12 @@ package org.example;
 
 import org.example.models.ConnectDB;
 import org.example.models.ManageDB;
-
-
-import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ArrayList;
 
 
 public class Main {
-
     public static void main(String[] args) {
         //Product product = new Product(22, 1.2, 9, "goje", "khkhkhk", "sibzaminijat");
         GUI userGUI = new userGUI();
