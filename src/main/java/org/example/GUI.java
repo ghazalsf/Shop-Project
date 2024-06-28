@@ -1,3 +1,5 @@
+package org.example;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -6,7 +8,6 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.io.IOException;
 import java.io.File;
-
 public class GUI {
     final Dimension SIZE = new Dimension(1000,800);
     Color mainColor = new Color(141, 141, 170);
@@ -52,28 +53,45 @@ public class GUI {
 
 
         JTextField searchBar = new JTextField();
-        searchBar.setBounds(140,40,150,40);
+        searchBar.setBounds(140,25,150,30);
 
         JButton searchButton = new JButton("جستجو");
-        searchButton.setBounds(290,40,80,40);
+        searchButton.setBounds(290,25,80,30);
 
-        JLabel name = new JLabel("هقدازدفو",SwingConstants.RIGHT);
+        JLabel name = new JLabel("هقداژدفو",SwingConstants.RIGHT);
         name.setBounds(550,50,200,100);
+        name.setFont(font.deriveFont(50f));
 
+
+        //this button sorts the products from the lowest price to the largest
         JButton sortButton = new JButton("مرتب سازی از کمترین قیمت:");
-        sortButton.setBounds(140,120,230,40);
+        sortButton.setBounds(140,65,230,30);
+
+        //this button sorts the product from the largest prices to the lowest
+        JButton sortButtonBigger = new JButton("مرتب سازی از بیشترین قیمت:");
+        sortButtonBigger.setBounds(140,105,230,30);
+
+        //this button sorts the product by their categories
+        JButton sortButtonCategory = new JButton("مرتب سازی بر اساس دسته بندی:");
+        sortButtonCategory.setBounds(140, 145,230,30);
 
         commandsPanel.setBackground(mainColor);
         searchButton.setBackground(forthColor);
         searchButton.setForeground(secondColor);
-        name.setForeground(forthColor);
-        sortButton.setBackground(forthColor);
+        name.setForeground(secondColor);
         sortButton.setForeground(secondColor);
+        sortButton.setBackground(forthColor);
+        sortButtonBigger.setForeground(secondColor);
+        sortButtonBigger.setBackground(forthColor);
+        sortButtonCategory.setBackground(forthColor);
+        sortButtonCategory.setForeground(secondColor);
 
         commandsPanel.add(name);
         commandsPanel.add(searchBar);
         commandsPanel.add(searchButton);
         commandsPanel.add(sortButton);
+        commandsPanel.add(sortButtonBigger);
+        commandsPanel.add(sortButtonCategory);
 
         int amountOfProducts = products.size();
         int y=0;

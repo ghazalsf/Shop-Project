@@ -1,3 +1,5 @@
+package org.example;
+
 public class Human {
     private String firstName;
     private String lastName;
