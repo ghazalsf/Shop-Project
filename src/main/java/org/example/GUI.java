@@ -158,7 +158,7 @@ public class GUI {
         });
     }
 
-    public void login(){}
+
     public void register(){
         JPanel registerPanel = new JPanel();
         registerPanel.setSize(800, 800);

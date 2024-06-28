@@ -7,13 +7,18 @@ public class Human {
     private String password;
     private String address;
     private String phoneNumber;
+    private String email;
     private int budget;
 
-    public Human(String firstName,String lastName, String userName, String password){
+    public Human(String firstName,String lastName, String userName, String password,String address,String phoneNumber,String email,int budget){
         this.firstName=firstName;
         this.lastName=lastName;
         this.userName=userName;
         this.password=password;
+        this.address=address;
+        this.phoneNumber=phoneNumber;
+        this.email=email;
+        this.budget=budget;
     }
     public void setFirstName(String firstName){
         this.firstName=firstName;
@@ -33,6 +38,12 @@ public class Human {
     }
     public void setBudget(int budget){
         this.budget=budget;
+    }
+    public void setEmail(String  email){
+        this.email=email;
+    }
+    public String getemail() {
+        return this.email;
     }
     public String getFirstName(){return this.firstName;}
     public String getLastName(){
