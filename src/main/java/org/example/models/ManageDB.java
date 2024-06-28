@@ -82,8 +82,8 @@ public class ManageDB {
         }
     }
 
-    public List<Product> getAllProducts() {
-        List<Product> products = new ArrayList<>();
+    public ArrayList<Product> getAllProducts() {
+        ArrayList<Product> products = new ArrayList<>();
         String sql = "SELECT * FROM products";
 
         try (Statement stmt = connection.createStatement();
@@ -107,8 +107,8 @@ public class ManageDB {
         return products;
     }
 
-    public List<User> getAllUsers() {
-        List<User> users = new ArrayList<>();
+    public ArrayList<User> getAllUsers() {
+        ArrayList<User> users = new ArrayList<>();
         String sql = "SELECT * FROM users";
 
         try (Statement stmt = connection.createStatement();
@@ -132,8 +132,8 @@ public class ManageDB {
         return users;
     }
 
-    public List<Admin> getAllAdmins() {
-        List<Admin> admins = new ArrayList<>();
+    public ArrayList<Admin> getAllAdmins() {
+        ArrayList<Admin> admins = new ArrayList<>();
         String sql = "SELECT * FROM users";
 
         try (Statement stmt = connection.createStatement();

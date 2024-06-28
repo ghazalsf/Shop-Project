@@ -1,5 +1,7 @@
 package org.example;
 
+import org.example.models.ManageDB;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -8,18 +10,37 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.io.IOException;
 import java.io.File;
-public class GUI {
+public class GUI implements ActionListener {
     final Dimension SIZE = new Dimension(1000,800);
     Color mainColor = new Color(141, 141, 170);
     Color secondColor = new Color(223, 223, 222);
     Color thirdColor = new Color(247, 245, 242);
     Color forthColor = new Color(100, 13, 107);
     Font font;
-    JFrame frame;
+    JFrame frame = new JFrame("");
     JButton menuButton;
+
+    ManageDB manageDB = new ManageDB();
+    //**********  buttons and textfeilds in need of action listener in our main panel  ******
+    JButton searchButton = new JButton("جستجو");
+    JTextField searchBar = new JTextField();
+
+    //this button sorts the products from the lowest price to the largest
+    JButton sortButton = new JButton("مرتب سازی از کمترین قیمت:");
+
+    //this button sorts the product from the largest prices to the lowest
+    JButton sortButtonBigger = new JButton("مرتب سازی از بیشترین قیمت:");
+
+    //this button sorts the product by their categories
+    JButton sortButtonCategory = new JButton("مرتب سازی بر اساس دسته بندی:");
+
+    //this is where we store all the products
+    ArrayList<Product> products = manageDB.getAllProducts();
+
 
     public GUI(){
         initializeFrame();
+        addActionEvent();
         try {
             font = Font.createFont(Font.TRUETYPE_FONT, new File("Font\\Ayasamin.ttf"));
         } catch (FontFormatException e) {
@@ -30,7 +51,6 @@ public class GUI {
     }
 
     public void initializeFrame(){
-        frame = new JFrame("");
         frame.setResizable(true);
         frame.setBackground(mainColor);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -158,7 +178,6 @@ public class GUI {
         });
     }
 
-    public void login(){}
     public void register(){
         JPanel registerPanel = new JPanel();
         registerPanel.setSize(800, 800);
@@ -459,5 +478,36 @@ public class GUI {
             }
         });
         timer.start();
+    }
+
+    public ArrayList<Product> searchNameAndCategory(String searchString) {
+        ArrayList<Product> foundProducts = new ArrayList<>();
+        System.out.println("searchhhh");
+        // Convert the search string to lowercase for case-insensitive matching
+        searchString = searchString.toLowerCase();
+        ArrayList<Product> products = manageDB.getAllProducts();
+
+        for (int i = 0; i < products.size(); i++) {
+            if (products.get(i).getCategory().contains(searchString) || products.get(i).getName().contains(searchString)){
+                System.out.println("item founded");
+                foundProducts.add(products.get(i));
+            }
+        }
+        main(foundProducts);
+        return foundProducts;
+    }
+
+    public void addActionEvent(){
+        searchButton.addActionListener(this);
+        searchBar.addActionListener(this);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource()==searchButton){
+            System.out.println("hey");
+            String searchString = searchBar.getText();
+            searchNameAndCategory(searchString);
+        }
     }
 }
