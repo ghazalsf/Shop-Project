@@ -37,9 +37,12 @@ public class GUI extends JFrame implements ActionListener {
 
     ArrayList<Product> products = manageDB.getAllProducts();
 
-    JPanel firstPanel = new JPanel();
-    JPanel infoPanel = new JPanel();
+    JPanel firstPanel = new JPanel(); // startPanel()
+    JPanel infoPanel = new JPanel(); // login()
+    JPanel productPanel = new JPanel(); // main()
+    JPanel registerPanel = new JPanel(); // register()
 
+    ArrayList<JButton> productsButtons;
     public GUI(){
         initializeFrame();
         try {
@@ -49,6 +52,7 @@ public class GUI extends JFrame implements ActionListener {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        //addActionEvent();
     }
 
     public void initializeFrame(){
@@ -60,10 +64,13 @@ public class GUI extends JFrame implements ActionListener {
     }
     public void startPanel(){
         frame.setLayout(new BorderLayout());
+
         firstPanel.setBackground(mainColor);
         firstPanel.setLayout(new GridBagLayout());
         firstPanel.setPreferredSize(new Dimension(1000, 800));
+
         JLabel enter = new JLabel("ورود");
+
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -90,6 +97,7 @@ public class GUI extends JFrame implements ActionListener {
     public void main(ArrayList<Product> products){
         frame.setLayout(new BorderLayout());
 
+        addActionEvent();
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
 
@@ -99,7 +107,6 @@ public class GUI extends JFrame implements ActionListener {
         commandsPanel.setBounds(0,0,1000,200);
 
         JPanel menuPanel = menubar();
-
 
         JTextField searchBar = new JTextField();
         searchBar.setBounds(140,25,150,30);
@@ -137,7 +144,6 @@ public class GUI extends JFrame implements ActionListener {
         int amountOfProducts = products.size();
         int y=0;
 
-        JPanel productPanel = new JPanel();
         productPanel.setPreferredSize(new Dimension(1000,600));
         productPanel.setBounds(0,200,1000,800);
         productPanel.setBackground(mainColor);
@@ -197,7 +203,6 @@ public class GUI extends JFrame implements ActionListener {
     }
 
     public void register(){
-        JPanel registerPanel = new JPanel();
         registerPanel.setSize(800, 800);
         registerPanel.setLayout(null);
         registerPanel.setBackground(mainColor);
@@ -494,15 +499,30 @@ public class GUI extends JFrame implements ActionListener {
     public ArrayList<Product> searchNameAndCategory(String searchString) {
         ArrayList<Product> foundProducts = new ArrayList<>();
         System.out.println("searchhhh");
+        System.out.println("searchstring" + searchString);
         // Convert the search string to lowercase for case-insensitive matching
         searchString = searchString.toLowerCase();
         ArrayList<Product> products = manageDB.getAllProducts();
+        System.out.println(products.size());
 
         for (int i = 0; i < products.size(); i++) {
-            if (products.get(i).getCategory().contains(searchString) || products.get(i).getName().contains(searchString)){
+
+            System.out.println("product:"+products.get(i).getCategory());
+            System.out.println(products.get(i).getName());
+            String productCategory = products.get(i).getCategory();
+            String productName = products.get(i).getName();
+            if (productCategory == null || productName == null)continue;
+            System.out.println(productCategory.contains(searchString));
+            System.out.println(productName.contains(searchString));
+            if (productCategory.contains(searchString) || productName.contains(searchString)){
                 System.out.println("item founded");
                 foundProducts.add(products.get(i));
             }
+        }
+        frame.getContentPane().removeAll();
+        System.out.println(foundProducts.size());
+        for (int i = 0; i < foundProducts.size(); i++) {
+            System.out.println(foundProducts.get(i).getName());
         }
         main(foundProducts);
         return foundProducts;
@@ -510,7 +530,7 @@ public class GUI extends JFrame implements ActionListener {
 
     public void addActionEvent(){
         searchButton.addActionListener(this);
-        searchBar.addActionListener(this);
+        //searchBar.addActionListener(this);
         System.out.println("help");
     }
     @Override
@@ -518,6 +538,7 @@ public class GUI extends JFrame implements ActionListener {
         if(e.getSource()==searchButton){
             System.out.println("hey");
             String searchString = searchBar.getText();
+            System.out.println(searchString);
             searchNameAndCategory(searchString);
         }
     }
