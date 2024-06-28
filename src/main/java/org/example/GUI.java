@@ -32,8 +32,12 @@ public class GUI extends JFrame implements ActionListener {
     JButton homeButton = new JButton("صفحه اصلی");
     JButton contactUsButton = new JButton("ارتباط با ما");
     JButton cartButton = new JButton("سبد خرید");
-
+    JButton backButton = new JButton("برگشت");
+    JButton confirmButton = new JButton("تایید نهایی");
+    JButton newRegister = new JButton("حساب کاربری ندارم");
     JTextField searchBar = new JTextField();
+    JTextField enterUserTF = new JTextField();
+    JPasswordField enterPassPF = new JPasswordField();
 
     ArrayList<Product> products = manageDB.getAllProducts();
 
@@ -52,7 +56,7 @@ public class GUI extends JFrame implements ActionListener {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        //addActionEvent();
+        addActionEvent();
     }
 
     public void initializeFrame(){
@@ -325,7 +329,6 @@ public class GUI extends JFrame implements ActionListener {
         enterUserL.setFont(font.deriveFont(25f));
         enterUserL.setForeground(secondColor);
 
-        JTextField enterUserTF = new JTextField();
         enterUserTF.setBounds(360,280,267,40);
         enterUserTF.setBorder(b);
 
@@ -335,7 +338,6 @@ public class GUI extends JFrame implements ActionListener {
         enterPassL.setForeground(secondColor);
         enterPassL.setFont(font.deriveFont(25f));
 
-        JPasswordField enterPassPF = new JPasswordField();
         enterPassPF.setBounds(360,420,267,40);
         enterPassPF.setBorder(b);
 
@@ -344,6 +346,11 @@ public class GUI extends JFrame implements ActionListener {
         loginButton.setForeground(secondColor);
         loginButton.setFont(font.deriveFont(25f));
 
+        newRegister.setBounds(400,600,200,50);
+        flatButton(newRegister);
+        newRegister.setFont(font.deriveFont(20f));
+
+        infoPanel.add(newRegister);
         infoPanel.add(enterL);
         infoPanel.add(enterUserL);
         infoPanel.add(enterUserTF);
@@ -411,6 +418,9 @@ public class GUI extends JFrame implements ActionListener {
         contactUspanel.add(addressLabel);
         contactUspanel.add(telegramLabel);
 
+        JPanel menuPanel = menubar();
+        addMenuButton(contactUspanel, menuPanel);
+        contactUspanel.add(menuButton);
         frame.add(contactUspanel);
         frame.setVisible(true);
     }
@@ -455,6 +465,41 @@ public class GUI extends JFrame implements ActionListener {
         SIPanel.add(phoneNumberLabel);
         SIPanel.add(budgetLabel);
         frame.add(SIPanel);
+        frame.setVisible(true);
+    }
+    public void cart(ArrayList<Product> selectedProducts){
+        int numberOfSelected = selectedProducts.size();
+        int rows = numberOfSelected + 3;
+        JPanel selectedList = new JPanel();
+        selectedList.setBackground(mainColor);
+        selectedList.setLayout(new GridLayout(rows, 1, 0, 10)); //hgap is 0 for consistent spacing
+
+        JLabel cost = new JLabel("جمع خرید شما: 98645", SwingConstants.CENTER);
+        JLabel emptyLabel = new JLabel("   ");
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(mainColor);
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10)); // FlowLayout for buttons with spacing
+
+
+        cost.setFont(font.deriveFont(20f));
+        //backButton.setFont(font);
+        //confirmButton.setFont(font);
+
+        for(Product p : selectedProducts){
+            JLabel showPro = new JLabel(p.getName(), SwingConstants.CENTER);
+            showPro.setForeground(secondColor);
+            selectedList.add(showPro);
+        }
+
+        buttonPanel.add(backButton);
+        buttonPanel.add(confirmButton);
+
+        selectedList.add(cost);
+        selectedList.add(emptyLabel);
+        selectedList.add(buttonPanel);
+
+        frame.add(selectedList);
         frame.setVisible(true);
     }
     public void showProducts(){}
@@ -530,16 +575,59 @@ public class GUI extends JFrame implements ActionListener {
 
     public void addActionEvent(){
         searchButton.addActionListener(this);
+        loginButton.addActionListener(this);
+        homeButton.addActionListener(this);
+        contactUsButton.addActionListener(this);
+        cartButton.addActionListener(this);
+        backButton.addActionListener(this);
+        confirmButton.addActionListener(this);
+        newRegister.addActionListener(this);
+        registerButton.addActionListener(this);
         //searchBar.addActionListener(this);
         System.out.println("help");
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource()==searchButton){
-            System.out.println("hey");
+        if(e.getSource() == searchButton){
             String searchString = searchBar.getText();
             System.out.println(searchString);
             searchNameAndCategory(searchString);
+        }
+        else if(e.getSource() == homeButton){
+            frame.getContentPane().removeAll();
+            main(manageDB.getAllProducts());
+        }
+        else if(e.getSource() == contactUsButton){
+            frame.getContentPane().removeAll();
+            contactUs();
+        }
+        else if (e.getSource() == loginButton) {
+            System.out.println("login");
+            String loginUserName = enterUserTF.getText();
+            String loginPass = enterPassPF.getText();
+            frame.getContentPane().removeAll();
+            main(manageDB.getAllProducts());
+
+//            Boolean isLoggedin = manageDB.loginCheck(loginUserName, loginPass);
+//            if (isLoggedin == true){
+//                main(manageDB.getAllProducts());
+//            }else {
+//                System.out.println("try again");
+//            }
+        }else if (e.getSource() == cartButton) {
+            frame.getContentPane().removeAll();
+            cart(manageDB.getAllProducts());
+        }else if (e.getSource() == backButton) {
+            frame.getContentPane().removeAll();
+            main(manageDB.getAllProducts());
+        }else if (e.getSource() == newRegister) {
+            frame.getContentPane().removeAll();
+            register();
+        }else if (e.getSource() == registerButton) {
+            frame.getContentPane().removeAll();
+            main(manageDB.getAllProducts());
+        }else if (e.getSource() == confirmButton) {
+            //to do
         }
     }
     public void notFound(){

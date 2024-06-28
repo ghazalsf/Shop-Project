@@ -6,51 +6,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class userGUI extends GUI{
+public class userGUI extends GUI implements ActionListener{
+    JButton registerButton = new JButton("ثبت");
+
+    JButton addbutton =new JButton("اضافه کردن به سبد خرید");
+    JButton submitbutton= new JButton("ثبت امتیاز");
+
     public userGUI(){
+        addActionEvent();
     }
     @Override
     public void initializeFrame() {
         super.initializeFrame();
     }
 
-    public void cart(ArrayList<Product> selectedProducts){
-        int numberOfSelected = selectedProducts.size();
-        int rows = numberOfSelected + 3;
-        JPanel selectedList = new JPanel();
-        selectedList.setBackground(mainColor);
-        selectedList.setLayout(new GridLayout(rows, 1, 0, 10)); //hgap is 0 for consistent spacing
 
-        JLabel cost = new JLabel("جمع خرید شما: 98645", SwingConstants.CENTER);
-        JLabel emptyLabel = new JLabel("   ");
-
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setBackground(mainColor);
-        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10)); // FlowLayout for buttons with spacing
-
-        JButton backButton = new JButton("برگشت");
-        JButton confirmButton = new JButton("تایید نهایی");
-
-        cost.setFont(font.deriveFont(20f));
-        //backButton.setFont(font);
-        //confirmButton.setFont(font);
-
-        for(Product p : selectedProducts){
-            JLabel showPro = new JLabel(p.getName(), SwingConstants.CENTER);
-            showPro.setForeground(secondColor);
-            selectedList.add(showPro);
-        }
-
-        buttonPanel.add(backButton);
-        buttonPanel.add(confirmButton);
-
-        selectedList.add(cost);
-        selectedList.add(emptyLabel);
-        selectedList.add(buttonPanel);
-
-        frame.add(selectedList);
-        frame.setVisible(true);
-    }
     public void register(){
         super.register();
     }
@@ -85,8 +55,7 @@ public class userGUI extends GUI{
         showProductPanel.add(scoreLabel);
         showProductPanel.add(nameLabel);
 
-        JButton addbutton =new JButton("اضافه کردن به سبد خرید");
-        JButton submitbutton= new JButton("ثبت امتیاز");
+
         JLabel submitscorelabel= new JLabel("امتیاز مورد نظر را از 1 تا 5 وارد کنید",SwingConstants.CENTER);
         submitscorelabel.setForeground(forthColor);
         submitscorelabel.setFont(font.deriveFont(15f));
@@ -115,12 +84,6 @@ public class userGUI extends GUI{
 
         frame.add(showProductPanel);
         frame.setVisible(true);
-    }
-    public void addActionEvent(){
-        searchButton.addActionListener(this);
-        searchBar.addActionListener(this);
-        enterAAsUser.addActionListener(this);
-        enterAsAdmin.addActionListener(this);
     }
 
     public void changeData(User user){
@@ -260,7 +223,6 @@ public class userGUI extends GUI{
         registerPanel.add(repeatPasswordField);
         registerPanel.add(budgetTextField);
 
-        JButton registerButton=new JButton("ثبت");
         registerButton.setFont(font.deriveFont(17f));
         registerButton.setBounds(460,560,100,50);
         registerButton.setBackground(forthColor);
@@ -271,13 +233,26 @@ public class userGUI extends GUI{
         frame.add(registerPanel);
         frame.setVisible(true);
     }
+
+    public void login(){
+        super.login();
+    }
+
+    public void addActionEvent(){
+        registerButton.addActionListener(this);
+        backButton.addActionListener(this);
+        confirmButton.addActionListener(this);
+        loginButton.addActionListener(this);
+        addbutton.addActionListener(this);
+        cartButton.addActionListener(this);
+    }
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == enterAAsUser) {
-            System.out.println("fsggn");
             this.getContentPane().removeAll();
             this.add(infoPanel);
             this.revalidate();
-            this.repaint();        }
+            this.repaint();
+        }
     }
 }

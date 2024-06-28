@@ -156,5 +156,57 @@ public class ManageDB {
         return admins;
     }
 
+    public void editUser(User userToEdit, User chanedUser){
+        String selectSQL = "SELECT * FROM products WHERE id = ?";
+        String updateSQL = "UPDATE products SET name = ?, lastName = ?, userName = ?, password = ?, phoneNumber = ?, email = ?, budget = ? WHERE id = ?";
+
+        try (PreparedStatement selectStmt = connection.prepareStatement(selectSQL);
+             PreparedStatement updateStmt = connection.prepareStatement(updateSQL)) {
+
+            selectStmt.setString(1, userToEdit.getUserName());
+            ResultSet rs = selectStmt.executeQuery();
+
+            if (rs.next()) {
+                updateStmt.setString(1, chanedUser.getFirstName());
+                updateStmt.setString(2, chanedUser.getLastName());
+                updateStmt.setString(3, chanedUser.getUserName());
+                updateStmt.setString(4, chanedUser.getPassword());
+                updateStmt.setString(5, chanedUser.getAddress());
+                updateStmt.setString(6, chanedUser.getPhoneNumber());
+                updateStmt.setInt(7, chanedUser.getBudget());
+                updateStmt.executeUpdate();
+                System.out.println("Product updated successfully.");
+            } else {
+                System.out.println("Product not found.");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Boolean loginCheck(String userName, String password){
+        String selectSQL = "SELECT password FROM users WHERE username = ?";
+
+        try (PreparedStatement selectStmt = connection.prepareStatement(selectSQL)) {
+            selectStmt.setString(3, userName);
+            ResultSet rs = selectStmt.executeQuery();
+
+            if (rs.next()) {
+                String storedPassword = rs.getString("password");
+
+                if (storedPassword.equals(password)){
+                    return true;
+                }else {
+                    System.out.println("register First");
+                    return false;
+                }
+
+            } else {
+                return false;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }
