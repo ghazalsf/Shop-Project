@@ -1,3 +1,4 @@
+package org.example;
 public class Product {
     private int price;
     private double score;
