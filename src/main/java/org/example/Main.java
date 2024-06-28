@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class Main {
     public static void main(String[] args) {
         //Product product = new Product(22, 1.2, 9, "goje", "khkhkhk", "sibzaminijat");
-        GUI userGUI = new userGUI();
+        GUI userGUI = new GUI();
         ManageDB manageDB = new ManageDB();
         ArrayList<Product> products =manageDB.getAllProducts();
         userGUI.main(products);
@@ -29,12 +29,5 @@ public class Main {
 //        products.add(new Product(3314,3413,46246,"bye","fhhsdh","stop"));
 //        products.add(new Product(3314,3413,46246,"bye","fhhsdh","an"));
 //        products.add(new Product(3314,3413,46246,"bye","fhhsdh","guz"));
-//
-
-
-    }
-
-
-    }
 
 }

@@ -115,7 +115,7 @@ public class ManageDB {
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                User user = new User(null,null,null, null);
+                User user = new User(null,null,null,null,null,null,null,2);
                 user.setFirstName(rs.getString("name"));
                 user.setLastName(rs.getString("lastName"));
                 user.setPassword(rs.getString("password"));
@@ -140,7 +140,7 @@ public class ManageDB {
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                Admin admin = new Admin(null,null,null, null);
+                Admin admin = new Admin(null,null,null, null, null,null,null,-1);
                 admin.setFirstName(rs.getString("name"));
                 admin.setLastName(rs.getString("lastName"));
                 admin.setPassword(rs.getString("password"));

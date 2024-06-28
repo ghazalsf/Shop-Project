@@ -18,19 +18,12 @@ public class GUI extends JFrame implements ActionListener {
     Color forthColor = new Color(100, 13, 107);
     Font font;
     JFrame frame = new JFrame("");
-
     ManageDB manageDB = new ManageDB();
-    //**********  buttons and textfeilds in need of action listener in our main panel  ******
+
     JButton menuButton = new JButton("منو");
     JButton searchButton = new JButton("جستجو");
-
-    //this button sorts the products from the lowest price to the largest
     JButton sortButton = new JButton("مرتب سازی از کمترین قیمت:");
-
-    //this button sorts the product from the largest prices to the lowest
     JButton sortButtonBigger = new JButton("مرتب سازی از بیشترین قیمت:");
-
-    //this button sorts the product by their categories
     JButton sortButtonCategory = new JButton("مرتب سازی بر اساس دسته بندی:");
     JButton enterAAsUser = new JButton("ورود ادمین");
     JButton  enterAsAdmin = new JButton("ورود کاربر");
@@ -47,7 +40,6 @@ public class GUI extends JFrame implements ActionListener {
     JPanel firstPanel = new JPanel();
     JPanel infoPanel = new JPanel();
 
-
     public GUI(){
         initializeFrame();
         try {
@@ -57,13 +49,9 @@ public class GUI extends JFrame implements ActionListener {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        searchButton.addActionListener(this);
-        searchBar.addActionListener(this);
-        System.out.println("help");
     }
 
     public void initializeFrame(){
-        frame = new JFrame("");
         frame.setResizable(true);
         frame.setBackground(mainColor);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -100,7 +88,6 @@ public class GUI extends JFrame implements ActionListener {
         frame.setVisible(true);
     }
     public void main(ArrayList<Product> products){
-
         frame.setLayout(new BorderLayout());
 
         JPanel mainPanel = new JPanel();
@@ -177,7 +164,6 @@ public class GUI extends JFrame implements ActionListener {
         initializeFrame();
         frame.add(mainPanel);
         frame.setVisible(true);
-
     }
     public void addMenuButton(JPanel panel1, JPanel panel2){
         menuButton.setBounds(940,10,50,50);
