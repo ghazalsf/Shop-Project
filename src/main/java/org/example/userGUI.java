@@ -117,6 +117,7 @@ public class userGUI extends GUI{
         frame.setVisible(true);
     }
     public void changeData(User user){
+        User usertmp=new User(user.getFirstName(), user.getLastName(),user.getUserName(),user.getPassword(), user.getAddress(),user.getPhoneNumber(),user.getemail(),user.getBudget());
         JPanel registerPanel = new JPanel();
         registerPanel.setSize(800, 800);
         registerPanel.setLayout(null);
@@ -198,25 +199,25 @@ public class userGUI extends GUI{
         budgetTextField.setText(tmp);
 
         if (!nameTextField.getText().equals(user.getFirstName()));{
-            user.setFirstName(nameTextField.getText());
+            usertmp.setFirstName(nameTextField.getText());
         }
         if (!lastNameTextField.getText().equals(user.getLastName()));{
-            user.setLastName(lastNameTextField.getText());
+            usertmp.setLastName(lastNameTextField.getText());
         }
         if (!addressTextField.getText().equals(user.getAddress()));{
-            user.setAddress(addressTextField.getText());
+            usertmp.setAddress(addressTextField.getText());
         }
         if (!emailTextField.getText().equals(user.getemail()));{
-            user.setEmail(emailTextField.getText());
+            usertmp.setEmail(emailTextField.getText());
         }
         if (!phoneNumberTextField.getText().equals(user.getPhoneNumber()));{
-            user.setPhoneNumber(phoneNumberTextField.getText());
+            usertmp.setPhoneNumber(phoneNumberTextField.getText());
         }
         if (!passwordField.getText().equals(user.getPassword()));{
-            user.setPassword(passwordField.getText());
+            usertmp.setPassword(passwordField.getText());
         }
         if (!budgetTextField.getText().equals(user.getBudget()));{
-            user.setBudget(Integer.parseInt(budgetTextField.getText()));
+            usertmp.setBudget(Integer.parseInt(budgetTextField.getText()));
         }
 
         Border border = BorderFactory.createLineBorder(forthColor, 2);
