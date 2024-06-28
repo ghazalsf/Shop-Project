@@ -31,7 +31,7 @@ public class userGUI extends GUI{
         JButton backButton = new JButton("برگشت");
         JButton confirmButton = new JButton("تایید نهایی");
 
-        cost.setFont(font.deriveFont(20f));
+//        cost.setFont(font.deriveFont(20f));
         //backButton.setFont(font);
         //confirmButton.setFont(font);
 
@@ -73,9 +73,9 @@ public class userGUI extends GUI{
         JLabel scoreLabel=new JLabel("امتیاز کاربران: "+score,SwingConstants.RIGHT);
         JLabel nameLabel=new JLabel(name,SwingConstants.RIGHT);
 
-        priceLabel.setFont(font.deriveFont(20f));
-        scoreLabel.setFont(font.deriveFont(17f));
-        nameLabel.setFont(font.deriveFont(23f));
+//        priceLabel.setFont(font.deriveFont(20f));
+//        scoreLabel.setFont(font.deriveFont(17f));
+//        nameLabel.setFont(font.deriveFont(23f));
 
         priceLabel.setBounds(750,450,200,50);
         scoreLabel.setBounds(750,500,200,50);
@@ -89,7 +89,7 @@ public class userGUI extends GUI{
         JButton submitbutton= new JButton("ثبت امتیاز");
         JLabel submitscorelabel= new JLabel("امتیاز مورد نظر را از 1 تا 5 وارد کنید",SwingConstants.CENTER);
         submitscorelabel.setForeground(forthColor);
-        submitscorelabel.setFont(font.deriveFont(15f));
+//        submitscorelabel.setFont(font.deriveFont(15f));
 
         JTextField scoreTextField=new JTextField();
 
@@ -116,8 +116,20 @@ public class userGUI extends GUI{
         frame.add(showProductPanel);
         frame.setVisible(true);
     }
+    public void addActionEvent(){
+        searchButton.addActionListener(this);
+        searchBar.addActionListener(this);
+        enterAAsUser.addActionListener(this);
+        enterAsAdmin.addActionListener(this);
+    }
+
     @Override
-    public void login(String name, String password) {
-        super.login(name, password);
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == enterAAsUser) {
+            System.out.println("fsggn");
+            this.getContentPane().removeAll();
+            this.add(infoPanel);
+            this.revalidate();
+            this.repaint();        }
     }
 }

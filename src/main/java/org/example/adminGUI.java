@@ -8,6 +8,11 @@ import java.util.ArrayList;
 public class adminGUI extends GUI {
     public adminGUI(){
     }
+
+    @Override
+    public void main(ArrayList<Product> products){
+
+    }
     @Override
     public void initializeFrame() {
             super.initializeFrame();
@@ -26,7 +31,7 @@ public class adminGUI extends GUI {
         passwordField.setEchoChar('*');
 
         JLabel passwordLabel=new JLabel("در صورت تمایل به ورود به عنوان ادمین رمز ورود فروشگاه را وارد کنید",SwingConstants.CENTER);
-        passwordLabel.setFont(font.deriveFont(20f));
+//        passwordLabel.setFont(font.deriveFont(20f));
         passwordLabel.setBounds(200,320,600,50);
 
         adminCheckPanel.add(passwordLabel);
@@ -41,9 +46,7 @@ public class adminGUI extends GUI {
     public void register(){
         super.register();
     }
-    public void login(String name, String password) {
-        super.login(name, password);
-    }
+
     public void showProduct(Product product){
         JPanel showProductPanel = new JPanel();
         showProductPanel.setSize(1000, 800);
@@ -58,9 +61,9 @@ public class adminGUI extends GUI {
         JLabel scoreLabel=new JLabel("امتیاز کاربران: "+score,SwingConstants.RIGHT);
         JLabel nameLabel=new JLabel(name,SwingConstants.RIGHT);
 
-        priceLabel.setFont(font.deriveFont(20f));
-        scoreLabel.setFont(font.deriveFont(17f));
-        nameLabel.setFont(font.deriveFont(23f));
+//        priceLabel.setFont(font.deriveFont(20f));
+//        scoreLabel.setFont(font.deriveFont(17f));
+//        nameLabel.setFont(font.deriveFont(23f));
 
         priceLabel.setBounds(750,450,200,50);
         scoreLabel.setBounds(750,500,200,50);

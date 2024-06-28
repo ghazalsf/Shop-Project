@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.io.IOException;
 import java.io.File;
-public class GUI implements ActionListener {
+public class GUI extends JFrame implements ActionListener {
     final Dimension SIZE = new Dimension(1000,800);
     Color mainColor = new Color(141, 141, 170);
     Color secondColor = new Color(223, 223, 222);
@@ -18,12 +18,11 @@ public class GUI implements ActionListener {
     Color forthColor = new Color(100, 13, 107);
     Font font;
     JFrame frame = new JFrame("");
-    JButton menuButton;
 
     ManageDB manageDB = new ManageDB();
     //**********  buttons and textfeilds in need of action listener in our main panel  ******
+    JButton menuButton = new JButton("منو");
     JButton searchButton = new JButton("جستجو");
-    JTextField searchBar = new JTextField();
 
     //this button sorts the products from the lowest price to the largest
     JButton sortButton = new JButton("مرتب سازی از کمترین قیمت:");
@@ -33,14 +32,24 @@ public class GUI implements ActionListener {
 
     //this button sorts the product by their categories
     JButton sortButtonCategory = new JButton("مرتب سازی بر اساس دسته بندی:");
+    JButton enterAAsUser = new JButton("ورود ادمین");
+    JButton  enterAsAdmin = new JButton("ورود کاربر");
+    JButton registerButton=new JButton("ثبت");
+    JButton loginButton = new JButton("ورود");
+    JButton homeButton = new JButton("صفحه اصلی");
+    JButton contactUsButton = new JButton("ارتباط با ما");
+    JButton cartButton = new JButton("سبد خرید");
 
-    //this is where we store all the products
+    JTextField searchBar = new JTextField();
+
     ArrayList<Product> products = manageDB.getAllProducts();
+
+    JPanel firstPanel = new JPanel();
+    JPanel infoPanel = new JPanel();
 
 
     public GUI(){
         initializeFrame();
-        addActionEvent();
         try {
             font = Font.createFont(Font.TRUETYPE_FONT, new File("Font\\Ayasamin.ttf"));
         } catch (FontFormatException e) {
@@ -48,13 +57,46 @@ public class GUI implements ActionListener {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        searchButton.addActionListener(this);
+        searchBar.addActionListener(this);
+        System.out.println("help");
     }
 
     public void initializeFrame(){
+        frame = new JFrame("");
         frame.setResizable(true);
         frame.setBackground(mainColor);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(SIZE);
+        frame.setVisible(true);
+    }
+    public void startPanel(){
+        frame.setLayout(new BorderLayout());
+        firstPanel.setBackground(mainColor);
+        firstPanel.setLayout(new GridBagLayout());
+        firstPanel.setPreferredSize(new Dimension(1000, 800));
+        JLabel enter = new JLabel("ورود");
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.anchor = GridBagConstraints.CENTER;
+        Dimension buttonSize = new Dimension(200, 100);
+        enterAAsUser.setPreferredSize(buttonSize);
+        enterAsAdmin.setPreferredSize(buttonSize);
+
+        enterAAsUser.setBackground(forthColor);
+        enterAAsUser.setForeground(secondColor);
+        enterAsAdmin.setBackground(forthColor);
+        enterAsAdmin.setForeground(secondColor);
+
+        firstPanel.add(enter, gbc);
+        gbc.gridy=1;
+        firstPanel.add(enterAAsUser, gbc);
+        gbc.gridy = 2;
+        firstPanel.add(enterAsAdmin, gbc);
+        initializeFrame();
+        frame.add(firstPanel, BorderLayout.CENTER);
         frame.setVisible(true);
     }
     public void main(ArrayList<Product> products){
@@ -75,24 +117,16 @@ public class GUI implements ActionListener {
         JTextField searchBar = new JTextField();
         searchBar.setBounds(140,25,150,30);
 
-        JButton searchButton = new JButton("جستجو");
         searchButton.setBounds(290,25,80,30);
 
         JLabel name = new JLabel("هقداژدفو",SwingConstants.RIGHT);
         name.setBounds(550,50,200,100);
         name.setFont(font.deriveFont(50f));
 
-
-        //this button sorts the products from the lowest price to the largest
-        JButton sortButton = new JButton("مرتب سازی از کمترین قیمت:");
         sortButton.setBounds(140,65,230,30);
 
-        //this button sorts the product from the largest prices to the lowest
-        JButton sortButtonBigger = new JButton("مرتب سازی از بیشترین قیمت:");
         sortButtonBigger.setBounds(140,105,230,30);
 
-        //this button sorts the product by their categories
-        JButton sortButtonCategory = new JButton("مرتب سازی بر اساس دسته بندی:");
         sortButtonCategory.setBounds(140, 145,230,30);
 
         commandsPanel.setBackground(mainColor);
@@ -129,10 +163,8 @@ public class GUI implements ActionListener {
 
         productPanel.setLayout(new GridLayout(y, 4,50,20));
 
-        ArrayList<JButton> productButtons = new ArrayList<>();
-
         for (Product p : products) {
-            JButton proButton = new JButton(p.getName());
+            JButton proButton = new JButton(p.getName()+", "+ p.getPrice()+", "+p.getScore()+", "+p.getCategory());
             proButton.setBackground(forthColor);
             proButton.setForeground(secondColor);
             productPanel.add(proButton);
@@ -142,12 +174,12 @@ public class GUI implements ActionListener {
         mainPanel.add(menuButton);
         mainPanel.add(commandsPanel,BorderLayout.NORTH);
         mainPanel.add(productPanel,BorderLayout.CENTER);
+        initializeFrame();
         frame.add(mainPanel);
         frame.setVisible(true);
 
     }
     public void addMenuButton(JPanel panel1, JPanel panel2){
-        menuButton = new JButton("منو");
         menuButton.setBounds(940,10,50,50);
         menuButton.setBackground(forthColor);
         menuButton.setFont(font.deriveFont(13f));
@@ -275,7 +307,6 @@ public class GUI implements ActionListener {
         registerPanel.add(passwordField);
         registerPanel.add(repeatPasswordField);
 
-        JButton registerButton=new JButton("ثبت");
         registerButton.setFont(font.deriveFont(17f));
         registerButton.setBounds(460,530,100,50);
         registerButton.setBackground(forthColor);
@@ -286,9 +317,7 @@ public class GUI implements ActionListener {
         frame.add(registerPanel);
         frame.setVisible(true);
     }
-    public void login(String name, String password) {
-//      Information-Insertion panel :
-        JPanel infoPanel = new JPanel();
+        public void login() {
         infoPanel.setSize(1000,800);
         infoPanel.setLayout(null);
         infoPanel.setBackground(mainColor);
@@ -319,7 +348,6 @@ public class GUI implements ActionListener {
         enterPassPF.setBounds(360,420,267,40);
         enterPassPF.setBorder(b);
 
-        JButton loginButton = new JButton("ورود");
         loginButton.setBounds(450,530,100,50);
         loginButton.setBackground(forthColor);
         loginButton.setForeground(secondColor);
@@ -346,11 +374,8 @@ public class GUI implements ActionListener {
         panel.setPreferredSize(new Dimension(100, 800));
         panel.setBounds(0,0,100,800);
 
-        JButton homeButton = new JButton("صفحه اصلی");
         homeButton.setBounds(800, 130, 200, 30);
-        JButton contactUsButton = new JButton("ارتباط با ما");
         contactUsButton.setBounds(800, 190, 200, 30);
-        JButton cartButton = new JButton("سبد خرید");
         cartButton.setBounds(800, 250, 200, 30);
 
         flatButton(homeButton);
@@ -500,8 +525,8 @@ public class GUI implements ActionListener {
     public void addActionEvent(){
         searchButton.addActionListener(this);
         searchBar.addActionListener(this);
+        System.out.println("help");
     }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==searchButton){
@@ -510,4 +535,15 @@ public class GUI implements ActionListener {
             searchNameAndCategory(searchString);
         }
     }
+    public void notFound(){
+        JPanel nothing = new JPanel();
+        nothing.setLayout(new FlowLayout());
+        JLabel nothingL = new JLabel("یافت نشد");
+        nothing.add(nothingL);
+        initializeFrame();
+        frame.add(nothing);
+        frame.setVisible(true);
+    }
+
+
 }
