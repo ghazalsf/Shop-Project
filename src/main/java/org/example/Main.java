@@ -6,8 +6,18 @@ public class Main {
     public static void main(String[] args) {
         GUI userGUI = new GUI();
         ManageDB manageDB = new ManageDB();
-   }
-
+        new StartGui();
+    }
+        //Product product = new Product(22, 1.2, 9, "goje", "khkhkhk", "sibzaminijat");
+//        GUI userGUI = new GUI();
+//        ManageDB manageDB = new ManageDB();
+//        ArrayList<Product> products =manageDB.getAllProducts();
+//        userGUI.register();
+//        //userGUI.showInfo("abbas","flkjdsf", "98767789","88888");
+//   }
+//
+//        ArrayList<Product> products = new ArrayList<>();
+//        GUI gui = new GUI();
 //        gui.showInfo("hfhs","hdrhfg","srgrhgf","dfhgrhr");
 //        gui.main(products);
 //
