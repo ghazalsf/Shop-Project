@@ -11,18 +11,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class GuiUser implements ActionListener{
-
-    User user;
+public class GuiAdmin implements ActionListener{
     JFrame frameUser = new JFrame("hello");
     ManageDB manageDB = new ManageDB();
 
     JPanel infoPanel = new JPanel();
     JPanel productPanel = new JPanel();
     JPanel registerPanel = new JPanel();
-
-    JButton addbutton =new JButton("اضافه کردن به سبد خرید");
-    JButton submitbutton= new JButton("ثبت امتیاز");
 
 
     JButton loginButton = new JButton("ورود");
@@ -59,7 +54,7 @@ public class GuiUser implements ActionListener{
     Font font;
     Border border = BorderFactory.createLineBorder(forthColor, 2);
 
-    GuiUser() {
+    GuiAdmin() {
 //        try {
 //            font = Font.createFont(Font.TRUETYPE_FONT, new File("Font\\Ayasamin.ttf"));
 //        } catch (FontFormatException e) {
@@ -121,63 +116,6 @@ public class GuiUser implements ActionListener{
         infoPanel.add(enterPassPF);
         infoPanel.add(loginButton);
         frameUser.add(infoPanel);
-        frameUser.setVisible(true);
-    }
-    public void showProduct(Product product){
-        JPanel showProductPanel = new JPanel();
-        showProductPanel.setSize(1000, 800);
-        showProductPanel.setLayout(null);
-        showProductPanel.setBackground(mainColor);
-
-        String price=Integer.toString(product.getPrice());
-        String score=Double.toString(product.getScore());
-        String name= product.getName();
-
-
-        JLabel priceLabel=new JLabel("قیمت: "+price,SwingConstants.RIGHT);
-        JLabel scoreLabel=new JLabel("امتیاز کاربران: "+score,SwingConstants.RIGHT);
-        JLabel nameLabel=new JLabel(name,SwingConstants.RIGHT);
-
-//        priceLabel.setFont(font.deriveFont(20f));
-//        scoreLabel.setFont(font.deriveFont(17f));
-//        nameLabel.setFont(font.deriveFont(23f));
-
-        priceLabel.setBounds(750,450,200,50);
-        scoreLabel.setBounds(750,500,200,50);
-        nameLabel.setBounds(750,400,200,50);
-
-        showProductPanel.add(priceLabel);
-        showProductPanel.add(scoreLabel);
-        showProductPanel.add(nameLabel);
-
-
-        JLabel submitscorelabel= new JLabel("امتیاز مورد نظر را از 1 تا 5 وارد کنید",SwingConstants.CENTER);
-        submitscorelabel.setForeground(forthColor);
-//        submitscorelabel.setFont(font.deriveFont(15f));
-
-        JTextField scoreTextField=new JTextField();
-
-        submitscorelabel.setBounds(50,50,200,50);
-        scoreTextField.setBounds(50,100,100,50);
-        submitbutton.setBounds(150,100,100,50);
-
-        addbutton.setBounds(800,550,150,50);
-
-        addbutton.setForeground(secondColor);
-        addbutton.setBackground(forthColor);
-        submitbutton.setBackground(Color.WHITE);
-        submitbutton.setForeground(forthColor);
-
-        Border border = BorderFactory.createLineBorder(forthColor, 2);
-        submitbutton.setBorder(border);
-        scoreTextField.setBorder(border);
-
-        showProductPanel.add(scoreTextField);
-        showProductPanel.add(submitbutton);
-        showProductPanel.add(submitscorelabel);
-        showProductPanel.add(addbutton);
-
-        frameUser.add(showProductPanel);
         frameUser.setVisible(true);
     }
     public JPanel menubar(){
@@ -484,11 +422,11 @@ public class GuiUser implements ActionListener{
     public void cart(ArrayList<Product> selectedProducts){
         int numberOfSelected = selectedProducts.size();
         int rows = numberOfSelected + 3;
-        int price=0;
         JPanel selectedList = new JPanel();
         selectedList.setBackground(mainColor);
         selectedList.setLayout(new GridLayout(rows, 1, 0, 10)); //hgap is 0 for consistent spacing
 
+        JLabel cost = new JLabel("جمع خرید شما: 98645", SwingConstants.CENTER);
         JLabel emptyLabel = new JLabel("   ");
 
         JPanel buttonPanel = new JPanel();
@@ -501,12 +439,10 @@ public class GuiUser implements ActionListener{
         //confirmButton.setFont(font);
 
         for(Product p : selectedProducts){
-            price= price+ p.getPrice();
             JLabel showPro = new JLabel(p.getName(), SwingConstants.CENTER);
             showPro.setForeground(secondColor);
             selectedList.add(showPro);
         }
-        JLabel cost = new JLabel("جمع خرید شما: "+ price, SwingConstants.CENTER);
 
         buttonPanel.add(backButton);
         buttonPanel.add(confirmButton);
@@ -518,7 +454,7 @@ public class GuiUser implements ActionListener{
         frameUser.add(selectedList);
         frameUser.setVisible(true);
     }
-    public void showInfo(){
+    public void showInfo(String name, String address, String phoneNumber, String budget){
         //SI stands for ShowInfo
         JPanel menuPanel = menubar();
         JPanel SIPanel = new JPanel();
@@ -527,10 +463,10 @@ public class GuiUser implements ActionListener{
         SIPanel.setBackground(mainColor);
 
         JLabel SILabel =  new JLabel("پروفایل کاربر", SwingConstants.RIGHT);
-        JLabel NameLabel =  new JLabel("نام و نام خانوادگی: " + user.getUserName()+" "+user.getFirstName(), SwingConstants.RIGHT);
-        JLabel addressLabel =  new JLabel("آدرس: " + user.getAddress(), SwingConstants.RIGHT);
-        JLabel phoneNumberLabel =  new JLabel("شماره تماس: " + user.getPhoneNumber(), SwingConstants.RIGHT);
-        JLabel budgetLabel =  new JLabel("موجودی: " + user.getBudget(), SwingConstants.RIGHT);
+        JLabel NameLabel =  new JLabel("نام: " + name, SwingConstants.RIGHT);
+        JLabel addressLabel =  new JLabel("آدرس: " + address, SwingConstants.RIGHT);
+        JLabel phoneNumberLabel =  new JLabel("شماره تماس: " + phoneNumber, SwingConstants.RIGHT);
+        JLabel budgetLabel =  new JLabel("موجودی: " + budget, SwingConstants.RIGHT);
 
 //        SILabel.setFont(font.deriveFont(40f));
 //        NameLabel.setFont(font.deriveFont(25f));
