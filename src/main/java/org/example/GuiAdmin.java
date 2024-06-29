@@ -11,7 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class GuiUser implements ActionListener{
+public class GuiAdmin implements ActionListener{
     JFrame frameUser = new JFrame("hello");
     ManageDB manageDB = new ManageDB();
 
@@ -54,7 +54,7 @@ public class GuiUser implements ActionListener{
     Font font;
     Border border = BorderFactory.createLineBorder(forthColor, 2);
 
-    GuiUser() {
+    GuiAdmin() {
 //        try {
 //            font = Font.createFont(Font.TRUETYPE_FONT, new File("Font\\Ayasamin.ttf"));
 //        } catch (FontFormatException e) {
@@ -422,11 +422,11 @@ public class GuiUser implements ActionListener{
     public void cart(ArrayList<Product> selectedProducts){
         int numberOfSelected = selectedProducts.size();
         int rows = numberOfSelected + 3;
-        int price=0;
         JPanel selectedList = new JPanel();
         selectedList.setBackground(mainColor);
         selectedList.setLayout(new GridLayout(rows, 1, 0, 10)); //hgap is 0 for consistent spacing
 
+        JLabel cost = new JLabel("جمع خرید شما: 98645", SwingConstants.CENTER);
         JLabel emptyLabel = new JLabel("   ");
 
         JPanel buttonPanel = new JPanel();
@@ -439,12 +439,10 @@ public class GuiUser implements ActionListener{
         //confirmButton.setFont(font);
 
         for(Product p : selectedProducts){
-            price= price+ p.getPrice();
             JLabel showPro = new JLabel(p.getName(), SwingConstants.CENTER);
             showPro.setForeground(secondColor);
             selectedList.add(showPro);
         }
-        JLabel cost = new JLabel("جمع خرید شما: "+ price, SwingConstants.CENTER);
 
         buttonPanel.add(backButton);
         buttonPanel.add(confirmButton);
