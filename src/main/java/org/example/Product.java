@@ -5,32 +5,34 @@ public class Product {
     private int stock;
     private String name;
     private String category;
-
     private String description;
 
-    public Product(int price,double score,int stock,String name,String description){
+    public Product(int price,double score,int stock,String name,String description, String category){
         this.price=price;
         this.score=score;
         this.stock=stock;
         this.name=name;
         this.description=description;
+        this.category = category;
     }
 
     public void setPrice(int price){
-        this.price=price;
+        this.price = price;
     }
     public void setScore(double score){
-        this.score=score;
+        this.score = score;
     }
     public void setStock(int stock){
-        this.stock=stock;
+        this.stock = stock;
     }
     public void setName(String name){
-        this.name=name;
+        this.name = name;
     }
     public void setDescription(String description){
-        this.description=description;
+        this.description = description;
     }
+
+    public void setCategory(String category) {this.category = category;}
     public int getPrice(){
         return this.price;
     }
@@ -45,5 +47,8 @@ public class Product {
     }
     public  String getDescription(){
         return this.description;
+    }
+    public String getCategory() {
+        return this.category;
     }
 }
