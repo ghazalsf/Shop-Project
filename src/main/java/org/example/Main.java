@@ -7,16 +7,22 @@ public class Main {
         //Product product = new Product(22, 1.2, 9, "goje", "khkhkhk", "sibzaminijat");
         GUI userGUI = new GUI();
         ManageDB manageDB = new ManageDB();
-        manageDB.createTable();
-        Product product = new Product(2000,5.2,5,"farangis","amoo", "mive", "picture\\farangis.jpg");
-        manageDB.addProductToDB(product);
-        //ArrayList<Product> products =manageDB.getAllProducts();
-        userGUI.login();
+        new StartGui();
+    }
+        //Product product = new Product(22, 1.2, 9, "goje", "khkhkhk", "sibzaminijat");
+//        GUI userGUI = new GUI();
+//        ManageDB manageDB = new ManageDB();
+//        ArrayList<Product> products =manageDB.getAllProducts();
+//        userGUI.register();
+//        //userGUI.showInfo("abbas","flkjdsf", "98767789","88888");
+//   }
+//
+//        ArrayList<Product> products = new ArrayList<>();
+//        GUI gui = new GUI();
         //userGUI.showInfo("abbas","flkjdsf", "98767789","88888");
-   }
 
-        //ArrayList<Product> products = new ArrayList<>();
-        //GUI gui = new GUI();
+        ArrayList<Product> products = new ArrayList<>();
+        GUI gui = new GUI();
 //        gui.showInfo("hfhs","hdrhfg","srgrhgf","dfhgrhr");
 //        gui.main(products);
 //

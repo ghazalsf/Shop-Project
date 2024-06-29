@@ -25,8 +25,6 @@ public class GUI extends JFrame implements ActionListener {
     JButton sortButton = new JButton("مرتب سازی از کمترین قیمت:");
     JButton sortButtonBigger = new JButton("مرتب سازی از بیشترین قیمت:");
     JButton sortButtonCategory = new JButton("مرتب سازی بر اساس دسته بندی:");
-    JButton enterAAsUser = new JButton("ورود ادمین");
-    JButton  enterAsAdmin = new JButton("ورود کاربر");
     JButton registerButton=new JButton("ثبت");
     JButton loginButton = new JButton("ورود");
     JButton homeButton = new JButton("صفحه اصلی");
@@ -47,9 +45,8 @@ public class GUI extends JFrame implements ActionListener {
     JPasswordField repeatPasswordField =new JPasswordField();
     JPasswordField enterPassPF = new JPasswordField();
 
-    ArrayList<Product> products = manageDB.getAllProducts();
+    ArrayList<Product> products = manageDB. getAllProducts();
 
-    JPanel firstPanel = new JPanel(); // startPanel()
     JPanel infoPanel = new JPanel(); // login()
     JPanel productPanel = new JPanel(); // main()
     JPanel registerPanel = new JPanel(); // register()
@@ -74,68 +71,66 @@ public class GUI extends JFrame implements ActionListener {
         frame.setSize(SIZE);
         frame.setVisible(true);
     }
-    public void startPanel(){
+//    public void startPanel(){
+//        frame.setLayout(new BorderLayout());
+//
+//        firstPanel.setBackground(mainColor);
+//        firstPanel.setLayout(new GridBagLayout());
+//        firstPanel.setPreferredSize(new Dimension(1000, 800));
+//
+//        JLabel enter = new JLabel("ورود");
+//
+//        GridBagConstraints gbc = new GridBagConstraints();
+//        gbc.gridx = 0;
+//        gbc.gridy = 0;
+//        gbc.insets = new Insets(10, 10, 10, 10);
+//        gbc.anchor = GridBagConstraints.CENTER;
+//        Dimension buttonSize = new Dimension(200, 100);
+//        enterAAsUser.setPreferredSize(buttonSize);
+//        enterAsAdmin.setPreferredSize(buttonSize);
+//
+//        enterAAsUser.setBackground(forthColor);
+//        enterAAsUser.setForeground(secondColor);
+//        enterAsAdmin.setBackground(forthColor);
+//        enterAsAdmin.setForeground(secondColor);
+//
+//        firstPanel.add(enter, gbc);
+//        gbc.gridy=1;
+//        firstPanel.add(enterAAsUser, gbc);
+//        gbc.gridy = 2;
+//        firstPanel.add(enterAsAdmin, gbc);
+//        initializeFrame();
+//        frame.add(firstPanel, BorderLayout.CENTER);
+//        frame.setVisible(true);
+//    }
+    public void main(ArrayList<Product> products){
         frame.setLayout(new BorderLayout());
 
-        firstPanel.setBackground(mainColor);
-        firstPanel.setLayout(new GridBagLayout());
-        firstPanel.setPreferredSize(new Dimension(1000, 800));
-
-        JLabel enter = new JLabel("ورود");
-
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.insets = new Insets(10, 10, 10, 10);
-        gbc.anchor = GridBagConstraints.CENTER;
-        Dimension buttonSize = new Dimension(200, 100);
-        enterAAsUser.setPreferredSize(buttonSize);
-        enterAsAdmin.setPreferredSize(buttonSize);
-
-        enterAAsUser.setBackground(forthColor);
-        enterAAsUser.setForeground(secondColor);
-        enterAsAdmin.setBackground(forthColor);
-        enterAsAdmin.setForeground(secondColor);
-
-        firstPanel.add(enter, gbc);
-        gbc.gridy=1;
-        firstPanel.add(enterAAsUser, gbc);
-        gbc.gridy = 2;
-        firstPanel.add(enterAsAdmin, gbc);
-        initializeFrame();
-        frame.add(firstPanel, BorderLayout.CENTER);
-        frame.setVisible(true);
-    }
-    public void main(ArrayList<Product> products) {
-        frame.setLayout(new BorderLayout());
-
-        // اضافه کردن رویدادها برای دکمه‌ها
         addActionEvent();
-
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
 
         JPanel commandsPanel = new JPanel();
         commandsPanel.setLayout(null);
-        commandsPanel.setPreferredSize(new Dimension(1000, 200));
-        commandsPanel.setBounds(0, 0, 1000, 200);
+        commandsPanel.setPreferredSize(new Dimension(1000,200));
+        commandsPanel.setBounds(0,0,1000,200);
 
         JPanel menuPanel = menubar();
 
         JTextField searchBar = new JTextField();
-        searchBar.setBounds(140, 25, 150, 30);
+        searchBar.setBounds(140,25,150,30);
 
-        searchButton.setBounds(290, 25, 80, 30);
+        searchButton.setBounds(290,25,80,30);
 
-        JLabel name = new JLabel("هقداژدفو", SwingConstants.RIGHT);
-        name.setBounds(550, 50, 200, 100);
-        name.setFont(font.deriveFont(50f));
+        JLabel name = new JLabel("هقداژدفو",SwingConstants.RIGHT);
+        name.setBounds(550,50,200,100);
+//        name.setFont(font.deriveFont(50f));
 
-        sortButton.setBounds(140, 65, 230, 30);
+        sortButton.setBounds(140,65,230,30);
 
-        sortButtonBigger.setBounds(140, 105, 230, 30);
+        sortButtonBigger.setBounds(140,105,230,30);
 
-        sortButtonCategory.setBounds(140, 145, 230, 30);
+        sortButtonCategory.setBounds(140, 145,230,30);
 
         commandsPanel.setBackground(mainColor);
         searchButton.setBackground(forthColor);
@@ -155,50 +150,40 @@ public class GUI extends JFrame implements ActionListener {
         commandsPanel.add(sortButtonBigger);
         commandsPanel.add(sortButtonCategory);
 
-        // پاکسازی پنل محصولات قبل از اضافه کردن دکمه‌های جدید
-        productPanel.removeAll();
-
         int amountOfProducts = products.size();
-        int y = 0;
+        int y=0;
 
-        productPanel.setPreferredSize(new Dimension(1000, 600));
-        productPanel.setBounds(0, 200, 1000, 800);
+        productPanel.setPreferredSize(new Dimension(1000,600));
+        productPanel.setBounds(0,200,1000,800);
         productPanel.setBackground(mainColor);
 
-        // پیدا کردن تعداد سطرها برای GridLayout
-        if (amountOfProducts % 4 == 0)
-            y = amountOfProducts / 4;
+        //finding the rows for the grind layout
+        if(amountOfProducts%4 ==0)
+            y=amountOfProducts/4;
         else
-            y = amountOfProducts / 4 + 1;
+            y= amountOfProducts/4 +1;
 
-        productPanel.setLayout(new GridLayout(y, 4, 50, 20));
+        productPanel.setLayout(new GridLayout(y, 4,50,20));
 
         for (Product p : products) {
-            JButton proButton = new JButton(p.getName() + ", " + p.getPrice() + ", " + p.getScore() + ", " + p.getCategory());
+            JButton proButton = new JButton(p.getName()+", "+ p.getPrice()+", "+p.getScore()+", "+p.getCategory());
             proButton.setBackground(forthColor);
             proButton.setForeground(secondColor);
             productPanel.add(proButton);
         }
 
-        // پاکسازی پنل اصلی قبل از اضافه کردن پنل‌های جدید
-        mainPanel.removeAll();
-        mainPanel.revalidate();
-        mainPanel.repaint();
-
         addMenuButton(mainPanel, menuPanel);
         mainPanel.add(menuButton);
-        mainPanel.add(commandsPanel, BorderLayout.NORTH);
-        mainPanel.add(productPanel, BorderLayout.CENTER);
-
+        mainPanel.add(commandsPanel,BorderLayout.NORTH);
+        mainPanel.add(productPanel,BorderLayout.CENTER);
         initializeFrame();
         frame.add(mainPanel);
         frame.setVisible(true);
     }
-
     public void addMenuButton(JPanel panel1, JPanel panel2){
         menuButton.setBounds(940,10,50,50);
         menuButton.setBackground(forthColor);
-        menuButton.setFont(font.deriveFont(13f));
+//        menuButton.setFont(font.deriveFont(13f));
         menuButton.setForeground(secondColor);
 
         final boolean[] panel2Visible = {false};
@@ -241,15 +226,15 @@ public class GUI extends JFrame implements ActionListener {
         JLabel passwordLabel =  new JLabel("رمز عبور: ", SwingConstants.LEFT);
         JLabel repeatPasswordLabel =  new JLabel("تکرار رمز عبور: ", SwingConstants.LEFT);
 
-        titleLabel.setFont(font.deriveFont(40f));
-        nameLabel.setFont(font.deriveFont(20f));
-        lastNameLabel.setFont(font.deriveFont(20f));
-        addressLabel.setFont(font.deriveFont(20f));
-        emailLabel.setFont(font.deriveFont(20f));
-        phoneNumberLabel.setFont(font.deriveFont(20f));
-        userNameLabel.setFont(font.deriveFont(20f));
-        passwordLabel.setFont(font.deriveFont(20f));
-        repeatPasswordLabel.setFont(font.deriveFont(20f));
+//        titleLabel.setFont(font.deriveFont(40f));
+//        nameLabel.setFont(font.deriveFont(20f));
+//        lastNameLabel.setFont(font.deriveFont(20f));
+//        addressLabel.setFont(font.deriveFont(20f));
+//        emailLabel.setFont(font.deriveFont(20f));
+//        phoneNumberLabel.setFont(font.deriveFont(20f));
+//        userNameLabel.setFont(font.deriveFont(20f));
+//        passwordLabel.setFont(font.deriveFont(20f));
+//        repeatPasswordLabel.setFont(font.deriveFont(20f));
 
         titleLabel.setForeground(forthColor);
         nameLabel.setForeground(thirdColor);
@@ -313,7 +298,7 @@ public class GUI extends JFrame implements ActionListener {
         registerPanel.add(passwordField);
         registerPanel.add(repeatPasswordField);
 
-        registerButton.setFont(font.deriveFont(17f));
+//        registerButton.setFont(font.deriveFont(17f));
         registerButton.setBounds(460,530,100,50);
         registerButton.setBackground(forthColor);
         registerButton.setForeground(secondColor);
@@ -323,59 +308,59 @@ public class GUI extends JFrame implements ActionListener {
         frame.add(registerPanel);
         frame.setVisible(true);
     }
-        public void login() {
-        infoPanel.setSize(1000,800);
-        infoPanel.setLayout(null);
-        infoPanel.setBackground(mainColor);
-
-        Border b = BorderFactory.createLineBorder(forthColor,2);
-
-        JLabel enterL = new JLabel("ورود کاربر",SwingConstants.CENTER);
-        enterL.setBounds(360,80,267,80);
-        enterL.setFont(font.deriveFont(40f));
-        enterL.setForeground(forthColor);
-
-        JLabel enterUserL = new JLabel("نام کاربری خود را وارد کنید:",SwingConstants.CENTER);
-        enterUserL.setBounds(360,200,267,80);
-        enterUserL.setFont(font.deriveFont(25f));
-        enterUserL.setForeground(secondColor);
-
-        enterUserTF.setBounds(360,280,267,40);
-        enterUserTF.setBorder(b);
-
-        JLabel enterPassL = new JLabel("رمز عبور خود را وارد کنید:",SwingConstants.CENTER);
-        enterPassL.setBounds(360,340,267,80);
-
-        enterPassL.setForeground(secondColor);
-        enterPassL.setFont(font.deriveFont(25f));
-
-        enterPassPF.setBounds(360,420,267,40);
-        enterPassPF.setBorder(b);
-
-        loginButton.setBounds(450,530,100,50);
-        loginButton.setBackground(forthColor);
-        loginButton.setForeground(secondColor);
-        loginButton.setFont(font.deriveFont(25f));
-
-        newRegister.setBounds(400,600,200,50);
-        flatButton(newRegister);
-        newRegister.setFont(font.deriveFont(20f));
-
-        infoPanel.add(newRegister);
-        infoPanel.add(enterL);
-        infoPanel.add(enterUserL);
-        infoPanel.add(enterUserTF);
-        infoPanel.add(enterPassL);
-        infoPanel.add(enterPassPF);
-        infoPanel.add(loginButton);
-        frame.add(infoPanel);
-        frame.setVisible(true);
-    }
+//        public void login() {
+//        infoPanel.setSize(1000,800);
+//        infoPanel.setLayout(null);
+//        infoPanel.setBackground(mainColor);
+//
+//        Border b = BorderFactory.createLineBorder(forthColor,2);
+//
+//        JLabel enterL = new JLabel("ورود کاربر",SwingConstants.CENTER);
+//        enterL.setBounds(360,80,267,80);
+////        enterL.setFont(font.deriveFont(40f));
+//        enterL.setForeground(forthColor);
+//
+//        JLabel enterUserL = new JLabel("نام کاربری خود را وارد کنید:",SwingConstants.CENTER);
+//        enterUserL.setBounds(360,200,267,80);
+////        enterUserL.setFont(font.deriveFont(25f));
+//        enterUserL.setForeground(secondColor);
+//
+//        enterUserTF.setBounds(360,280,267,40);
+//        enterUserTF.setBorder(b);
+//
+//        JLabel enterPassL = new JLabel("رمز عبور خود را وارد کنید:",SwingConstants.CENTER);
+//        enterPassL.setBounds(360,340,267,80);
+//
+//        enterPassL.setForeground(secondColor);
+////        enterPassL.setFont(font.deriveFont(25f));
+//
+//        enterPassPF.setBounds(360,420,267,40);
+//        enterPassPF.setBorder(b);
+//
+//        loginButton.setBounds(450,530,100,50);
+//        loginButton.setBackground(forthColor);
+//        loginButton.setForeground(secondColor);
+////        loginButton.setFont(font.deriveFont(25f));
+//
+//        newRegister.setBounds(400,600,200,50);
+//        flatButton(newRegister);
+////        newRegister.setFont(font.deriveFont(20f));
+//
+//        infoPanel.add(newRegister);
+//        infoPanel.add(enterL);
+//        infoPanel.add(enterUserL);
+//        infoPanel.add(enterUserTF);
+//        infoPanel.add(enterPassL);
+//        infoPanel.add(enterPassPF);
+//        infoPanel.add(loginButton);
+//        frame.add(infoPanel);
+//        frame.setVisible(true);
+//    }
     public void logout(){}
     private void flatButton(JButton button) {
         button.setBorderPainted(false); // remove border
         button.setContentAreaFilled(false); // remove bg
-        button.setFont(font.deriveFont(15f));
+//        button.setFont(font.deriveFont(15f));
         button.setHorizontalAlignment(SwingConstants.CENTER);
     }
     public JPanel menubar(){
@@ -409,10 +394,10 @@ public class GUI extends JFrame implements ActionListener {
         JLabel addressLabel=new JLabel("آدرس: وسط اقیانوس اطلس| چلچله خوش اشتها| حیاط پشتی منزل لاکوود",SwingConstants.RIGHT);
         JLabel telegramLabel= new JLabel("تلگرام:t.me/haghdazhdefo",SwingConstants.RIGHT);
 
-        emailLabel.setFont(font.deriveFont(20f));
-        phonenumberLabel.setFont(font.deriveFont(20f));
-        addressLabel.setFont(font.deriveFont(20f));
-        telegramLabel.setFont(font.deriveFont(20f));
+//        emailLabel.setFont(font.deriveFont(20f));
+//        phonenumberLabel.setFont(font.deriveFont(20f));
+//        addressLabel.setFont(font.deriveFont(20f));
+//        telegramLabel.setFont(font.deriveFont(20f));
 
         emailLabel.setForeground(forthColor);
         phonenumberLabel.setForeground(forthColor);
@@ -449,11 +434,11 @@ public class GUI extends JFrame implements ActionListener {
         JLabel phoneNumberLabel =  new JLabel("شماره تماس: " + phoneNumber, SwingConstants.RIGHT);
         JLabel budgetLabel =  new JLabel("موجودی: " + budget, SwingConstants.RIGHT);
 
-        SILabel.setFont(font.deriveFont(40f));
-        NameLabel.setFont(font.deriveFont(25f));
-        addressLabel.setFont(font.deriveFont(25f));
-        phoneNumberLabel.setFont(font.deriveFont(25f));
-        budgetLabel.setFont(font.deriveFont(25f));
+//        SILabel.setFont(font.deriveFont(40f));
+//        NameLabel.setFont(font.deriveFont(25f));
+//        addressLabel.setFont(font.deriveFont(25f));
+//        phoneNumberLabel.setFont(font.deriveFont(25f));
+//        budgetLabel.setFont(font.deriveFont(25f));
 
         SILabel.setForeground(thirdColor);
         NameLabel.setForeground(thirdColor);
@@ -493,7 +478,7 @@ public class GUI extends JFrame implements ActionListener {
         buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10)); // FlowLayout for buttons with spacing
 
 
-        cost.setFont(font.deriveFont(20f));
+//        cost.setFont(font.deriveFont(20f));
         //backButton.setFont(font);
         //confirmButton.setFont(font);
 
@@ -514,7 +499,6 @@ public class GUI extends JFrame implements ActionListener {
         frame.setVisible(true);
     }
     public void showProducts(){}
-
     public static void movePanelToLeft(JPanel panel, int distance) {
         int startX = panel.getLocation().x;
         int endX = startX - distance;
@@ -532,7 +516,6 @@ public class GUI extends JFrame implements ActionListener {
         });
         timer.start();
     }
-
     public static void movePanelToOriginalPosition(JPanel panel, int distance) {
         int startX = panel.getLocation().x;
         int endX = distance;
@@ -551,7 +534,6 @@ public class GUI extends JFrame implements ActionListener {
         });
         timer.start();
     }
-
     public ArrayList<Product> searchNameAndCategory(String searchString) {
         ArrayList<Product> foundProducts = new ArrayList<>();
         System.out.println("searchhhh");

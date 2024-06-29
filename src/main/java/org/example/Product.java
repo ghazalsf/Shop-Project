@@ -6,8 +6,7 @@ public class Product {
     private String name;
     private String category;
     private String description;
-    String pictureAddress;
-
+    private String pictureAddress;
     public Product(int price,double score,int stock,String name,String description, String category, String pictureAddress){
         this.price=price;
         this.score=score;

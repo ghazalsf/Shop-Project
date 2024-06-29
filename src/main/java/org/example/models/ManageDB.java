@@ -1,12 +1,9 @@
 package org.example.models;
-
 import org.example.Product;
 import org.example.User;
 import org.example.Admin;
-
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ManageDB {
     ConnectDB db = new ConnectDB();
@@ -36,19 +33,50 @@ public class ManageDB {
     }
 
     public void addProductToDB(Product product) {
-        String sql = "INSERT INTO products (name, price, score, stock, category, description, pictureAddress) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String checkSql = "SELECT stock FROM products WHERE name = ?";
+        String updateSql = "UPDATE products SET stock = stock + ? WHERE name = ?";
+        String insertSql = "INSERT INTO products (name, price, score, stock, category, description, pictureAddress) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setString(1, product.getName());
-            pstmt.setInt(2, product.getPrice());
-            pstmt.setDouble(3, product.getScore());
-            pstmt.setInt(4, product.getStock());
-            pstmt.setString(5, product.getCategory());
-            pstmt.setString(6, product.getDescription());
-            pstmt.setString(7,product.getPictureAddress());
-            pstmt.executeUpdate();
+        try (
+             PreparedStatement checkStmt = connection.prepareStatement(checkSql);
+             PreparedStatement updateStmt = connection.prepareStatement(updateSql);
+             PreparedStatement insertStmt = connection.prepareStatement(insertSql)) {
+
+            connection.setAutoCommit(false);
+
+            checkStmt.setString(1, product.getName());
+            ResultSet rs = checkStmt.executeQuery();
+
+            if (rs.next()) {
+                updateStmt.setInt(1, 1);
+                updateStmt.setString(2, product.getName());
+                int rowsUpdated = updateStmt.executeUpdate();
+
+                if (rowsUpdated == 0) {
+                    throw new SQLException("Failed to update stock, no rows affected.");
+                }
+            } else {
+                insertStmt.setString(1, product.getName());
+                insertStmt.setInt(2, product.getPrice());
+                insertStmt.setDouble(3, product.getScore());
+                insertStmt.setInt(4, product.getStock());
+                insertStmt.setString(5, product.getCategory());
+                insertStmt.setString(6, product.getDescription());
+                insertStmt.setString(7, product.getPictureAddress());
+
+                int rowsInserted = insertStmt.executeUpdate();
+
+                if (rowsInserted == 0) {
+                    throw new SQLException("Failed to insert product into the database, no rows affected.");
+                }
+            }
+
+            connection.commit(); // Commit transaction
+
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            // Handle exception, possibly rollback
+            e.printStackTrace();
+            throw new RuntimeException("Error adding/updating product in the database", e);
         }
     }
     public void addUsersToDB(User user) {
@@ -67,17 +95,14 @@ public class ManageDB {
         }
     }
     public void addAdminsToDB(Admin admin) {
-        String sql = "INSERT INTO users (name, lastName, userName, password, phoneNumber, budget) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO users (name, lastName, userName, password, phoneNumber) VALUES (?, ?, ?, ?, ?)";
 
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, admin.getFirstName());
             pstmt.setString(2, admin.getLastName());
             pstmt.setString(3, admin.getUserName());
-            pstmt.setString(7, admin.getAddress());
             pstmt.setString(4, admin.getPassword());
             pstmt.setString(5, admin.getPhoneNumber());
-            pstmt.setInt(6, admin.getBudget());
-
             pstmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -143,7 +168,7 @@ public class ManageDB {
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                Admin admin = new Admin(null,null,null, null, null,null,null,-1);
+                Admin admin = new Admin(null,null,null, null, null,null,null);
                 admin.setFirstName(rs.getString("name"));
                 admin.setLastName(rs.getString("lastName"));
                 admin.setPassword(rs.getString("password"));
@@ -249,42 +274,56 @@ public class ManageDB {
         }
     }
 
-    public Boolean deleteUser(String userName) {
-        String deleteSQL = "DELETE FROM users WHERE username = ?";
+    public Product findProductByName(String name) {
+        String sql = "SELECT * FROM products WHERE name = ?";
 
-        try (PreparedStatement deleteStmt = connection.prepareStatement(deleteSQL)) {
-            deleteStmt.setString(1, userName);
-            int rowsAffected = deleteStmt.executeUpdate();
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
 
-            if (rowsAffected > 0) {
-                System.out.println("User deleted successfully.");
-                return true;
+            pstmt.setString(1, name);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                Product product = new Product(-1,-1,-1, null,null,null, null);
+                product.setName(rs.getString("name"));
+                product.setPrice(rs.getInt("price"));
+                product.setScore(rs.getDouble("score"));
+                product.setStock(rs.getInt("stock"));
+                product.setCategory(rs.getString("category"));
+                product.setDescription(rs.getString("description"));
+                return product;
             } else {
-                System.out.println("User not found.");
-                return false;
+                return null;
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            throw new RuntimeException("Error finding product by name in the database", e);
         }
     }
 
-    public Boolean deleteProduct(String productName) {
-        String deleteSQL = "DELETE FROM users WHERE products = ?";
+    public User findUserByUserName(String userName) {
+        String sql = "SELECT * FROM users WHERE name = ?";
 
-        try (PreparedStatement deleteStmt = connection.prepareStatement(deleteSQL)) {
-            deleteStmt.setString(1, productName);
-            int rowsAffected = deleteStmt.executeUpdate();
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
 
-            if (rowsAffected > 0) {
-                System.out.println("product deleted successfully.");
-                return true;
+            pstmt.setString(1, userName);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                User user = new User(null,null,null, null,null,null, null,-1);
+                user.setFirstName(rs.getString("name"));
+                user.setLastName(rs.getString("lastName"));
+                user.setUserName(rs.getString("userName"));
+                user.setPassword(rs.getString("password"));
+                user.setAddress(rs.getString("address"));
+                user.setPhoneNumber(rs.getString("phoneNumber"));
+                user.setBudget(rs.getInt("budget"));
+                return user;
             } else {
-                System.out.println("product not found.");
-                return false;
+                return null;
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            throw new RuntimeException("Error finding product by name in the database", e);
         }
     }
-
 }

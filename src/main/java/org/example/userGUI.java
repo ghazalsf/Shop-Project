@@ -43,9 +43,9 @@ public class userGUI extends GUI implements ActionListener{
         JLabel scoreLabel=new JLabel("امتیاز کاربران: "+score,SwingConstants.RIGHT);
         JLabel nameLabel=new JLabel(name,SwingConstants.RIGHT);
 
-        priceLabel.setFont(font.deriveFont(20f));
-        scoreLabel.setFont(font.deriveFont(17f));
-        nameLabel.setFont(font.deriveFont(23f));
+//        priceLabel.setFont(font.deriveFont(20f));
+//        scoreLabel.setFont(font.deriveFont(17f));
+//        nameLabel.setFont(font.deriveFont(23f));
 
         priceLabel.setBounds(750,450,200,50);
         scoreLabel.setBounds(750,500,200,50);
@@ -58,7 +58,7 @@ public class userGUI extends GUI implements ActionListener{
 
         JLabel submitscorelabel= new JLabel("امتیاز مورد نظر را از 1 تا 5 وارد کنید",SwingConstants.CENTER);
         submitscorelabel.setForeground(forthColor);
-        submitscorelabel.setFont(font.deriveFont(15f));
+//        submitscorelabel.setFont(font.deriveFont(15f));
 
         JTextField scoreTextField=new JTextField();
 
@@ -104,16 +104,16 @@ public class userGUI extends GUI implements ActionListener{
         JLabel repeatPasswordLabel =  new JLabel("تکرار رمز عبور: ", SwingConstants.LEFT);
         JLabel budgetLabel =  new JLabel("موجودی: ", SwingConstants.LEFT);
 
-        titleLabel.setFont(font.deriveFont(40f));
-        nameLabel.setFont(font.deriveFont(20f));
-        lastNameLabel.setFont(font.deriveFont(20f));
-        addressLabel.setFont(font.deriveFont(20f));
-        emailLabel.setFont(font.deriveFont(20f));
-        phoneNumberLabel.setFont(font.deriveFont(20f));
-        userNameLabel.setFont(font.deriveFont(20f));
-        passwordLabel.setFont(font.deriveFont(20f));
-        repeatPasswordLabel.setFont(font.deriveFont(20f));
-        budgetLabel.setFont(font.deriveFont(20f));
+//        titleLabel.setFont(font.deriveFont(40f));
+//        nameLabel.setFont(font.deriveFont(20f));
+//        lastNameLabel.setFont(font.deriveFont(20f));
+//        addressLabel.setFont(font.deriveFont(20f));
+//        emailLabel.setFont(font.deriveFont(20f));
+//        phoneNumberLabel.setFont(font.deriveFont(20f));
+//        userNameLabel.setFont(font.deriveFont(20f));
+//        passwordLabel.setFont(font.deriveFont(20f));
+//        repeatPasswordLabel.setFont(font.deriveFont(20f));
+//        budgetLabel.setFont(font.deriveFont(20f));
 
         titleLabel.setForeground(forthColor);
         nameLabel.setForeground(thirdColor);
@@ -223,7 +223,7 @@ public class userGUI extends GUI implements ActionListener{
         registerPanel.add(repeatPasswordField);
         registerPanel.add(budgetTextField);
 
-        registerButton.setFont(font.deriveFont(17f));
+//        registerButton.setFont(font.deriveFont(17f));
         registerButton.setBounds(460,560,100,50);
         registerButton.setBackground(forthColor);
         registerButton.setForeground(secondColor);
@@ -234,9 +234,6 @@ public class userGUI extends GUI implements ActionListener{
         frame.setVisible(true);
     }
 
-    public void login(){
-        super.login();
-    }
 
     public void addActionEvent(){
         registerButton.addActionListener(this);
@@ -248,11 +245,11 @@ public class userGUI extends GUI implements ActionListener{
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == enterAAsUser) {
-            this.getContentPane().removeAll();
-            this.add(infoPanel);
-            this.revalidate();
-            this.repaint();
-        }
+//        if (e.getSource() == enterAAsUser) {
+//            this.getContentPane().removeAll();
+//            this.add(infoPanel);
+//            this.revalidate();
+//            this.repaint();
+//        }
     }
 }
