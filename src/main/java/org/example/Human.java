@@ -21,7 +21,6 @@ public class Human {
         this.address=address;
         this.phoneNumber=phoneNumber;
         this.email=email;
-        this.budget=budget;
         MD5hash();
         this.MD5hash();
     }

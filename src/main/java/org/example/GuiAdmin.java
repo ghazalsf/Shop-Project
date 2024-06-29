@@ -213,33 +213,36 @@ public class GuiAdmin implements ActionListener{
         });
         timer.start();
     }
-    public void main(ArrayList<Product> products){
+    public void main(ArrayList<Product> products) {
         frameUser.setLayout(new BorderLayout());
+
+        // پاک کردن محتویات قبلی productPanel
+        productPanel.removeAll();
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
 
         JPanel commandsPanel = new JPanel();
         commandsPanel.setLayout(null);
-        commandsPanel.setPreferredSize(new Dimension(1000,200));
-        commandsPanel.setBounds(0,0,1000,200);
+        commandsPanel.setPreferredSize(new Dimension(1000, 200));
+        commandsPanel.setBounds(0, 0, 1000, 200);
 
         JPanel menuPanel = menubar();
 
         JTextField searchBar = new JTextField();
-        searchBar.setBounds(140,25,150,30);
+        searchBar.setBounds(140, 25, 150, 30);
 
-        searchButton.setBounds(290,25,80,30);
+        searchButton.setBounds(290, 25, 80, 30);
 
-        JLabel name = new JLabel("هقداژدفو",SwingConstants.RIGHT);
-        name.setBounds(550,50,200,100);
-//        name.setFont(font.deriveFont(50f));
+        JLabel name = new JLabel("هقداژدفو", SwingConstants.RIGHT);
+        name.setBounds(550, 50, 200, 100);
+        // name.setFont(font.deriveFont(50f));
 
-        sortButton.setBounds(140,65,230,30);
+        sortButton.setBounds(140, 65, 230, 30);
 
-        sortButtonBigger.setBounds(140,105,230,30);
+        sortButtonBigger.setBounds(140, 105, 230, 30);
 
-        sortButtonCategory.setBounds(140, 145,230,30);
+        sortButtonCategory.setBounds(140, 145, 230, 30);
 
         commandsPanel.setBackground(mainColor);
         searchButton.setBackground(forthColor);
@@ -260,35 +263,39 @@ public class GuiAdmin implements ActionListener{
         commandsPanel.add(sortButtonCategory);
 
         int amountOfProducts = products.size();
-        int y=0;
+        int y = 0;
 
-        productPanel.setPreferredSize(new Dimension(1000,600));
-        productPanel.setBounds(0,200,1000,800);
+        productPanel.setPreferredSize(new Dimension(1000, 600));
+        productPanel.setBounds(0, 200, 1000, 800);
         productPanel.setBackground(mainColor);
 
-        //finding the rows for the grind layout
-        if(amountOfProducts%4 ==0)
-            y=amountOfProducts/4;
+        // finding the rows for the grind layout
+        if (amountOfProducts % 4 == 0)
+            y = amountOfProducts / 4;
         else
-            y= amountOfProducts/4 +1;
+            y = amountOfProducts / 4 + 1;
 
-        productPanel.setLayout(new GridLayout(y, 4,50,20));
+        productPanel.setLayout(new GridLayout(y, 4, 50, 20));
 
         for (Product p : products) {
-            JButton proButton = new JButton(p.getName()+", "+ p.getPrice()+", "+p.getScore()+", "+p.getCategory());
+            JButton proButton = new JButton(p.getName() + ", " + p.getPrice() + ", " + p.getScore() + ", " + p.getCategory());
             proButton.setBackground(forthColor);
             proButton.setForeground(secondColor);
             productPanel.add(proButton);
         }
 
+        productPanel.revalidate();
+        productPanel.repaint();
+
         addMenuButton(mainPanel, menuPanel);
         mainPanel.add(menuButton);
-        mainPanel.add(commandsPanel,BorderLayout.NORTH);
-        mainPanel.add(productPanel,BorderLayout.CENTER);
+        mainPanel.add(commandsPanel, BorderLayout.NORTH);
+        mainPanel.add(productPanel, BorderLayout.CENTER);
 
         frameUser.add(mainPanel);
         frameUser.setVisible(true);
     }
+
     public void register(){
         registerPanel.setSize(800, 800);
         registerPanel.setLayout(null);

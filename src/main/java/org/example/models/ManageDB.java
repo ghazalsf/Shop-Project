@@ -95,7 +95,7 @@ public class ManageDB {
         }
     }
     public void addAdminsToDB(Admin admin) {
-        String sql = "INSERT INTO users (name, lastName, userName, password, phoneNumber, budget) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO users (name, lastName, userName, password, phoneNumber) VALUES (?, ?, ?, ?, ?)";
 
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, admin.getFirstName());
@@ -103,7 +103,6 @@ public class ManageDB {
             pstmt.setString(3, admin.getUserName());
             pstmt.setString(4, admin.getPassword());
             pstmt.setString(5, admin.getPhoneNumber());
-            pstmt.setInt(6, admin.getBudget());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -169,7 +168,7 @@ public class ManageDB {
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                Admin admin = new Admin(null,null,null, null, null,null,null,-1);
+                Admin admin = new Admin(null,null,null, null, null,null,null);
                 admin.setFirstName(rs.getString("name"));
                 admin.setLastName(rs.getString("lastName"));
                 admin.setPassword(rs.getString("password"));
