@@ -78,7 +78,7 @@ public class StartGui implements ActionListener {
             new GuiUser();
         } else if (e.getSource()== enterAsAdmin) {
             frameStart.setVisible(false);
-
+            new GuiAdmin();
         }
     }
 }

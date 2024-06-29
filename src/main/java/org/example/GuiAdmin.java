@@ -7,12 +7,11 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class GuiAdmin implements ActionListener{
-    JFrame frameUser = new JFrame("hello");
+    User user;
+    JFrame frameAdmin = new JFrame("hello");
     ManageDB manageDB = new ManageDB();
 
     JPanel infoPanel = new JPanel();
@@ -24,7 +23,6 @@ public class GuiAdmin implements ActionListener{
     JButton newRegister = new JButton("حساب کاربری ندارم");
     JButton homeButton = new JButton("صفحه اصلی");
     JButton contactUsButton = new JButton("ارتباط با ما");
-    JButton cartButton = new JButton("سبد خرید");
     JButton menuButton = new JButton("منو");
     JButton searchButton = new JButton("جستجو");
     JButton sortButton = new JButton("مرتب سازی از کمترین قیمت:");
@@ -33,7 +31,10 @@ public class GuiAdmin implements ActionListener{
     JButton registerButton=new JButton("ثبت");
     JButton backButton = new JButton("برگشت");
     JButton confirmButton = new JButton("تایید نهایی");
-
+    JButton addProduct = new JButton("اضافه کردن محصول");
+    JButton showInfoPanel = new JButton("اطلاعات کاربری");
+    JButton exitAsAdmin = new JButton("خروج ادمین");
+    JButton updateInfo = new JButton("ویرایش اطلاعات");
 
     JTextField enterUserTF = new JTextField();
     JTextField nameTextField =new JTextField();
@@ -62,12 +63,12 @@ public class GuiAdmin implements ActionListener{
 //        } catch (IOException e) {
 //            throw new RuntimeException(e);
 //        }
-        frameUser.setSize(SIZE);
-        frameUser.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frameUser.setTitle("help");
-        frameUser.setResizable(true);
+        frameAdmin.setSize(SIZE);
+        frameAdmin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frameAdmin.setTitle("help");
+        frameAdmin.setResizable(true);
         login();
-        frameUser.setVisible(true);
+        frameAdmin.setVisible(true);
         addActionevent();
     }
     public void login() {
@@ -115,8 +116,8 @@ public class GuiAdmin implements ActionListener{
         infoPanel.add(enterPassL);
         infoPanel.add(enterPassPF);
         infoPanel.add(loginButton);
-        frameUser.add(infoPanel);
-        frameUser.setVisible(true);
+        frameAdmin.add(infoPanel);
+        frameAdmin.setVisible(true);
     }
     public JPanel menubar(){
         JPanel panel = new JPanel(null);
@@ -125,15 +126,18 @@ public class GuiAdmin implements ActionListener{
 
         homeButton.setBounds(800, 130, 200, 30);
         contactUsButton.setBounds(800, 190, 200, 30);
-        cartButton.setBounds(800, 250, 200, 30);
+        showInfoPanel.setBounds(800, 250, 200, 30);
+        exitAsAdmin.setBounds(800,310,200,30);
 
         flatButton(homeButton);
         flatButton(contactUsButton);
-        flatButton(cartButton);
+        flatButton(showInfoPanel);
+        flatButton(exitAsAdmin);
 
         panel.add(homeButton);
         panel.add(contactUsButton);
-        panel.add(cartButton);
+        panel.add(showInfoPanel);
+        panel.add(exitAsAdmin);
 
         return panel;
     }
@@ -160,17 +164,17 @@ public class GuiAdmin implements ActionListener{
                     // move panel1 to left
                     movePanelToLeft(panel1, 200); // move 200 pixel
                     // show panel2 to left
-                    frameUser.add(panel2);
-                    frameUser.revalidate();
-                    frameUser.repaint();
+                    frameAdmin.add(panel2);
+                    frameAdmin.revalidate();
+                    frameAdmin.repaint();
                     panel2Visible[0] = true;
                 } else {
                     // move panel 1 using animation
                     movePanelToOriginalPosition(panel1, 0); // return to first place
                     // remove panel2 from main
-                    frameUser.remove(panel2);
-                    frameUser.revalidate();
-                    frameUser.repaint();
+                    frameAdmin.remove(panel2);
+                    frameAdmin.revalidate();
+                    frameAdmin.repaint();
                     panel2Visible[0] = false;
                 }
             }
@@ -214,7 +218,7 @@ public class GuiAdmin implements ActionListener{
         timer.start();
     }
     public void main(ArrayList<Product> products) {
-        frameUser.setLayout(new BorderLayout());
+        frameAdmin.setLayout(new BorderLayout());
 
         // پاک کردن محتویات قبلی productPanel
         productPanel.removeAll();
@@ -230,19 +234,21 @@ public class GuiAdmin implements ActionListener{
         JPanel menuPanel = menubar();
 
         JTextField searchBar = new JTextField();
-        searchBar.setBounds(140, 25, 150, 30);
+        searchBar.setBounds(140, 10, 150, 25);
 
-        searchButton.setBounds(290, 25, 80, 30);
+        searchButton.setBounds(290, 10, 80, 25);
 
         JLabel name = new JLabel("هقداژدفو", SwingConstants.RIGHT);
         name.setBounds(550, 50, 200, 100);
         // name.setFont(font.deriveFont(50f));
 
-        sortButton.setBounds(140, 65, 230, 30);
+        sortButton.setBounds(140, 50, 230, 25);
 
-        sortButtonBigger.setBounds(140, 105, 230, 30);
+        sortButtonBigger.setBounds(140, 90, 230, 25);
 
-        sortButtonCategory.setBounds(140, 145, 230, 30);
+        sortButtonCategory.setBounds(140, 130, 230, 25);
+
+        addProduct.setBounds(140, 170,230,25);
 
         commandsPanel.setBackground(mainColor);
         searchButton.setBackground(forthColor);
@@ -254,6 +260,8 @@ public class GuiAdmin implements ActionListener{
         sortButtonBigger.setBackground(forthColor);
         sortButtonCategory.setBackground(forthColor);
         sortButtonCategory.setForeground(secondColor);
+        addProduct.setBackground(forthColor);
+        addProduct.setForeground(secondColor);
 
         commandsPanel.add(name);
         commandsPanel.add(searchBar);
@@ -292,8 +300,8 @@ public class GuiAdmin implements ActionListener{
         mainPanel.add(commandsPanel, BorderLayout.NORTH);
         mainPanel.add(productPanel, BorderLayout.CENTER);
 
-        frameUser.add(mainPanel);
-        frameUser.setVisible(true);
+        frameAdmin.add(mainPanel);
+        frameAdmin.setVisible(true);
     }
 
     public void register(){
@@ -384,9 +392,9 @@ public class GuiAdmin implements ActionListener{
         registerButton.setForeground(secondColor);
         registerPanel.add(registerButton);
 
-        frameUser.add(titleLabel);
-        frameUser.add(registerPanel);
-        frameUser.setVisible(true);
+        frameAdmin.add(titleLabel);
+        frameAdmin.add(registerPanel);
+        frameAdmin.setVisible(true);
     }
 
     public void contactUs(){
@@ -423,45 +431,10 @@ public class GuiAdmin implements ActionListener{
         JPanel menuPanel = menubar();
         addMenuButton(contactUspanel, menuPanel);
         contactUspanel.add(menuButton);
-        frameUser.add(contactUspanel);
-        frameUser.setVisible(true);
+        frameAdmin.add(contactUspanel);
+        frameAdmin.setVisible(true);
     }
-    public void cart(ArrayList<Product> selectedProducts){
-        int numberOfSelected = selectedProducts.size();
-        int rows = numberOfSelected + 3;
-        JPanel selectedList = new JPanel();
-        selectedList.setBackground(mainColor);
-        selectedList.setLayout(new GridLayout(rows, 1, 0, 10)); //hgap is 0 for consistent spacing
-
-        JLabel cost = new JLabel("جمع خرید شما: 98645", SwingConstants.CENTER);
-        JLabel emptyLabel = new JLabel("   ");
-
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setBackground(mainColor);
-        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10)); // FlowLayout for buttons with spacing
-
-
-//        cost.setFont(font.deriveFont(20f));
-        //backButton.setFont(font);
-        //confirmButton.setFont(font);
-
-        for(Product p : selectedProducts){
-            JLabel showPro = new JLabel(p.getName(), SwingConstants.CENTER);
-            showPro.setForeground(secondColor);
-            selectedList.add(showPro);
-        }
-
-        buttonPanel.add(backButton);
-        buttonPanel.add(confirmButton);
-
-        selectedList.add(cost);
-        selectedList.add(emptyLabel);
-        selectedList.add(buttonPanel);
-
-        frameUser.add(selectedList);
-        frameUser.setVisible(true);
-    }
-    public void showInfo(String name, String address, String phoneNumber, String budget){
+    public void showInfo(){
         //SI stands for ShowInfo
         JPanel menuPanel = menubar();
         JPanel SIPanel = new JPanel();
@@ -470,10 +443,10 @@ public class GuiAdmin implements ActionListener{
         SIPanel.setBackground(mainColor);
 
         JLabel SILabel =  new JLabel("پروفایل کاربر", SwingConstants.RIGHT);
-        JLabel NameLabel =  new JLabel("نام: " + name, SwingConstants.RIGHT);
-        JLabel addressLabel =  new JLabel("آدرس: " + address, SwingConstants.RIGHT);
-        JLabel phoneNumberLabel =  new JLabel("شماره تماس: " + phoneNumber, SwingConstants.RIGHT);
-        JLabel budgetLabel =  new JLabel("موجودی: " + budget, SwingConstants.RIGHT);
+        JLabel NameLabel =  new JLabel("نام و نام خانوادگی: " + user.getUserName()+" "+user.getFirstName(), SwingConstants.RIGHT);
+        JLabel addressLabel =  new JLabel("آدرس: " + user.getAddress(), SwingConstants.RIGHT);
+        JLabel phoneNumberLabel =  new JLabel("شماره تماس: " + user.getPhoneNumber(), SwingConstants.RIGHT);
+        JLabel budgetLabel =  new JLabel("موجودی: " + user.getBudget(), SwingConstants.RIGHT);
 
 //        SILabel.setFont(font.deriveFont(40f));
 //        NameLabel.setFont(font.deriveFont(25f));
@@ -501,8 +474,8 @@ public class GuiAdmin implements ActionListener{
         SIPanel.add(addressLabel);
         SIPanel.add(phoneNumberLabel);
         SIPanel.add(budgetLabel);
-        frameUser.add(SIPanel);
-        frameUser.setVisible(true);
+        frameAdmin.add(SIPanel);
+        frameAdmin.setVisible(true);
     }
     public void doRegister(){
         String name = nameTextField.getText();
@@ -545,7 +518,7 @@ public class GuiAdmin implements ActionListener{
             Boolean isRegistered = manageDB.registerCheck(name, lastName, userName, address, email, phoneNumber, password1, password2);
 
             if (isRegistered == true) {
-                frameUser.getContentPane().removeAll();
+                frameAdmin.getContentPane().removeAll();
                 main(manageDB.getAllProducts());
             } else {
                 nameTextField.setText("خطایی رخ داده است. دوباره تلاش کنید");
@@ -557,11 +530,13 @@ public class GuiAdmin implements ActionListener{
         searchButton.addActionListener(this);
         homeButton.addActionListener(this);
         contactUsButton.addActionListener(this);
-        cartButton.addActionListener(this);
         backButton.addActionListener(this);
         confirmButton.addActionListener(this);
         newRegister.addActionListener(this);
         registerButton.addActionListener(this);
+        exitAsAdmin.addActionListener(this);
+        showInfoPanel.addActionListener(this);
+        updateInfo.addActionListener(this);
     }
 
     @Override
@@ -571,30 +546,35 @@ public class GuiAdmin implements ActionListener{
             String loginPass = enterPassPF.getText();
             Boolean isLoggedin = manageDB.loginCheck(loginUserName, loginPass);
             if (isLoggedin == true){
-                frameUser.getContentPane().removeAll();
+                frameAdmin.getContentPane().removeAll();
                 main(manageDB.getAllProducts());
             }else {
                 enterUserTF.setText("خطایی رخ داده است. دوباره تلاش کنید");
             }
         } else if (e.getSource() == newRegister) {
-            frameUser.getContentPane().removeAll();
+            frameAdmin.getContentPane().removeAll();
             register();
         } else if (e.getSource() == registerButton) {
             doRegister();
         } else if (e.getSource() == homeButton) {
-            frameUser.getContentPane().removeAll();
+            frameAdmin.getContentPane().removeAll();
             main(manageDB.getAllProducts());
         } else if (e.getSource() == contactUsButton) {
-            frameUser.getContentPane().removeAll();
+            frameAdmin.getContentPane().removeAll();
             contactUs();
-        }else if (e.getSource() == cartButton) {
-            frameUser.getContentPane().removeAll();
-            cart(manageDB.getAllProducts());
         }else if (e.getSource() == backButton) {
-            frameUser.getContentPane().removeAll();
+            frameAdmin.getContentPane().removeAll();
             main(manageDB.getAllProducts());
         } else if (e.getSource()==confirmButton) {
             //To do
+        }else if (e.getSource()== exitAsAdmin){
+            frameAdmin.setVisible(false);
+            new StartGui();
+        } else if (e.getSource()== showInfoPanel) {
+            frameAdmin.setVisible(false);
+            showInfo();
+        } else if (e.getSource() == updateInfo) {
+            frameAdmin.getContentPane().removeAll();
         }
     }
 }
