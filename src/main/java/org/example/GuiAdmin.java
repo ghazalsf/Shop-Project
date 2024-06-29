@@ -22,7 +22,7 @@ public class GuiAdmin implements ActionListener{
     JButton loginButton = new JButton("ورود");
     JButton newRegister = new JButton("حساب کاربری ندارم");
     JButton homeButton = new JButton("صفحه اصلی");
-    JButton contactUsButton = new JButton("ارتباط با ما");
+    JButton showUserList = new JButton("ارتباط با ما");
     JButton menuButton = new JButton("منو");
     JButton searchButton = new JButton("جستجو");
     JButton sortButton = new JButton("مرتب سازی از کمترین قیمت:");
@@ -47,6 +47,7 @@ public class GuiAdmin implements ActionListener{
     JTextField repeatPasswordField =new JTextField();
     JTextField enterPassPF = new JTextField();
     JTextField staticPassFiled = new JTextField();
+    JTextField searchBar = new JTextField();
 
 
     final Dimension SIZE = new Dimension(1000,800);
@@ -127,17 +128,17 @@ public class GuiAdmin implements ActionListener{
         panel.setBounds(0,0,100,800);
 
         homeButton.setBounds(800, 130, 200, 30);
-        contactUsButton.setBounds(800, 190, 200, 30);
+        showUserList.setBounds(800, 190, 200, 30);
         showInfoPanel.setBounds(800, 250, 200, 30);
         exitAsAdmin.setBounds(800,310,200,30);
 
         flatButton(homeButton);
-        flatButton(contactUsButton);
+        flatButton(showUserList);
         flatButton(showInfoPanel);
         flatButton(exitAsAdmin);
 
         panel.add(homeButton);
-        panel.add(contactUsButton);
+        panel.add(showUserList);
         panel.add(showInfoPanel);
         panel.add(exitAsAdmin);
 
@@ -399,43 +400,35 @@ public class GuiAdmin implements ActionListener{
         frameAdmin.setVisible(true);
     }
 
-    public void contactUs(){
-        JPanel contactUspanel = new JPanel();
-        contactUspanel.setSize(800, 800);
-        contactUspanel.setLayout(null);
-        contactUspanel.setBackground(mainColor);
+    public void userList(ArrayList<User> users){
+        int numberOfUsers = users.size();
+        int rows = numberOfUsers + 3;
+        JPanel usersPanel = new JPanel();
+        usersPanel.setBackground(mainColor);
+        usersPanel.setLayout(new GridLayout(rows, 1, 0, 10)); //hgap is 0 for consistent spacing
 
-        JLabel emailLabel=new JLabel("آدرس ایمیل: flint.lockwood@gmail.com",SwingConstants.RIGHT);
-        JLabel phonenumberLabel= new JLabel("شماره تماس: 02100000000 ",SwingConstants.RIGHT);
-        JLabel addressLabel=new JLabel("آدرس: وسط اقیانوس اطلس| چلچله خوش اشتها| حیاط پشتی منزل لاکوود",SwingConstants.RIGHT);
-        JLabel telegramLabel= new JLabel("تلگرام:t.me/haghdazhdefo",SwingConstants.RIGHT);
+        JLabel emptyLabel = new JLabel("   ");
 
-//        emailLabel.setFont(font.deriveFont(20f));
-//        phonenumberLabel.setFont(font.deriveFont(20f));
-//        addressLabel.setFont(font.deriveFont(20f));
-//        telegramLabel.setFont(font.deriveFont(20f));
+        JButton backButton = new JButton("برگشت");
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0)); // Create a panel with FlowLayout
+        backButton.setPreferredSize(new Dimension(100, 30));
+        buttonPanel.setBackground(mainColor);
 
-        emailLabel.setForeground(forthColor);
-        phonenumberLabel.setForeground(forthColor);
-        addressLabel.setForeground(forthColor);
-        telegramLabel.setForeground(forthColor);
+        for(User user : users){
+            JLabel showPro = new JLabel(user.getFirstName(), SwingConstants.CENTER);
+            showPro.setForeground(secondColor);
+            usersPanel.add(showPro);
+        }
 
-        emailLabel.setBounds(200,200,600,100);
-        phonenumberLabel.setBounds(200,250,600,100);
-        addressLabel.setBounds(200,300,600,100);
-        telegramLabel.setBounds(200,350,600,100);
-
-        contactUspanel.add(emailLabel);
-        contactUspanel.add(phonenumberLabel);
-        contactUspanel.add(addressLabel);
-        contactUspanel.add(telegramLabel);
-
-        JPanel menuPanel = menubar();
-        addMenuButton(contactUspanel, menuPanel);
-        contactUspanel.add(menuButton);
-        frameAdmin.add(contactUspanel);
+        usersPanel.add(backButton);
+        buttonPanel.add(backButton);
+        usersPanel.add(emptyLabel);
+        usersPanel.add(buttonPanel);
+        frameAdmin.add(usersPanel);
         frameAdmin.setVisible(true);
     }
+
     public void showInfo(){
         //SI stands for ShowInfo
         JPanel menuPanel = menubar();
@@ -479,6 +472,28 @@ public class GuiAdmin implements ActionListener{
         frameAdmin.add(SIPanel);
         frameAdmin.setVisible(true);
     }
+
+    public ArrayList<Product> searchNameAndCategory(String searchString) {
+        ArrayList<Product> foundProducts = new ArrayList<>();
+        // Convert the search string to lowercase for case-insensitive matching
+        searchString = searchString.toLowerCase();
+        ArrayList<Product> products = manageDB.getAllProducts();
+        for (int i = 0; i < products.size(); i++) {
+            String productCategory = products.get(i).getCategory();
+            String productName = products.get(i).getName();
+            if (productCategory == null || productName == null)continue;
+            if (productCategory.contains(searchString) || productName.contains(searchString)){
+                foundProducts.add(products.get(i));
+            }
+        }
+        frameAdmin.getContentPane().removeAll();
+//        for (int i = 0; i < foundProducts.size(); i++) {
+//            System.out.println(foundProducts.get(i).getName());
+//        }
+        main(foundProducts);
+        return foundProducts;
+    }
+
     public void doRegister(){
         String name = nameTextField.getText();
         String lastName = lastNameTextField.getText();
@@ -532,7 +547,7 @@ public class GuiAdmin implements ActionListener{
         loginButton.addActionListener(this);
         searchButton.addActionListener(this);
         homeButton.addActionListener(this);
-        contactUsButton.addActionListener(this);
+        showUserList.addActionListener(this);
         backButton.addActionListener(this);
         confirmButton.addActionListener(this);
         newRegister.addActionListener(this);
@@ -540,6 +555,7 @@ public class GuiAdmin implements ActionListener{
         exitAsAdmin.addActionListener(this);
         showInfoPanel.addActionListener(this);
         updateInfo.addActionListener(this);
+        searchButton.addActionListener(this);
     }
 
     @Override
@@ -562,9 +578,9 @@ public class GuiAdmin implements ActionListener{
         } else if (e.getSource() == homeButton) {
             frameAdmin.getContentPane().removeAll();
             main(manageDB.getAllProducts());
-        } else if (e.getSource() == contactUsButton) {
+        } else if (e.getSource() == showUserList) {
             frameAdmin.getContentPane().removeAll();
-            contactUs();
+            userList(manageDB.getAllUsers());
         }else if (e.getSource() == backButton) {
             frameAdmin.getContentPane().removeAll();
             main(manageDB.getAllProducts());
@@ -578,6 +594,9 @@ public class GuiAdmin implements ActionListener{
             showInfo();
         } else if (e.getSource() == updateInfo) {
             frameAdmin.getContentPane().removeAll();
+        } else if(e.getSource()== searchButton){
+            String searchString = searchBar.getText();
+            searchNameAndCategory(searchString);
         }
     }
 }

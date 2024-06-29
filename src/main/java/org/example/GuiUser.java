@@ -57,6 +57,7 @@ public class GuiUser implements ActionListener{
     JTextField passwordField =new JTextField();
     JTextField repeatPasswordField =new JTextField();
     JTextField enterPassPF = new JTextField();
+    JTextField searchBar = new JTextField();
 
     final Dimension SIZE = new Dimension(1000,800);
     Color mainColor = new Color(141, 141, 170);
@@ -741,6 +742,26 @@ public class GuiUser implements ActionListener{
         frameUser.add(registerPanel);
         frameUser.setVisible(true);
     }
+    public ArrayList<Product> searchNameAndCategory(String searchString) {
+        ArrayList<Product> foundProducts = new ArrayList<>();
+        // Convert the search string to lowercase for case-insensitive matching
+        searchString = searchString.toLowerCase();
+        ArrayList<Product> products = manageDB.getAllProducts();
+        for (int i = 0; i < products.size(); i++) {
+            String productCategory = products.get(i).getCategory();
+            String productName = products.get(i).getName();
+            if (productCategory == null || productName == null)continue;
+            if (productCategory.contains(searchString) || productName.contains(searchString)){
+                foundProducts.add(products.get(i));
+            }
+        }
+        frameUser.getContentPane().removeAll();
+//        for (int i = 0; i < foundProducts.size(); i++) {
+//            System.out.println(foundProducts.get(i).getName());
+//        }
+        main(foundProducts);
+        return foundProducts;
+    }
 
     public void doRegister(){
         String name = nameTextField.getText();
@@ -827,6 +848,7 @@ public class GuiUser implements ActionListener{
         exitAsUser.addActionListener(this);
         showInfoPanel.addActionListener(this);
         changeData.addActionListener(this);
+        searchButton.addActionListener(this);
     }
 
     public String MD5hashPassword(String originalPass){
@@ -895,6 +917,9 @@ public class GuiUser implements ActionListener{
         } else if (e.getSource() == changeData) {
             frameUser.getContentPane().removeAll();
             changeData();
+        }else if(e.getSource()== searchButton){
+            String searchString = searchBar.getText();
+            searchNameAndCategory(searchString);
         }
     }
 }
