@@ -599,7 +599,7 @@ public class GUI extends JFrame implements ActionListener {
             String loginUserName = enterUserTF.getText();
             String loginPass = enterPassPF.getText();
 
-            Boolean isLoggedin = manageDB.loginCheck(loginUserName, loginPass);
+            Boolean isLoggedin = manageDB.userloginCheck(loginUserName, loginPass);
             if (isLoggedin == true){
                 frame.getContentPane().removeAll();
                 main(manageDB.getAllProducts());
@@ -625,7 +625,7 @@ public class GUI extends JFrame implements ActionListener {
             String phoneNumber = phoneNumberTextField.getText();
             String password1 = passwordField.getText();
             String password2 = repeatPasswordField.getText();
-            Boolean isRegistered = manageDB.registerCheck(name, lastName, userName, address,email,phoneNumber,password1,password2);
+            Boolean isRegistered = manageDB.userRegisterCheck(name, lastName, userName, address,email,phoneNumber,password1,password2);
             if (isRegistered == true){
                 frame.getContentPane().removeAll();
                 main(manageDB.getAllProducts());

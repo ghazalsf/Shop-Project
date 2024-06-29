@@ -39,7 +39,9 @@ public class GuiUser implements ActionListener{
     JButton registerButton=new JButton("ثبت");
     JButton backButton = new JButton("برگشت");
     JButton confirmButton = new JButton("تایید نهایی");
-
+    JButton showInfoPanel = new JButton("اطلاعات کاربری");
+    JButton exitAsUser = new JButton("خروج کاربر");
+    JButton changeData = new JButton("ویرایشراطلاعات");
 
     JTextField enterUserTF = new JTextField();
     JTextField nameTextField =new JTextField();
@@ -195,10 +197,107 @@ public class GuiUser implements ActionListener{
         frameUser.add(showProductPanel);
         frameUser.setVisible(true);
     }
+    public JPanel menubar(){
+        JPanel panel = new JPanel(null);
+        panel.setPreferredSize(new Dimension(100, 800));
+        panel.setBounds(0,0,100,800);
+
+        homeButton.setBounds(800, 130, 200, 30);
+        contactUsButton.setBounds(800, 190, 200, 30);
+        cartButton.setBounds(800, 250, 200, 30);
+        showInfoPanel.setBounds(800,310,200,30);
+        exitAsUser.setBounds(800,370,200,30);
+
+        flatButton(homeButton);
+        flatButton(contactUsButton);
+        flatButton(cartButton);
+        flatButton(showInfoPanel);
+        flatButton(exitAsUser);
+
+        panel.add(homeButton);
+        panel.add(contactUsButton);
+        panel.add(cartButton);
+        panel.add(showInfoPanel);
+        panel.add(exitAsUser);
+
+        return panel;
+    }
 
     public void logout(){}
+    private void flatButton(JButton button) {
+        button.setBorderPainted(false); // remove border
+        button.setContentAreaFilled(false); // remove bg
+//        button.setFont(font.deriveFont(15f));
+        button.setHorizontalAlignment(SwingConstants.CENTER);
+    }
 
+    public void addMenuButton(JPanel panel1, JPanel panel2){
+        menuButton.setBounds(940,10,50,50);
+        menuButton.setBackground(forthColor);
+//        menuButton.setFont(font.deriveFont(13f));
+        menuButton.setForeground(secondColor);
 
+        final boolean[] panel2Visible = {false};
+        menuButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!panel2Visible[0]) {
+                    // move panel1 to left
+                    movePanelToLeft(panel1, 200); // move 200 pixel
+                    // show panel2 to left
+                    frameUser.add(panel2);
+                    frameUser.revalidate();
+                    frameUser.repaint();
+                    panel2Visible[0] = true;
+                } else {
+                    // move panel 1 using animation
+                    movePanelToOriginalPosition(panel1, 0); // return to first place
+                    // remove panel2 from main
+                    frameUser.remove(panel2);
+                    frameUser.revalidate();
+                    frameUser.repaint();
+                    panel2Visible[0] = false;
+                }
+            }
+        });
+    }
+
+    public static void movePanelToLeft(JPanel panel, int distance) {
+        int startX = panel.getLocation().x;
+        int endX = startX - distance;
+        Timer timer = new Timer(10, new ActionListener() {
+            int currentX = startX;
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (currentX > endX) {
+                    currentX -= 5; // speed
+                    panel.setLocation(currentX, panel.getLocation().y);
+                } else {
+                    ((Timer) e.getSource()).stop();
+                }
+            }
+        });
+        timer.start();
+    }
+
+    public static void movePanelToOriginalPosition(JPanel panel, int distance) {
+        int startX = panel.getLocation().x;
+        int endX = distance;
+        Timer timer = new Timer(10, new ActionListener() {
+            int currentX = startX;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (currentX < endX) {
+                    currentX += 5;
+                    panel.setLocation(currentX, panel.getLocation().y);
+                } else {
+                    ((Timer) e.getSource()).stop();
+                }
+            }
+        });
+        timer.start();
+    }
     public void main(ArrayList<Product> products) {
         frameUser.setLayout(new BorderLayout());
 
@@ -268,11 +367,6 @@ public class GuiUser implements ActionListener{
             proButton.setBackground(forthColor);
             proButton.setForeground(secondColor);
             productPanel.add(proButton);
-
-            proButton.addActionListener(e -> {
-                frameUser.getContentPane().removeAll();
-                showProduct(p);
-            });
         }
 
         productPanel.revalidate();
@@ -497,6 +591,153 @@ public class GuiUser implements ActionListener{
         frameUser.add(SIPanel);
         frameUser.setVisible(true);
     }
+    public void changeData(){
+        JPanel registerPanel = new JPanel();
+        registerPanel.setSize(800, 800);
+        registerPanel.setLayout(null);
+        registerPanel.setBackground(mainColor);
+
+        JLabel titleLabel=  new JLabel("تغییر اطلاعات", SwingConstants.LEFT);
+        JLabel nameLabel=  new JLabel("نام: ", SwingConstants.LEFT);
+        JLabel lastNameLabel= new JLabel("نام خانوادگی: ", SwingConstants.LEFT);
+        JLabel addressLabel =  new JLabel("آدرس: ", SwingConstants.LEFT);
+        JLabel emailLabel =  new JLabel("ایمیل: ", SwingConstants.LEFT);
+        JLabel phoneNumberLabel =  new JLabel("شماره تماس: ", SwingConstants.LEFT);
+        JLabel userNameLabel =  new JLabel("نام کاربری: ", SwingConstants.LEFT);
+        JLabel passwordLabel =  new JLabel("رمز عبور: ", SwingConstants.LEFT);
+        JLabel repeatPasswordLabel =  new JLabel("تکرار رمز عبور: ", SwingConstants.LEFT);
+        JLabel budgetLabel =  new JLabel("موجودی: ", SwingConstants.LEFT);
+
+//        titleLabel.setFont(font.deriveFont(40f));
+//        nameLabel.setFont(font.deriveFont(20f));
+//        lastNameLabel.setFont(font.deriveFont(20f));
+//        addressLabel.setFont(font.deriveFont(20f));
+//        emailLabel.setFont(font.deriveFont(20f));
+//        phoneNumberLabel.setFont(font.deriveFont(20f));
+//        userNameLabel.setFont(font.deriveFont(20f));
+//        passwordLabel.setFont(font.deriveFont(20f));
+//        repeatPasswordLabel.setFont(font.deriveFont(20f));
+//        budgetLabel.setFont(font.deriveFont(20f));
+
+        titleLabel.setForeground(forthColor);
+        nameLabel.setForeground(thirdColor);
+        lastNameLabel.setForeground(thirdColor);
+        addressLabel.setForeground(thirdColor);
+        emailLabel.setForeground(thirdColor);
+        phoneNumberLabel.setForeground(thirdColor);
+        userNameLabel.setForeground(thirdColor);
+        passwordLabel.setForeground(thirdColor);
+        repeatPasswordLabel.setForeground(thirdColor);
+        budgetLabel.setForeground(forthColor);
+
+        titleLabel.setBounds(460,20,400,200);
+        nameLabel.setBounds(550,100,400,200);
+        lastNameLabel.setBounds(550,140,400,200);
+        addressLabel.setBounds(550,180,400,200);
+        emailLabel.setBounds(550,220,400,200);
+        phoneNumberLabel.setBounds(550,260,400,200);
+        userNameLabel.setBounds(550,300,400,200);
+        passwordLabel.setBounds(550,340,400,200);
+        repeatPasswordLabel.setBounds(550,380,400,200);
+        budgetLabel.setBounds(550,420,400,200);
+
+        registerPanel.add(titleLabel);
+        registerPanel.add(nameLabel);
+        registerPanel.add(lastNameLabel);
+        registerPanel.add(addressLabel);
+        registerPanel.add(emailLabel);
+        registerPanel.add(phoneNumberLabel);
+        registerPanel.add(userNameLabel);
+        registerPanel.add(passwordLabel);
+        registerPanel.add(repeatPasswordLabel);
+        registerPanel.add(budgetLabel);
+
+        JTextField nameTextField =new JTextField();
+        nameTextField.setText(user.getFirstName());
+        JTextField lastNameTextField =new JTextField();
+        lastNameTextField.setText(user.getLastName());
+        JTextField addressTextField =new JTextField();
+        addressTextField.setText(user.getAddress());
+        JTextField emailTextField =new JTextField();
+        emailTextField.setText(user.getemail());
+        JTextField phoneNumberTextField =new JTextField();
+        phoneNumberTextField.setText(user.getPhoneNumber());
+        JTextField userNameTextField =new JTextField();
+        userNameTextField.setText(user.getUserName());
+        JTextField passwordField =new JTextField();
+        passwordField.setText(user.getPassword());
+        JTextField repeatPasswordField =new JTextField();
+        repeatPasswordField.setText(user.getPassword());
+        JTextField budgetTextField =new JTextField();
+        String tmp= Integer.toString(user.getBudget());
+        budgetTextField.setText(tmp);
+
+        if (!nameTextField.getText().equals(user.getFirstName()));{
+            user.setFirstName(nameTextField.getText());
+        }
+        if (!lastNameTextField.getText().equals(user.getLastName()));{
+            user.setLastName(lastNameTextField.getText());
+        }
+        if (!addressTextField.getText().equals(user.getAddress()));{
+            user.setAddress(addressTextField.getText());
+        }
+        if (!emailTextField.getText().equals(user.getemail()));{
+            user.setEmail(emailTextField.getText());
+        }
+        if (!phoneNumberTextField.getText().equals(user.getPhoneNumber()));{
+            user.setPhoneNumber(phoneNumberTextField.getText());
+        }
+        if (!passwordField.getText().equals(user.getPassword()));{
+            user.setPassword(passwordField.getText());
+        }
+        if (!budgetTextField.getText().equals(user.getBudget()));{
+            user.setBudget(Integer.parseInt(budgetTextField.getText()));
+        }
+
+        Border border = BorderFactory.createLineBorder(forthColor, 2);
+
+        nameTextField.setBorder(border);
+        lastNameTextField.setBorder(border);
+        addressTextField.setBorder(border);
+        emailTextField.setBorder(border);
+        phoneNumberTextField.setBorder(border);
+        userNameTextField.setBorder(border);
+        passwordField.setBorder(border);
+        repeatPasswordField.setBorder(border);
+        budgetTextField.setBorder(border);
+
+        nameTextField.setBounds(400,185,150,30);
+        lastNameTextField.setBounds(400,225,150,30);
+        addressTextField.setBounds(400,265,150,30);
+        emailTextField.setBounds(400,305,150,30);
+        phoneNumberTextField.setBounds(400,345,150,30);
+        userNameTextField.setBounds(400,385,150,30);
+        passwordField.setBounds(400,425,150,30);
+        repeatPasswordField.setBounds(400,465,150,30);
+        budgetTextField.setBounds(400,505,150,30);
+
+
+        registerPanel.add(nameTextField);
+        registerPanel.add(lastNameTextField);
+        registerPanel.add(addressTextField);
+        registerPanel.add(emailTextField);
+        registerPanel.add(phoneNumberTextField);
+        registerPanel.add(userNameTextField);
+        registerPanel.add(passwordField);
+        registerPanel.add(repeatPasswordField);
+        registerPanel.add(budgetTextField);
+
+//        registerButton.setFont(font.deriveFont(17f));
+        registerButton.setBounds(460,560,100,50);
+        registerButton.setBackground(forthColor);
+        registerButton.setForeground(secondColor);
+        registerPanel.add(registerButton);
+
+        frameUser.add(titleLabel);
+        frameUser.add(registerPanel);
+        frameUser.setVisible(true);
+    }
+
     public void doRegister(){
         String name = nameTextField.getText();
         String lastName = lastNameTextField.getText();
@@ -535,7 +776,7 @@ public class GuiUser implements ActionListener{
         } else if (password2.isEmpty()) {
             repeatPasswordField.setBorder(redBorder);
         }else {
-            Boolean isRegistered = manageDB.registerCheck(name, lastName, userName, address, email, phoneNumber, password1, password2);
+            Boolean isRegistered = manageDB.userRegisterCheck(name, lastName, userName, address, email, phoneNumber, password1, password2);
 
             if (isRegistered == true) {
                 frameUser.getContentPane().removeAll();
@@ -555,6 +796,9 @@ public class GuiUser implements ActionListener{
         confirmButton.addActionListener(this);
         newRegister.addActionListener(this);
         registerButton.addActionListener(this);
+        exitAsUser.addActionListener(this);
+        showInfoPanel.addActionListener(this);
+        changeData.addActionListener(this);
     }
 
     @Override
@@ -562,10 +806,11 @@ public class GuiUser implements ActionListener{
         if (e.getSource() == loginButton) {
             String loginUserName = enterUserTF.getText();
             String loginPass = enterPassPF.getText();
-            Boolean isLoggedin = manageDB.loginCheck(loginUserName, loginPass);
+            Boolean isLoggedin = manageDB.userloginCheck(loginUserName, loginPass);
             if (isLoggedin == true){
                 frameUser.getContentPane().removeAll();
                 main(manageDB.getAllProducts());
+
             }else {
                 enterUserTF.setText("خطایی رخ داده است. دوباره تلاش کنید");
             }
@@ -588,98 +833,15 @@ public class GuiUser implements ActionListener{
             main(manageDB.getAllProducts());
         } else if (e.getSource()==confirmButton) {
             //To do
+        } else if (e.getSource()== exitAsUser) {
+            frameUser.setVisible(false);
+            new StartGui();
+        } else if (e.getSource()== showInfoPanel) {
+            frameUser.getContentPane().removeAll();
+            showInfo();
+        } else if (e.getSource() == changeData) {
+            frameUser.getContentPane().removeAll();
+            changeData();
         }
-    }
-    public JPanel menubar(){
-        JPanel panel = new JPanel(null);
-        panel.setPreferredSize(new Dimension(100, 800));
-        panel.setBounds(0,0,100,800);
-
-        homeButton.setBounds(800, 130, 200, 30);
-        contactUsButton.setBounds(800, 190, 200, 30);
-        cartButton.setBounds(800, 250, 200, 30);
-
-        flatButton(homeButton);
-        flatButton(contactUsButton);
-        flatButton(cartButton);
-
-        panel.add(homeButton);
-        panel.add(contactUsButton);
-        panel.add(cartButton);
-
-        return panel;
-    }
-    private void flatButton(JButton button) {
-        button.setBorderPainted(false); // remove border
-        button.setContentAreaFilled(false); // remove bg
-//        button.setFont(font.deriveFont(15f));
-        button.setHorizontalAlignment(SwingConstants.CENTER);
-    }
-    public static void movePanelToLeft(JPanel panel, int distance) {
-        int startX = panel.getLocation().x;
-        int endX = startX - distance;
-        Timer timer = new Timer(10, new ActionListener() {
-            int currentX = startX;
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (currentX > endX) {
-                    currentX -= 5; // speed
-                    panel.setLocation(currentX, panel.getLocation().y);
-                } else {
-                    ((Timer) e.getSource()).stop();
-                }
-            }
-        });
-        timer.start();
-    }
-
-    public static void movePanelToOriginalPosition(JPanel panel, int distance) {
-        int startX = panel.getLocation().x;
-        int endX = distance;
-        Timer timer = new Timer(10, new ActionListener() {
-            int currentX = startX;
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (currentX < endX) {
-                    currentX += 5;
-                    panel.setLocation(currentX, panel.getLocation().y);
-                } else {
-                    ((Timer) e.getSource()).stop();
-                }
-            }
-        });
-        timer.start();
-    }
-
-    public void addMenuButton(JPanel panel1, JPanel panel2){
-        menuButton.setBounds(940,10,50,50);
-        menuButton.setBackground(forthColor);
-//        menuButton.setFont(font.deriveFont(13f));
-        menuButton.setForeground(secondColor);
-
-        final boolean[] panel2Visible = {false};
-        menuButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (!panel2Visible[0]) {
-                    // move panel1 to left
-                    movePanelToLeft(panel1, 200); // move 200 pixel
-                    // show panel2 to left
-                    frameUser.add(panel2);
-                    frameUser.revalidate();
-                    frameUser.repaint();
-                    panel2Visible[0] = true;
-                } else {
-                    // move panel 1 using animation
-                    movePanelToOriginalPosition(panel1, 0); // return to first place
-                    // remove panel2 from main
-                    frameUser.remove(panel2);
-                    frameUser.revalidate();
-                    frameUser.repaint();
-                    panel2Visible[0] = false;
-                }
-            }
-        });
     }
 }
