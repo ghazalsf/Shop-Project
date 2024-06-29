@@ -23,7 +23,7 @@ public class Human {
         this.phoneNumber=phoneNumber;
         this.email=email;
         this.budget=budget;
-        this.MD5hash();
+        MD5hash();
     }
     public void setFirstName(String firstName){
         this.firstName=firstName;
@@ -34,7 +34,9 @@ public class Human {
     public void setUserName(String userName){
         this.userName=userName;
     }
-    public void setPassword(String password){this.password=password;}
+    public void setPassword(String password){
+        this.password=password;
+    }
     public void setAddress(String address){
         this.address=address;
     }
