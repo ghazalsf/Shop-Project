@@ -188,7 +188,7 @@ public class ManageDB {
         String selectSQL = "SELECT password FROM users WHERE username = ?";
 
         try (PreparedStatement selectStmt = connection.prepareStatement(selectSQL)) {
-            selectStmt.setString(3, userName);
+            selectStmt.setString(1, userName);
             ResultSet rs = selectStmt.executeQuery();
 
             if (rs.next()) {
@@ -203,6 +203,43 @@ public class ManageDB {
 
             } else {
                 return false;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Boolean registerCheck(String firstName, String lastName, String userName, String address, String email, String phoneNumber, String password, String password2){
+        String checkUserSQL = "SELECT username FROM users WHERE username = ?";
+        String insertUserSQL = "INSERT INTO users (name, lastName, username, password, address, phoneNumber, budget) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        try (PreparedStatement checkStmt = connection.prepareStatement(checkUserSQL)) {
+            checkStmt.setString(1, userName);
+            ResultSet rs = checkStmt.executeQuery();
+
+            if (rs.next()) {
+                System.out.println("Username already exists. Please choose a different username.");
+                return false;
+            } else {
+                // Username does not exist, register
+                try (PreparedStatement insertStmt = connection.prepareStatement(insertUserSQL)) {
+                    if(password.equals(password2)) {
+                        insertStmt.setString(1, firstName);
+                        insertStmt.setString(2, lastName);
+                        insertStmt.setString(3, userName);
+                        insertStmt.setString(4, password);
+                        insertStmt.setString(5, address);
+                        insertStmt.setString(6, phoneNumber);
+                        insertStmt.setInt(7, 0);
+
+                        insertStmt.executeUpdate();
+                        System.out.println("User registered successfully.");
+                        return true;
+                    }else {
+                        System.out.println("passwords are different");
+                        return false;
+                    }
+                }
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

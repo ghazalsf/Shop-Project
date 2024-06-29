@@ -37,6 +37,14 @@ public class GUI extends JFrame implements ActionListener {
     JButton newRegister = new JButton("حساب کاربری ندارم");
     JTextField searchBar = new JTextField();
     JTextField enterUserTF = new JTextField();
+    JTextField nameTextField =new JTextField();
+    JTextField lastNameTextField =new JTextField();
+    JTextField addressTextField =new JTextField();
+    JTextField emailTextField =new JTextField();
+    JTextField phoneNumberTextField =new JTextField();
+    JTextField userNameTextField =new JTextField();
+    JPasswordField passwordField =new JPasswordField();
+    JPasswordField repeatPasswordField =new JPasswordField();
     JPasswordField enterPassPF = new JPasswordField();
 
     ArrayList<Product> products = manageDB.getAllProducts();
@@ -260,15 +268,6 @@ public class GUI extends JFrame implements ActionListener {
         registerPanel.add(userNameLabel);
         registerPanel.add(passwordLabel);
         registerPanel.add(repeatPasswordLabel);
-
-        JTextField nameTextField =new JTextField();
-        JTextField lastNameTextField =new JTextField();
-        JTextField addressTextField =new JTextField();
-        JTextField emailTextField =new JTextField();
-        JTextField phoneNumberTextField =new JTextField();
-        JTextField userNameTextField =new JTextField();
-        JPasswordField passwordField =new JPasswordField();
-        JPasswordField repeatPasswordField =new JPasswordField();
 
         Border border = BorderFactory.createLineBorder(forthColor, 2);
 
@@ -605,15 +604,14 @@ public class GUI extends JFrame implements ActionListener {
             System.out.println("login");
             String loginUserName = enterUserTF.getText();
             String loginPass = enterPassPF.getText();
-            frame.getContentPane().removeAll();
-            main(manageDB.getAllProducts());
 
-//            Boolean isLoggedin = manageDB.loginCheck(loginUserName, loginPass);
-//            if (isLoggedin == true){
-//                main(manageDB.getAllProducts());
-//            }else {
-//                System.out.println("try again");
-//            }
+            Boolean isLoggedin = manageDB.loginCheck(loginUserName, loginPass);
+            if (isLoggedin == true){
+                frame.getContentPane().removeAll();
+                main(manageDB.getAllProducts());
+            }else {
+                System.out.println("try again, login failed");
+            }
         }else if (e.getSource() == cartButton) {
             frame.getContentPane().removeAll();
             cart(manageDB.getAllProducts());
@@ -624,8 +622,22 @@ public class GUI extends JFrame implements ActionListener {
             frame.getContentPane().removeAll();
             register();
         }else if (e.getSource() == registerButton) {
-            frame.getContentPane().removeAll();
-            main(manageDB.getAllProducts());
+            System.out.println("register");
+            String name = nameTextField.getText();
+            String lastName = lastNameTextField.getText();
+            String userName = userNameTextField.getText();
+            String address = addressTextField.getText();
+            String email = emailTextField.getText();
+            String phoneNumber = phoneNumberTextField.getText();
+            String password1 = passwordField.getText();
+            String password2 = repeatPasswordField.getText();
+            Boolean isRegistered = manageDB.registerCheck(name, lastName, userName, address,email,phoneNumber,password1,password2);
+            if (isRegistered == true){
+                frame.getContentPane().removeAll();
+                main(manageDB.getAllProducts());
+            }else {
+                System.out.println("try again, register failed");
+            }
         }else if (e.getSource() == confirmButton) {
             //to do
         }

@@ -1,11 +1,6 @@
 package org.example;
-
-import org.example.models.ConnectDB;
 import org.example.models.ManageDB;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.ArrayList;
-
 
 public class Main {
     public static void main(String[] args) {
@@ -13,7 +8,7 @@ public class Main {
         GUI userGUI = new GUI();
         ManageDB manageDB = new ManageDB();
         ArrayList<Product> products =manageDB.getAllProducts();
-        userGUI.login();
+        userGUI.register();
         //userGUI.showInfo("abbas","flkjdsf", "98767789","88888");
    }
 
