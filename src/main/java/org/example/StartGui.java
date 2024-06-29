@@ -68,6 +68,7 @@ public class StartGui implements ActionListener {
         frameStart.add(firstPanel, BorderLayout.CENTER);
     }
     private void addActionevent() {
+        enterAsAdmin.addActionListener(this);
         enterAAsUser.addActionListener(this);
     }
 

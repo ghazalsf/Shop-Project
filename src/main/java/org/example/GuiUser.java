@@ -761,7 +761,7 @@ public class GuiUser implements ActionListener{
         } else if (password2.isEmpty()) {
             repeatPasswordField.setBorder(redBorder);
         }else {
-            Boolean isRegistered = manageDB.registerCheck(name, lastName, userName, address, email, phoneNumber, password1, password2);
+            Boolean isRegistered = manageDB.userRegisterCheck(name, lastName, userName, address, email, phoneNumber, password1, password2);
 
             if (isRegistered == true) {
                 frameUser.getContentPane().removeAll();
@@ -791,10 +791,11 @@ public class GuiUser implements ActionListener{
         if (e.getSource() == loginButton) {
             String loginUserName = enterUserTF.getText();
             String loginPass = enterPassPF.getText();
-            Boolean isLoggedin = manageDB.loginCheck(loginUserName, loginPass);
+            Boolean isLoggedin = manageDB.userloginCheck(loginUserName, loginPass);
             if (isLoggedin == true){
                 frameUser.getContentPane().removeAll();
                 main(manageDB.getAllProducts());
+
             }else {
                 enterUserTF.setText("خطایی رخ داده است. دوباره تلاش کنید");
             }

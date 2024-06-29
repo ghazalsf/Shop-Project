@@ -46,6 +46,8 @@ public class GuiAdmin implements ActionListener{
     JTextField passwordField =new JTextField();
     JTextField repeatPasswordField =new JTextField();
     JTextField enterPassPF = new JTextField();
+    JTextField staticPassFiled = new JTextField();
+
 
     final Dimension SIZE = new Dimension(1000,800);
     Color mainColor = new Color(141, 141, 170);
@@ -515,10 +517,11 @@ public class GuiAdmin implements ActionListener{
         } else if (password2.isEmpty()) {
             repeatPasswordField.setBorder(redBorder);
         }else {
-            Boolean isRegistered = manageDB.registerCheck(name, lastName, userName, address, email, phoneNumber, password1, password2);
+            Boolean isRegistered = manageDB.adminRegisterCheck(name, lastName, userName, address, email, phoneNumber, password1, password2);
 
             if (isRegistered == true) {
                 frameAdmin.getContentPane().removeAll();
+                user = manageDB.findUserByUserName(userName);
                 main(manageDB.getAllProducts());
             } else {
                 nameTextField.setText("خطایی رخ داده است. دوباره تلاش کنید");
@@ -544,14 +547,14 @@ public class GuiAdmin implements ActionListener{
         if (e.getSource() == loginButton) {
             String loginUserName = enterUserTF.getText();
             String loginPass = enterPassPF.getText();
-            Boolean isLoggedin = manageDB.loginCheck(loginUserName, loginPass);
+            Boolean isLoggedin = manageDB.adminLoginCheck(loginUserName, loginPass);
             if (isLoggedin == true){
                 frameAdmin.getContentPane().removeAll();
                 main(manageDB.getAllProducts());
             }else {
                 enterUserTF.setText("خطایی رخ داده است. دوباره تلاش کنید");
             }
-        } else if (e.getSource() == newRegister) {
+        }else if (e.getSource() == newRegister) {
             frameAdmin.getContentPane().removeAll();
             register();
         } else if (e.getSource() == registerButton) {
