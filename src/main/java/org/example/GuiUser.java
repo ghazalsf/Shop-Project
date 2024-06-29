@@ -140,7 +140,7 @@ public class GuiUser implements ActionListener{
 
             // Create a JLabel to display the image
             JLabel imageLabel = new JLabel(new ImageIcon(image));
-            imageLabel.setBounds(400,50,350,350);
+            imageLabel.setBounds(490,15,500,500);
 
             // Add the label to the panel
             showProductPanel.add(imageLabel);
@@ -157,9 +157,9 @@ public class GuiUser implements ActionListener{
 //        scoreLabel.setFont(font.deriveFont(17f));
 //        nameLabel.setFont(font.deriveFont(23f));
 
-        priceLabel.setBounds(750,450,200,50);
-        scoreLabel.setBounds(750,500,200,50);
-        nameLabel.setBounds(750,400,200,50);
+        priceLabel.setBounds(750,550,200,50);
+        scoreLabel.setBounds(750,600,200,50);
+        nameLabel.setBounds(750,500,200,50);
 
         showProductPanel.add(priceLabel);
         showProductPanel.add(scoreLabel);
@@ -176,7 +176,7 @@ public class GuiUser implements ActionListener{
         scoreTextField.setBounds(50,100,100,50);
         submitbutton.setBounds(150,100,100,50);
 
-        addbutton.setBounds(800,550,150,50);
+        addbutton.setBounds(800,650,150,50);
 
         addbutton.setForeground(secondColor);
         addbutton.setBackground(forthColor);
@@ -270,8 +270,7 @@ public class GuiUser implements ActionListener{
             productPanel.add(proButton);
 
             proButton.addActionListener(e -> {
-                // Perform actions when the button is clicked
-                // You can access the corresponding Product object 'p' here
+                frameUser.getContentPane().removeAll();
                 showProduct(p);
             });
         }
