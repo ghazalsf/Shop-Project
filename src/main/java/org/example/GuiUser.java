@@ -67,13 +67,13 @@ public class GuiUser implements ActionListener{
     Border border = BorderFactory.createLineBorder(forthColor, 2);
 
     GuiUser() {
-//        try {
-//            font = Font.createFont(Font.TRUETYPE_FONT, new File("Font\\Ayasamin.ttf"));
-//        } catch (FontFormatException e) {
-//            throw new RuntimeException(e);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
+        try {
+            font = Font.createFont(Font.TRUETYPE_FONT, new File("Font\\Ayasamin.ttf"));
+        } catch (FontFormatException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         frameUser.setSize(SIZE);
         frameUser.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frameUser.setTitle("help");
@@ -91,12 +91,12 @@ public class GuiUser implements ActionListener{
 
         JLabel enterL = new JLabel("ورود کاربر",SwingConstants.CENTER);
         enterL.setBounds(360,80,267,80);
-//        enterL.setFont(font.deriveFont(40f));
+        enterL.setFont(font.deriveFont(40f));
         enterL.setForeground(forthColor);
 
         JLabel enterUserL = new JLabel("نام کاربری خود را وارد کنید:",SwingConstants.CENTER);
         enterUserL.setBounds(360,200,267,80);
-//        enterUserL.setFont(font.deriveFont(25f));
+        enterUserL.setFont(font.deriveFont(25f));
         enterUserL.setForeground(secondColor);
 
         enterUserTF.setBounds(360,280,267,40);
@@ -106,7 +106,7 @@ public class GuiUser implements ActionListener{
         enterPassL.setBounds(360,340,267,80);
 
         enterPassL.setForeground(secondColor);
-//        enterPassL.setFont(font.deriveFont(25f));
+        enterPassL.setFont(font.deriveFont(25f));
 
         enterPassPF.setBounds(360,420,267,40);
         enterPassPF.setBorder(b);
@@ -114,11 +114,11 @@ public class GuiUser implements ActionListener{
         loginButton.setBounds(450,530,100,50);
         loginButton.setBackground(forthColor);
         loginButton.setForeground(secondColor);
-//        loginButton.setFont(font.deriveFont(25f));
+        loginButton.setFont(font.deriveFont(25f));
 
         newRegister.setBounds(400,600,200,50);
         flatButton(newRegister);
-//        newRegister.setFont(font.deriveFont(20f));
+        newRegister.setFont(font.deriveFont(20f));
 
         infoPanel.add(newRegister);
         infoPanel.add(enterL);
@@ -159,9 +159,9 @@ public class GuiUser implements ActionListener{
         JLabel scoreLabel=new JLabel("امتیاز کاربران: "+score,SwingConstants.RIGHT);
         JLabel nameLabel=new JLabel(name,SwingConstants.RIGHT);
 
-//        priceLabel.setFont(font.deriveFont(20f));
-//        scoreLabel.setFont(font.deriveFont(17f));
-//        nameLabel.setFont(font.deriveFont(23f));
+        priceLabel.setFont(font.deriveFont(20f));
+        scoreLabel.setFont(font.deriveFont(17f));
+        nameLabel.setFont(font.deriveFont(23f));
 
         priceLabel.setBounds(750,550,200,50);
         scoreLabel.setBounds(750,600,200,50);
@@ -174,7 +174,7 @@ public class GuiUser implements ActionListener{
 
         JLabel submitscorelabel= new JLabel("امتیاز مورد نظر را از 1 تا 5 وارد کنید",SwingConstants.CENTER);
         submitscorelabel.setForeground(forthColor);
-//        submitscorelabel.setFont(font.deriveFont(15f));
+        submitscorelabel.setFont(font.deriveFont(15f));
 
         JTextField scoreTextField=new JTextField();
 
@@ -231,14 +231,14 @@ public class GuiUser implements ActionListener{
     private void flatButton(JButton button) {
         button.setBorderPainted(false); // remove border
         button.setContentAreaFilled(false); // remove bg
-//        button.setFont(font.deriveFont(15f));
+        button.setFont(font.deriveFont(15f));
         button.setHorizontalAlignment(SwingConstants.CENTER);
     }
 
     public void addMenuButton(JPanel panel1, JPanel panel2){
         menuButton.setBounds(940,10,50,50);
         menuButton.setBackground(forthColor);
-//        menuButton.setFont(font.deriveFont(13f));
+        menuButton.setFont(font.deriveFont(13f));
         menuButton.setForeground(secondColor);
 
         final boolean[] panel2Visible = {false};
@@ -321,17 +321,20 @@ public class GuiUser implements ActionListener{
         JTextField searchBar = new JTextField();
         searchBar.setBounds(140, 25, 150, 30);
 
-        searchButton.setBounds(290, 25, 80, 30);
 
-        JLabel name = new JLabel("هقداژدفو", SwingConstants.RIGHT);
+        JLabel name = new JLabel("فروشگاه هقداژدفو", SwingConstants.RIGHT);
         name.setBounds(550, 50, 200, 100);
-        // name.setFont(font.deriveFont(50f));
 
+        searchButton.setBounds(290, 25, 80, 30);
         sortButton.setBounds(140, 65, 230, 30);
-
         sortButtonBigger.setBounds(140, 105, 230, 30);
-
         sortButtonCategory.setBounds(140, 145, 230, 30);
+
+        name.setFont(font.deriveFont(50f));
+        searchButton.setFont(font.deriveFont(12f));
+        sortButton.setFont(font.deriveFont(12f));
+        sortButtonBigger.setFont(font.deriveFont(12f));
+        sortButtonCategory.setFont(font.deriveFont(12f));
 
         commandsPanel.setBackground(mainColor);
         searchButton.setBackground(forthColor);
@@ -400,15 +403,15 @@ public class GuiUser implements ActionListener{
         JLabel passwordLabel =  new JLabel("رمز عبور: ", SwingConstants.LEFT);
         JLabel repeatPasswordLabel =  new JLabel("تکرار رمز عبور: ", SwingConstants.LEFT);
 
-//        titleLabel.setFont(font.deriveFont(40f));
-//        nameLabel.setFont(font.deriveFont(20f));
-//        lastNameLabel.setFont(font.deriveFont(20f));
-//        addressLabel.setFont(font.deriveFont(20f));
-//        emailLabel.setFont(font.deriveFont(20f));
-//        phoneNumberLabel.setFont(font.deriveFont(20f));
-//        userNameLabel.setFont(font.deriveFont(20f));
-//        passwordLabel.setFont(font.deriveFont(20f));
-//        repeatPasswordLabel.setFont(font.deriveFont(20f));
+        titleLabel.setFont(font.deriveFont(40f));
+        nameLabel.setFont(font.deriveFont(20f));
+        lastNameLabel.setFont(font.deriveFont(20f));
+        addressLabel.setFont(font.deriveFont(20f));
+        emailLabel.setFont(font.deriveFont(20f));
+        phoneNumberLabel.setFont(font.deriveFont(20f));
+        userNameLabel.setFont(font.deriveFont(20f));
+        passwordLabel.setFont(font.deriveFont(20f));
+        repeatPasswordLabel.setFont(font.deriveFont(20f));
 
         titleLabel.setForeground(forthColor);
         nameLabel.setForeground(thirdColor);
@@ -467,7 +470,7 @@ public class GuiUser implements ActionListener{
         registerPanel.add(passwordField);
         registerPanel.add(repeatPasswordField);
 
-//        registerButton.setFont(font.deriveFont(17f));
+        registerButton.setFont(font.deriveFont(17f));
         registerButton.setBounds(460,530,100,50);
         registerButton.setBackground(forthColor);
         registerButton.setForeground(secondColor);
@@ -489,10 +492,10 @@ public class GuiUser implements ActionListener{
         JLabel addressLabel=new JLabel("آدرس: وسط اقیانوس اطلس| چلچله خوش اشتها| حیاط پشتی منزل لاکوود",SwingConstants.RIGHT);
         JLabel telegramLabel= new JLabel("تلگرام:t.me/haghdazhdefo",SwingConstants.RIGHT);
 
-//        emailLabel.setFont(font.deriveFont(20f));
-//        phonenumberLabel.setFont(font.deriveFont(20f));
-//        addressLabel.setFont(font.deriveFont(20f));
-//        telegramLabel.setFont(font.deriveFont(20f));
+        emailLabel.setFont(font.deriveFont(20f));
+        phonenumberLabel.setFont(font.deriveFont(20f));
+        addressLabel.setFont(font.deriveFont(20f));
+        telegramLabel.setFont(font.deriveFont(20f));
 
         emailLabel.setForeground(forthColor);
         phonenumberLabel.setForeground(forthColor);
@@ -530,9 +533,9 @@ public class GuiUser implements ActionListener{
         buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10)); // FlowLayout for buttons with spacing
 
 
-//        cost.setFont(font.deriveFont(20f));
-        //backButton.setFont(font);
-        //confirmButton.setFont(font);
+        //cost.setFont(font.deriveFont(20f));
+        backButton.setFont(font);
+        confirmButton.setFont(font);
 
         for(Product p : selectedProducts){
             price= price+ p.getPrice();
@@ -566,11 +569,11 @@ public class GuiUser implements ActionListener{
         JLabel phoneNumberLabel =  new JLabel("شماره تماس: " + user.getPhoneNumber(), SwingConstants.RIGHT);
         JLabel budgetLabel =  new JLabel("موجودی: " + user.getBudget(), SwingConstants.RIGHT);
 
-//        SILabel.setFont(font.deriveFont(40f));
-//        NameLabel.setFont(font.deriveFont(25f));
-//        addressLabel.setFont(font.deriveFont(25f));
-//        phoneNumberLabel.setFont(font.deriveFont(25f));
-//        budgetLabel.setFont(font.deriveFont(25f));
+        SILabel.setFont(font.deriveFont(40f));
+        NameLabel.setFont(font.deriveFont(25f));
+        addressLabel.setFont(font.deriveFont(25f));
+        phoneNumberLabel.setFont(font.deriveFont(25f));
+        budgetLabel.setFont(font.deriveFont(25f));
 
         SILabel.setForeground(thirdColor);
         NameLabel.setForeground(thirdColor);
@@ -612,16 +615,16 @@ public class GuiUser implements ActionListener{
         JLabel repeatPasswordLabel =  new JLabel("تکرار رمز عبور: ", SwingConstants.LEFT);
         JLabel budgetLabel =  new JLabel("موجودی: ", SwingConstants.LEFT);
 
-//        titleLabel.setFont(font.deriveFont(40f));
-//        nameLabel.setFont(font.deriveFont(20f));
-//        lastNameLabel.setFont(font.deriveFont(20f));
-//        addressLabel.setFont(font.deriveFont(20f));
-//        emailLabel.setFont(font.deriveFont(20f));
-//        phoneNumberLabel.setFont(font.deriveFont(20f));
-//        userNameLabel.setFont(font.deriveFont(20f));
-//        passwordLabel.setFont(font.deriveFont(20f));
-//        repeatPasswordLabel.setFont(font.deriveFont(20f));
-//        budgetLabel.setFont(font.deriveFont(20f));
+        titleLabel.setFont(font.deriveFont(40f));
+        nameLabel.setFont(font.deriveFont(20f));
+        lastNameLabel.setFont(font.deriveFont(20f));
+        addressLabel.setFont(font.deriveFont(20f));
+        emailLabel.setFont(font.deriveFont(20f));
+        phoneNumberLabel.setFont(font.deriveFont(20f));
+        userNameLabel.setFont(font.deriveFont(20f));
+        passwordLabel.setFont(font.deriveFont(20f));
+        repeatPasswordLabel.setFont(font.deriveFont(20f));
+        budgetLabel.setFont(font.deriveFont(20f));
 
         titleLabel.setForeground(forthColor);
         nameLabel.setForeground(thirdColor);

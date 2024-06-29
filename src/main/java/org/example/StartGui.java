@@ -9,8 +9,8 @@ import java.io.IOException;
 
 public class StartGui implements ActionListener {
     JFrame frameStart = new JFrame("فروشگاه");
-    JButton enterAsAdmin = new JButton("vorood admin");
-    JButton enterAAsUser = new JButton("yorood user");
+    JButton enterAsAdmin = new JButton("ورود ادمین");
+    JButton enterAsUser = new JButton("ورودکاربر");
     JPanel firstPanel = new JPanel();
 
     final Dimension SIZE = new Dimension(1000,800);
@@ -24,18 +24,19 @@ public class StartGui implements ActionListener {
         frameStart.setSize(SIZE);
         frameStart.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frameStart.setTitle("help");
-        frameStart.setResizable(true);
-//        try {
-//            font = Font.createFont(Font.TRUETYPE_FONT, new File("Font\\Ayasamin.ttf"));
-//        } catch (FontFormatException e) {
-//            throw new RuntimeException(e);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-        startPanel();
-        frameStart.setVisible(true);
+        frameStart.setResizable(false);
 
+        try {
+            font = Font.createFont(Font.TRUETYPE_FONT, new File("Font\\Ayasamin.ttf"));
+        } catch (FontFormatException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        startPanel();
         addActionevent();
+
+        frameStart.setVisible(true);
     }
     public void startPanel(){
         frameStart.setLayout(new BorderLayout());
@@ -44,37 +45,41 @@ public class StartGui implements ActionListener {
         firstPanel.setLayout(new GridBagLayout());
         firstPanel.setPreferredSize(new Dimension(1000, 800));
 
-        JLabel enter = new JLabel("ورود");
+        JLabel enter = new JLabel("به فروشگاه ابری، با احتمال بارش کوفته قلقلی خوش آمدید!! هقداژدفو");
+
+        enterAsUser.setFont(font.deriveFont(25f));
+        enterAsAdmin.setFont(font.deriveFont(25f));
+        enter.setFont(font.deriveFont(30f));
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.insets = new Insets(20, 20, 20, 20);
         gbc.anchor = GridBagConstraints.CENTER;
         Dimension buttonSize = new Dimension(200, 100);
-        enterAAsUser.setPreferredSize(buttonSize);
+        enterAsUser.setPreferredSize(buttonSize);
         enterAsAdmin.setPreferredSize(buttonSize);
 
-        enterAAsUser.setBackground(forthColor);
-        enterAAsUser.setForeground(secondColor);
+        enterAsUser.setBackground(forthColor);
+        enterAsUser.setForeground(secondColor);
         enterAsAdmin.setBackground(forthColor);
         enterAsAdmin.setForeground(secondColor);
 
         firstPanel.add(enter, gbc);
         gbc.gridy=1;
-        firstPanel.add(enterAAsUser, gbc);
+        firstPanel.add(enterAsUser, gbc);
         gbc.gridy = 2;
         firstPanel.add(enterAsAdmin, gbc);
         frameStart.add(firstPanel, BorderLayout.CENTER);
     }
     private void addActionevent() {
         enterAsAdmin.addActionListener(this);
-        enterAAsUser.addActionListener(this);
+        enterAsUser.addActionListener(this);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource()== enterAAsUser){
+        if(e.getSource()== enterAsUser){
             frameStart.setVisible(false);
             new GuiUser();
         } else if (e.getSource()== enterAsAdmin) {
