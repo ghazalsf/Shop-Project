@@ -1,12 +1,9 @@
 package org.example.models;
-
 import org.example.Product;
 import org.example.User;
 import org.example.Admin;
-
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ManageDB {
     ConnectDB db = new ConnectDB();
@@ -37,18 +34,48 @@ public class ManageDB {
     }
 
     public void addProductToDB(Product product) {
-        String sql = "INSERT INTO products (name, price, score, stock, category, description) VALUES (?, ?, ?, ?, ?, ?)";
+        String checkSql = "SELECT stock FROM products WHERE name = ?";
+        String updateSql = "UPDATE products SET stock = stock + ? WHERE name = ?";
+        String insertSql = "INSERT INTO products (name, price, score, stock, category, description) VALUES (?, ?, ?, ?, ?, ?)";
 
-        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setString(1, product.getName());
-            pstmt.setInt(2, product.getPrice());
-            pstmt.setDouble(3, product.getScore());
-            pstmt.setInt(4, product.getStock());
-            pstmt.setString(5, product.getCategory());
-            pstmt.setString(6, product.getDescription());
-            pstmt.executeUpdate();
+        try (
+             PreparedStatement checkStmt = connection.prepareStatement(checkSql);
+             PreparedStatement updateStmt = connection.prepareStatement(updateSql);
+             PreparedStatement insertStmt = connection.prepareStatement(insertSql)) {
+
+            connection.setAutoCommit(false);
+
+            checkStmt.setString(1, product.getName());
+            ResultSet rs = checkStmt.executeQuery();
+
+            if (rs.next()) {
+                updateStmt.setInt(1, product.getStock());
+                updateStmt.setString(2, product.getName());
+                int rowsUpdated = updateStmt.executeUpdate();
+
+                if (rowsUpdated == 0) {
+                    throw new SQLException("Failed to update stock, no rows affected.");
+                }
+            } else {
+                insertStmt.setString(1, product.getName());
+                insertStmt.setInt(2, product.getPrice());
+                insertStmt.setDouble(3, product.getScore());
+                insertStmt.setInt(4, product.getStock());
+                insertStmt.setString(5, product.getCategory());
+                insertStmt.setString(6, product.getDescription());
+                int rowsInserted = insertStmt.executeUpdate();
+
+                if (rowsInserted == 0) {
+                    throw new SQLException("Failed to insert product into the database, no rows affected.");
+                }
+            }
+
+            connection.commit(); // Commit transaction
+
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            // Handle exception, possibly rollback
+            e.printStackTrace();
+            throw new RuntimeException("Error adding/updating product in the database", e);
         }
     }
     public void addUsersToDB(User user) {
@@ -245,5 +272,6 @@ public class ManageDB {
             throw new RuntimeException(e);
         }
     }
+
 
 }

@@ -4,12 +4,10 @@ import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
-        //Product product = new Product(22, 1.2, 9, "goje", "khkhkhk", "sibzaminijat");
         GUI userGUI = new GUI();
         ManageDB manageDB = new ManageDB();
-        ArrayList<Product> products =manageDB.getAllProducts();
+        manageDB.createTable();
         userGUI.register();
-        //userGUI.showInfo("abbas","flkjdsf", "98767789","88888");
    }
 
         ArrayList<Product> products = new ArrayList<>();
