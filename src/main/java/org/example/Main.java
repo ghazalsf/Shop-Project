@@ -8,7 +8,7 @@ public class Main {
         GUI userGUI = new GUI();
         ManageDB manageDB = new ManageDB();
         ArrayList<Product> products =manageDB.getAllProducts();
-        userGUI.register();
+        userGUI.main(products);
         //userGUI.showInfo("abbas","flkjdsf", "98767789","88888");
    }
 

@@ -47,7 +47,7 @@ public class GUI extends JFrame implements ActionListener {
     JPasswordField repeatPasswordField =new JPasswordField();
     JPasswordField enterPassPF = new JPasswordField();
 
-    ArrayList<Product> products = manageDB.getAllProducts();
+    ArrayList<Product> products = manageDB. getAllProducts();
 
     JPanel firstPanel = new JPanel(); // startPanel()
     JPanel infoPanel = new JPanel(); // login()

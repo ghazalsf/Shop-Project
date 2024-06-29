@@ -11,10 +11,9 @@ public class Human {
     private String address;
     private String phoneNumber;
     private String email;
-    private int budget;
 
     public Human(String firstName,String lastName, String userName, String password,
-                 String address,String phoneNumber,String email,int budget){
+                 String address,String phoneNumber,String email){
         this.firstName=firstName;
         this.lastName=lastName;
         this.userName=userName;
@@ -22,7 +21,6 @@ public class Human {
         this.address=address;
         this.phoneNumber=phoneNumber;
         this.email=email;
-        this.budget=budget;
         this.MD5hash();
     }
     public void setFirstName(String firstName){
@@ -41,9 +39,7 @@ public class Human {
     public void  setPhoneNumber(String phoneNumber){
         this.phoneNumber=phoneNumber;
     }
-    public void setBudget(int budget){
-        this.budget=budget;
-    }
+
     public void setEmail(String  email){
         this.email=email;
     }
@@ -66,9 +62,7 @@ public class Human {
     public String getPhoneNumber(){
         return this.phoneNumber;
     }
-    public int getBudget(){
-        return this.budget;
-    }
+
     public void MD5hash(){
         String originalPass = this.getPassword();
 
