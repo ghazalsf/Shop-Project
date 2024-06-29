@@ -625,7 +625,7 @@ public class GUI extends JFrame implements ActionListener {
             String phoneNumber = phoneNumberTextField.getText();
             String password1 = passwordField.getText();
             String password2 = repeatPasswordField.getText();
-            Boolean isRegistered = manageDB.registerCheck(name, lastName, userName, address,email,phoneNumber,password1,password2);
+            Boolean isRegistered = manageDB.registerCheck(name, lastName, userName, address,email,phoneNumber,password1);
             if (isRegistered == true){
                 frame.getContentPane().removeAll();
                 main(manageDB.getAllProducts());

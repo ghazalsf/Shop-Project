@@ -9,7 +9,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class GuiUser implements ActionListener{
 
@@ -605,15 +609,39 @@ public class GuiUser implements ActionListener{
             passwordField.setBorder(redBorder);
         } else if (password2.isEmpty()) {
             repeatPasswordField.setBorder(redBorder);
+        }else if(!validatePhoneNumber(phoneNumber)){
+            phoneNumberTextField.setBorder(redBorder);
+            phoneNumberTextField.setText("شماره تلفن معتبر نیست");
+        }else if(!password1.equals(password2)) {
+            passwordField.setText("رمز عبورها یکسان نیست");
+            repeatPasswordField.setText("رمز عبورها یکسان نیست");
+            passwordField.setBorder(redBorder);
+            repeatPasswordField.setBorder(redBorder);
         }else {
-            Boolean isRegistered = manageDB.registerCheck(name, lastName, userName, address, email, phoneNumber, password1, password2);
-
-            if (isRegistered == true) {
-                frameUser.getContentPane().removeAll();
-                main(manageDB.getAllProducts());
-            } else {
-                nameTextField.setText("خطایی رخ داده است. دوباره تلاش کنید");
+            password1 = MD5hashPassword(password1);
+            if (password1 != null) {
+                Boolean isRegistered = manageDB.registerCheck(name, lastName, userName, address, email, phoneNumber, password1);
+                if (isRegistered == true) {
+                    frameUser.getContentPane().removeAll();
+                    main(manageDB.getAllProducts());
+                } else {
+                    nameTextField.setText("خطایی رخ داده است. دوباره تلاش کنید");
+                }
+            }else {
+                System.out.println("خطایی رخ داده است. دوباره تلاش کنید.");
             }
+
+        }
+    }
+    public Boolean validatePhoneNumber(String phoneNumber){
+        String regex = "^09\\d{9}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(phoneNumber);
+
+        if (matcher.matches()) {
+            return true;
+        } else {
+            return false;
         }
     }
     private void addActionevent() {
@@ -628,11 +656,36 @@ public class GuiUser implements ActionListener{
         registerButton.addActionListener(this);
     }
 
+    public String MD5hashPassword(String originalPass){
+        try {
+            //computes the MD5 hash
+            MessageDigest digest = MessageDigest.getInstance("MD5");
+            byte[] hash = digest.digest(originalPass.getBytes());
+
+            //Convert byte array to hexadecimal string
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : hash) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) {
+                    hexString.append('0');
+                }
+                hexString.append(hex);
+            }
+            return hexString.toString();
+
+
+        }
+        catch (NoSuchAlgorithmException e) {
+            System.err.println("MD5 hash algorithm doesn't work");
+        }
+        return null;
+    }
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == loginButton) {
             String loginUserName = enterUserTF.getText();
             String loginPass = enterPassPF.getText();
+            loginPass = MD5hashPassword(loginPass);
             Boolean isLoggedin = manageDB.loginCheck(loginUserName, loginPass);
             if (isLoggedin == true){
                 frameUser.getContentPane().removeAll();

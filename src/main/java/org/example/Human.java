@@ -21,8 +21,6 @@ public class Human {
         this.address=address;
         this.phoneNumber=phoneNumber;
         this.email=email;
-        MD5hash();
-        this.MD5hash();
     }
     public void setFirstName(String firstName){
         this.firstName=firstName;
@@ -66,27 +64,4 @@ public class Human {
         return this.phoneNumber;
     }
 
-    public void MD5hash(){
-        String originalPass = this.getPassword();
-
-        try {
-            //computes the MD5 hash
-            MessageDigest digest = MessageDigest.getInstance("MD5");
-            byte[] hash = digest.digest(originalPass.getBytes());
-
-            //Convert byte array to hexadecimal string
-            StringBuilder hexString = new StringBuilder();
-            for (byte b : hash) {
-                String hex = Integer.toHexString(0xff & b);
-                if (hex.length() == 1) {
-                    hexString.append('0');
-                }
-                hexString.append(hex);
-            }
-            setPassword(hexString.toString());
-        }
-        catch (NoSuchAlgorithmException e) {
-            System.err.println("MD5 hash algorithm doesn't work");
-        }
-    }
 }

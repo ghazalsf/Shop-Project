@@ -237,7 +237,7 @@ public class ManageDB {
         }
     }
 
-    public Boolean registerCheck(String firstName, String lastName, String userName, String address, String email, String phoneNumber, String password, String password2){
+    public Boolean registerCheck(String firstName, String lastName, String userName, String address, String email, String phoneNumber, String password){
         String checkUserSQL = "SELECT username FROM users WHERE username = ?";
         String insertUserSQL = "INSERT INTO users (name, lastName, username, password, address, phoneNumber, budget) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
@@ -251,7 +251,6 @@ public class ManageDB {
             } else {
                 // Username does not exist, register
                 try (PreparedStatement insertStmt = connection.prepareStatement(insertUserSQL)) {
-                    if(password.equals(password2)) {
                         insertStmt.setString(1, firstName);
                         insertStmt.setString(2, lastName);
                         insertStmt.setString(3, userName);
@@ -263,10 +262,6 @@ public class ManageDB {
                         insertStmt.executeUpdate();
                         System.out.println("User registered successfully.");
                         return true;
-                    }else {
-                        System.out.println("passwords are different");
-                        return false;
-                    }
                 }
             }
         } catch (SQLException e) {
