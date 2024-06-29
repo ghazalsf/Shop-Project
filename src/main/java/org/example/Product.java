@@ -6,14 +6,16 @@ public class Product {
     private String name;
     private String category;
     private String description;
+    String pictureAddress;
 
-    public Product(int price,double score,int stock,String name,String description, String category){
+    public Product(int price,double score,int stock,String name,String description, String category, String pictureAddress){
         this.price=price;
         this.score=score;
         this.stock=stock;
         this.name=name;
         this.description=description;
         this.category = category;
+        this.pictureAddress = pictureAddress;
     }
 
     public void setPrice(int price){
@@ -31,8 +33,8 @@ public class Product {
     public void setDescription(String description){
         this.description = description;
     }
-
     public void setCategory(String category) {this.category = category;}
+    public void setPictureAddress(String pictureAddress){this.pictureAddress = pictureAddress;}
     public int getPrice(){
         return this.price;
     }
@@ -51,4 +53,5 @@ public class Product {
     public String getCategory() {
         return this.category;
     }
+    public String getPictureAddress(){return this.pictureAddress;}
 }

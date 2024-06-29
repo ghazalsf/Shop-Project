@@ -14,13 +14,12 @@ public class ManageDB {
     Statement statement;
     public void createTable() {
         if (connection != null) {
-
             try {
                 statement = connection.createStatement();
 
-                String createProductTable = "CREATE TABLE IF NOT EXISTS products (id INTEGER PRIMARY KEY, name TEXT, price INTEGER, score NUMERIC, stock INTEGER, category TEXT, description TEXT)";
+                String createProductTable = "CREATE TABLE IF NOT EXISTS products (id INTEGER PRIMARY KEY, name TEXT, price INTEGER, score NUMERIC, stock INTEGER, category TEXT, description TEXT, pictureAddress TEXT)";
                 String createUsersTable = "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, name TEXT, lastName TEXT, userName TEXT, password TEXT, address TEXT, phoneNumber TEXT, budget INTEGER)";
-                String createAdminsTable = "CREATE TABLE IF NOT EXISTS admins (id INTEGER PRIMARY KEY, name TEXT, price INTEGER, score NUMERIC, stock INTEGER, category TEXT, description TEXT)";
+                String createAdminsTable = "CREATE TABLE IF NOT EXISTS admins (id INTEGER PRIMARY KEY, name TEXT, lastName TEXT, userName TEXT, password TEXT, address TEXT, phoneNumber TEXT)";
 
                 statement.executeUpdate(createProductTable);
                 statement.executeUpdate(createUsersTable);
@@ -37,7 +36,7 @@ public class ManageDB {
     }
 
     public void addProductToDB(Product product) {
-        String sql = "INSERT INTO products (name, price, score, stock, category, description) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO products (name, price, score, stock, category, description, pictureAddress) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, product.getName());
@@ -46,6 +45,7 @@ public class ManageDB {
             pstmt.setInt(4, product.getStock());
             pstmt.setString(5, product.getCategory());
             pstmt.setString(6, product.getDescription());
+            pstmt.setString(7,product.getPictureAddress());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -73,9 +73,11 @@ public class ManageDB {
             pstmt.setString(1, admin.getFirstName());
             pstmt.setString(2, admin.getLastName());
             pstmt.setString(3, admin.getUserName());
+            pstmt.setString(7, admin.getAddress());
             pstmt.setString(4, admin.getPassword());
             pstmt.setString(5, admin.getPhoneNumber());
             pstmt.setInt(6, admin.getBudget());
+
             pstmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -90,13 +92,14 @@ public class ManageDB {
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                Product product = new Product(-1,-1,-1, null,null,null);
+                Product product = new Product(-1,-1,-1, null,null,null, null);
                 product.setName(rs.getString("name"));
                 product.setPrice(rs.getInt("price"));
                 product.setScore(rs.getInt("score"));
                 product.setStock(rs.getInt("stock"));
                 product.setCategory(rs.getString("category"));
                 product.setDescription(rs.getString("description"));
+                product.setPictureAddress(rs.getString("pictureAddress"));
 
                 products.add(product);
             }
@@ -240,6 +243,44 @@ public class ManageDB {
                         return false;
                     }
                 }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Boolean deleteUser(String userName) {
+        String deleteSQL = "DELETE FROM users WHERE username = ?";
+
+        try (PreparedStatement deleteStmt = connection.prepareStatement(deleteSQL)) {
+            deleteStmt.setString(1, userName);
+            int rowsAffected = deleteStmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("User deleted successfully.");
+                return true;
+            } else {
+                System.out.println("User not found.");
+                return false;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Boolean deleteProduct(String productName) {
+        String deleteSQL = "DELETE FROM users WHERE products = ?";
+
+        try (PreparedStatement deleteStmt = connection.prepareStatement(deleteSQL)) {
+            deleteStmt.setString(1, productName);
+            int rowsAffected = deleteStmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("product deleted successfully.");
+                return true;
+            } else {
+                System.out.println("product not found.");
+                return false;
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
