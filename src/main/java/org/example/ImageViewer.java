@@ -62,6 +62,27 @@ public class ImageViewer extends JFrame implements ActionListener{
         option = fileChooser.showOpenDialog(ImageViewer.this);
 
     }
+    public void showImage (JPanel productPanel){
+
+        JPanel tempPanel = new JPanel();
+        JPanel tempmainPanel = new JPanel();
+
+
+        tempmainPanel.setLayout(new BorderLayout());
+        tempmainPanel.setBorder(new EmptyBorder(20,20,20,20));
+
+        tempPanel.add(picturelabel);
+
+
+        tempmainPanel.add(tempPanel, BorderLayout.CENTER);
+        System.out.println(String.valueOf(file));
+
+        ImageIcon imageIcon = new ImageIcon(new ImageIcon(String.valueOf(file)).getImage().getScaledInstance(800, 600, Image.SCALE_DEFAULT));
+        picturelabel.setIcon(imageIcon);
+        tempPanel.setSize(1800, 1000);
+
+
+    }
     public void showOriginalImage(int option){
 
         if (option == JFileChooser.APPROVE_OPTION) ;{
