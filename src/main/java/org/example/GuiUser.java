@@ -2,6 +2,7 @@ package org.example;
 
 import org.example.models.ManageDB;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -133,6 +134,20 @@ public class GuiUser implements ActionListener{
         String score=Double.toString(product.getScore());
         String name= product.getName();
 
+        try {
+            File file = new File(product.getPictureAddress()); // Replace with your image file path
+            Image image = ImageIO.read(file);
+
+            // Create a JLabel to display the image
+            JLabel imageLabel = new JLabel(new ImageIcon(image));
+            imageLabel.setBounds(400,50,350,350);
+
+            // Add the label to the panel
+            showProductPanel.add(imageLabel);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
         JLabel priceLabel=new JLabel("قیمت: "+price,SwingConstants.RIGHT);
         JLabel scoreLabel=new JLabel("امتیاز کاربران: "+score,SwingConstants.RIGHT);
@@ -180,101 +195,10 @@ public class GuiUser implements ActionListener{
         frameUser.add(showProductPanel);
         frameUser.setVisible(true);
     }
-    public JPanel menubar(){
-        JPanel panel = new JPanel(null);
-        panel.setPreferredSize(new Dimension(100, 800));
-        panel.setBounds(0,0,100,800);
-
-        homeButton.setBounds(800, 130, 200, 30);
-        contactUsButton.setBounds(800, 190, 200, 30);
-        cartButton.setBounds(800, 250, 200, 30);
-
-        flatButton(homeButton);
-        flatButton(contactUsButton);
-        flatButton(cartButton);
-
-        panel.add(homeButton);
-        panel.add(contactUsButton);
-        panel.add(cartButton);
-
-        return panel;
-    }
 
     public void logout(){}
-    private void flatButton(JButton button) {
-        button.setBorderPainted(false); // remove border
-        button.setContentAreaFilled(false); // remove bg
-//        button.setFont(font.deriveFont(15f));
-        button.setHorizontalAlignment(SwingConstants.CENTER);
-    }
 
-    public void addMenuButton(JPanel panel1, JPanel panel2){
-        menuButton.setBounds(940,10,50,50);
-        menuButton.setBackground(forthColor);
-//        menuButton.setFont(font.deriveFont(13f));
-        menuButton.setForeground(secondColor);
 
-        final boolean[] panel2Visible = {false};
-        menuButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (!panel2Visible[0]) {
-                    // move panel1 to left
-                    movePanelToLeft(panel1, 200); // move 200 pixel
-                    // show panel2 to left
-                    frameUser.add(panel2);
-                    frameUser.revalidate();
-                    frameUser.repaint();
-                    panel2Visible[0] = true;
-                } else {
-                    // move panel 1 using animation
-                    movePanelToOriginalPosition(panel1, 0); // return to first place
-                    // remove panel2 from main
-                    frameUser.remove(panel2);
-                    frameUser.revalidate();
-                    frameUser.repaint();
-                    panel2Visible[0] = false;
-                }
-            }
-        });
-    }
-
-    public static void movePanelToLeft(JPanel panel, int distance) {
-        int startX = panel.getLocation().x;
-        int endX = startX - distance;
-        Timer timer = new Timer(10, new ActionListener() {
-            int currentX = startX;
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (currentX > endX) {
-                    currentX -= 5; // speed
-                    panel.setLocation(currentX, panel.getLocation().y);
-                } else {
-                    ((Timer) e.getSource()).stop();
-                }
-            }
-        });
-        timer.start();
-    }
-
-    public static void movePanelToOriginalPosition(JPanel panel, int distance) {
-        int startX = panel.getLocation().x;
-        int endX = distance;
-        Timer timer = new Timer(10, new ActionListener() {
-            int currentX = startX;
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (currentX < endX) {
-                    currentX += 5;
-                    panel.setLocation(currentX, panel.getLocation().y);
-                } else {
-                    ((Timer) e.getSource()).stop();
-                }
-            }
-        });
-        timer.start();
-    }
     public void main(ArrayList<Product> products) {
         frameUser.setLayout(new BorderLayout());
 
@@ -344,6 +268,12 @@ public class GuiUser implements ActionListener{
             proButton.setBackground(forthColor);
             proButton.setForeground(secondColor);
             productPanel.add(proButton);
+
+            proButton.addActionListener(e -> {
+                // Perform actions when the button is clicked
+                // You can access the corresponding Product object 'p' here
+                showProduct(p);
+            });
         }
 
         productPanel.revalidate();
@@ -660,5 +590,97 @@ public class GuiUser implements ActionListener{
         } else if (e.getSource()==confirmButton) {
             //To do
         }
+    }
+    public JPanel menubar(){
+        JPanel panel = new JPanel(null);
+        panel.setPreferredSize(new Dimension(100, 800));
+        panel.setBounds(0,0,100,800);
+
+        homeButton.setBounds(800, 130, 200, 30);
+        contactUsButton.setBounds(800, 190, 200, 30);
+        cartButton.setBounds(800, 250, 200, 30);
+
+        flatButton(homeButton);
+        flatButton(contactUsButton);
+        flatButton(cartButton);
+
+        panel.add(homeButton);
+        panel.add(contactUsButton);
+        panel.add(cartButton);
+
+        return panel;
+    }
+    private void flatButton(JButton button) {
+        button.setBorderPainted(false); // remove border
+        button.setContentAreaFilled(false); // remove bg
+//        button.setFont(font.deriveFont(15f));
+        button.setHorizontalAlignment(SwingConstants.CENTER);
+    }
+    public static void movePanelToLeft(JPanel panel, int distance) {
+        int startX = panel.getLocation().x;
+        int endX = startX - distance;
+        Timer timer = new Timer(10, new ActionListener() {
+            int currentX = startX;
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (currentX > endX) {
+                    currentX -= 5; // speed
+                    panel.setLocation(currentX, panel.getLocation().y);
+                } else {
+                    ((Timer) e.getSource()).stop();
+                }
+            }
+        });
+        timer.start();
+    }
+
+    public static void movePanelToOriginalPosition(JPanel panel, int distance) {
+        int startX = panel.getLocation().x;
+        int endX = distance;
+        Timer timer = new Timer(10, new ActionListener() {
+            int currentX = startX;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (currentX < endX) {
+                    currentX += 5;
+                    panel.setLocation(currentX, panel.getLocation().y);
+                } else {
+                    ((Timer) e.getSource()).stop();
+                }
+            }
+        });
+        timer.start();
+    }
+
+    public void addMenuButton(JPanel panel1, JPanel panel2){
+        menuButton.setBounds(940,10,50,50);
+        menuButton.setBackground(forthColor);
+//        menuButton.setFont(font.deriveFont(13f));
+        menuButton.setForeground(secondColor);
+
+        final boolean[] panel2Visible = {false};
+        menuButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!panel2Visible[0]) {
+                    // move panel1 to left
+                    movePanelToLeft(panel1, 200); // move 200 pixel
+                    // show panel2 to left
+                    frameUser.add(panel2);
+                    frameUser.revalidate();
+                    frameUser.repaint();
+                    panel2Visible[0] = true;
+                } else {
+                    // move panel 1 using animation
+                    movePanelToOriginalPosition(panel1, 0); // return to first place
+                    // remove panel2 from main
+                    frameUser.remove(panel2);
+                    frameUser.revalidate();
+                    frameUser.repaint();
+                    panel2Visible[0] = false;
+                }
+            }
+        });
     }
 }
