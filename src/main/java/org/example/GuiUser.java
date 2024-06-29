@@ -790,7 +790,7 @@ public class GuiUser implements ActionListener{
         }else {
             password1 = MD5hashPassword(password1);
             if (password1 != null) {
-                Boolean isRegistered = manageDB.registerCheck(name, lastName, userName, address, email, phoneNumber, password1);
+                Boolean isRegistered = manageDB.userRegisterCheck(name, lastName, userName, address, email, phoneNumber, password1);
                 if (isRegistered == true) {
                     frameUser.getContentPane().removeAll();
                     main(manageDB.getAllProducts());
@@ -859,7 +859,7 @@ public class GuiUser implements ActionListener{
             String loginUserName = enterUserTF.getText();
             String loginPass = enterPassPF.getText();
             loginPass = MD5hashPassword(loginPass);
-            Boolean isLoggedin = manageDB.loginCheck(loginUserName, loginPass);
+            Boolean isLoggedin = manageDB.userloginCheck(loginUserName, loginPass);
             if (isLoggedin == true){
                 frameUser.getContentPane().removeAll();
                 main(manageDB.getAllProducts());

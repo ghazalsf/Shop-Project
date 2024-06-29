@@ -261,9 +261,9 @@ public class ManageDB {
         }
     }
 
-    public Boolean userRegisterCheck(String firstName, String lastName, String userName, String address, String email, String phoneNumber, String password, String password2){
+    public Boolean userRegisterCheck(String firstName, String lastName, String userName, String address, String email, String phoneNumber, String password){
         String checkUserSQL = "SELECT username FROM users WHERE username = ?";
-        String insertUserSQL = "INSERT INTO users (name, lastName, username, password, address, phoneNumber, budget) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String insertUserSQL = "INSERT INTO users (name, lastName, username, password, address, phoneNumber) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement checkStmt = connection.prepareStatement(checkUserSQL)) {
             checkStmt.setString(1, userName);
@@ -281,7 +281,6 @@ public class ManageDB {
                         insertStmt.setString(4, password);
                         insertStmt.setString(5, address);
                         insertStmt.setString(6, phoneNumber);
-                        insertStmt.setInt(7, 0);
 
                         insertStmt.executeUpdate();
                         System.out.println("User registered successfully.");
