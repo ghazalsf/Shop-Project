@@ -52,6 +52,8 @@ public class GuiUser implements ActionListener{
     Color thirdColor = new Color(247, 245, 242);
     Color forthColor = new Color(100, 13, 107);
     Font font;
+    Border border = BorderFactory.createLineBorder(forthColor, 2);
+
     GuiUser() {
 //        try {
 //            font = Font.createFont(Font.TRUETYPE_FONT, new File("Font\\Ayasamin.ttf"));
@@ -66,6 +68,7 @@ public class GuiUser implements ActionListener{
         frameUser.setResizable(true);
         login();
         frameUser.setVisible(true);
+        addActionevent();
     }
     public void login() {
         infoPanel.setSize(1000,800);
@@ -341,8 +344,6 @@ public class GuiUser implements ActionListener{
         registerPanel.add(passwordLabel);
         registerPanel.add(repeatPasswordLabel);
 
-        Border border = BorderFactory.createLineBorder(forthColor, 2);
-
         nameTextField.setBorder(border);
         lastNameTextField.setBorder(border);
         addressTextField.setBorder(border);
@@ -496,7 +497,54 @@ public class GuiUser implements ActionListener{
         frameUser.add(SIPanel);
         frameUser.setVisible(true);
     }
+    public void doRegister(){
+        String name = nameTextField.getText();
+        String lastName = lastNameTextField.getText();
+        String userName = userNameTextField.getText();
+        String address = addressTextField.getText();
+        String email = emailTextField.getText();
+        String phoneNumber = phoneNumberTextField.getText();
+        String password1 = passwordField.getText();
+        String password2 = repeatPasswordField.getText();
 
+        Border redBorder = BorderFactory.createLineBorder(Color.RED,2);
+
+        nameTextField.setBorder(border);
+        lastNameTextField.setBorder(border);
+        addressTextField.setBorder(border);
+        emailTextField.setBorder(border);
+        phoneNumberTextField.setBorder(border);
+        userNameTextField.setBorder(border);
+        passwordField.setBorder(border);
+        repeatPasswordField.setBorder(border);
+
+        if (name.isEmpty()){
+            nameTextField.setBorder(redBorder);
+        } else if (lastName.isEmpty()) {
+            lastNameTextField.setBorder(redBorder);
+        } else if(address.isEmpty()){
+            addressTextField.setBorder(redBorder);
+        } else if (email.isEmpty()) {
+            emailTextField.setBorder(redBorder);
+        } else if(phoneNumber.isEmpty()){
+            phoneNumberTextField.setBorder(redBorder);
+        } else if(userName.isEmpty()){
+            userNameTextField.setBorder(redBorder);
+        } else if (password1.isEmpty()) {
+            passwordField.setBorder(redBorder);
+        } else if (password2.isEmpty()) {
+            repeatPasswordField.setBorder(redBorder);
+        }else {
+            Boolean isRegistered = manageDB.registerCheck(name, lastName, userName, address, email, phoneNumber, password1, password2);
+
+            if (isRegistered == true) {
+                frameUser.getContentPane().removeAll();
+                main(manageDB.getAllProducts());
+            } else {
+                nameTextField.setText("خطایی رخ داده است. دوباره تلاش کنید");
+            }
+        }
+    }
     private void addActionevent() {
         loginButton.addActionListener(this);
         searchButton.addActionListener(this);
@@ -525,22 +573,7 @@ public class GuiUser implements ActionListener{
             frameUser.getContentPane().removeAll();
             register();
         } else if (e.getSource() == registerButton) {
-            System.out.println("register");
-            String name = nameTextField.getText();
-            String lastName = lastNameTextField.getText();
-            String userName = userNameTextField.getText();
-            String address = addressTextField.getText();
-            String email = emailTextField.getText();
-            String phoneNumber = phoneNumberTextField.getText();
-            String password1 = passwordField.getText();
-            String password2 = repeatPasswordField.getText();
-            Boolean isRegistered = manageDB.registerCheck(name, lastName, userName, address, email, phoneNumber, password1, password2);
-            if (isRegistered == true) {
-                frameUser.getContentPane().removeAll();
-                main(manageDB.getAllProducts());
-            } else {
-                nameTextField.setText("خطایی رخ داده است. دوباره تلاش کنید");
-            }
+            doRegister();
         } else if (e.getSource() == homeButton) {
             frameUser.getContentPane().removeAll();
             main(manageDB.getAllProducts());
