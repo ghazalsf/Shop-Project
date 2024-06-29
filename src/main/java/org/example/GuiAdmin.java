@@ -22,7 +22,7 @@ public class GuiAdmin implements ActionListener{
     JButton loginButton = new JButton("ورود");
     JButton newRegister = new JButton("حساب کاربری ندارم");
     JButton homeButton = new JButton("صفحه اصلی");
-    JButton showUserList = new JButton("ارتباط با ما");
+    JButton showUserList = new JButton("لیست کاربرها");
     JButton menuButton = new JButton("منو");
     JButton searchButton = new JButton("جستجو");
     JButton sortButton = new JButton("مرتب سازی از کمترین قیمت:");
@@ -81,7 +81,7 @@ public class GuiAdmin implements ActionListener{
 
         Border b = BorderFactory.createLineBorder(forthColor,2);
 
-        JLabel enterL = new JLabel("ورود کاربر",SwingConstants.CENTER);
+        JLabel enterL = new JLabel("ورود",SwingConstants.CENTER);
         enterL.setBounds(360,80,267,80);
 //        enterL.setFont(font.deriveFont(40f));
         enterL.setForeground(forthColor);
