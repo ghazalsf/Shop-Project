@@ -72,6 +72,7 @@ public class Human {
     public void MD5hash(){
         String originalPass = this.getPassword();
 
+
         try {
             //computes the MD5 hash
             MessageDigest digest = MessageDigest.getInstance("MD5");
