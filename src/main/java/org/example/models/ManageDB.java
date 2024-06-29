@@ -11,13 +11,12 @@ public class ManageDB {
     Statement statement;
     public void createTable() {
         if (connection != null) {
-
             try {
                 statement = connection.createStatement();
 
-                String createProductTable = "CREATE TABLE IF NOT EXISTS products (id INTEGER PRIMARY KEY, name TEXT, price INTEGER, score NUMERIC, stock INTEGER, category TEXT, description TEXT)";
+                String createProductTable = "CREATE TABLE IF NOT EXISTS products (id INTEGER PRIMARY KEY, name TEXT, price INTEGER, score NUMERIC, stock INTEGER, category TEXT, description TEXT, pictureAddress TEXT)";
                 String createUsersTable = "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, name TEXT, lastName TEXT, userName TEXT, password TEXT, address TEXT, phoneNumber TEXT, budget INTEGER)";
-                String createAdminsTable = "CREATE TABLE IF NOT EXISTS admins (id INTEGER PRIMARY KEY, name TEXT, price INTEGER, score NUMERIC, stock INTEGER, category TEXT, description TEXT)";
+                String createAdminsTable = "CREATE TABLE IF NOT EXISTS admins (id INTEGER PRIMARY KEY, name TEXT, lastName TEXT, userName TEXT, password TEXT, address TEXT, phoneNumber TEXT)";
 
                 statement.executeUpdate(createProductTable);
                 statement.executeUpdate(createUsersTable);
@@ -36,7 +35,7 @@ public class ManageDB {
     public void addProductToDB(Product product) {
         String checkSql = "SELECT stock FROM products WHERE name = ?";
         String updateSql = "UPDATE products SET stock = stock + ? WHERE name = ?";
-        String insertSql = "INSERT INTO products (name, price, score, stock, category, description) VALUES (?, ?, ?, ?, ?, ?)";
+        String insertSql = "INSERT INTO products (name, price, score, stock, category, description, pictureAddress) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (
              PreparedStatement checkStmt = connection.prepareStatement(checkSql);
@@ -49,7 +48,7 @@ public class ManageDB {
             ResultSet rs = checkStmt.executeQuery();
 
             if (rs.next()) {
-                updateStmt.setInt(1, product.getStock());
+                updateStmt.setInt(1, 1);
                 updateStmt.setString(2, product.getName());
                 int rowsUpdated = updateStmt.executeUpdate();
 
@@ -63,6 +62,8 @@ public class ManageDB {
                 insertStmt.setInt(4, product.getStock());
                 insertStmt.setString(5, product.getCategory());
                 insertStmt.setString(6, product.getDescription());
+                insertStmt.setString(7, product.getPictureAddress());
+
                 int rowsInserted = insertStmt.executeUpdate();
 
                 if (rowsInserted == 0) {
@@ -117,13 +118,14 @@ public class ManageDB {
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                Product product = new Product(-1,-1,-1, null,null,null);
+                Product product = new Product(-1,-1,-1, null,null,null, null);
                 product.setName(rs.getString("name"));
                 product.setPrice(rs.getInt("price"));
                 product.setScore(rs.getInt("score"));
                 product.setStock(rs.getInt("stock"));
                 product.setCategory(rs.getString("category"));
                 product.setDescription(rs.getString("description"));
+                product.setPictureAddress(rs.getString("pictureAddress"));
 
                 products.add(product);
             }
@@ -273,5 +275,56 @@ public class ManageDB {
         }
     }
 
+    public Product findProductByName(String name) {
+        String sql = "SELECT * FROM products WHERE name = ?";
 
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+
+            pstmt.setString(1, name);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                Product product = new Product(-1,-1,-1, null,null,null, null);
+                product.setName(rs.getString("name"));
+                product.setPrice(rs.getInt("price"));
+                product.setScore(rs.getDouble("score"));
+                product.setStock(rs.getInt("stock"));
+                product.setCategory(rs.getString("category"));
+                product.setDescription(rs.getString("description"));
+                return product;
+            } else {
+                return null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error finding product by name in the database", e);
+        }
+    }
+
+    public User findUserByUserName(String userName) {
+        String sql = "SELECT * FROM users WHERE name = ?";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+
+            pstmt.setString(1, userName);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                User user = new User(null,null,null, null,null,null, null,-1);
+                user.setFirstName(rs.getString("name"));
+                user.setLastName(rs.getString("lastName"));
+                user.setUserName(rs.getString("userName"));
+                user.setPassword(rs.getString("password"));
+                user.setAddress(rs.getString("address"));
+                user.setPhoneNumber(rs.getString("phoneNumber"));
+                user.setBudget(rs.getInt("budget"));
+                return user;
+            } else {
+                return null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error finding product by name in the database", e);
+        }
+    }
 }
