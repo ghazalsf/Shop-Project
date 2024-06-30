@@ -138,6 +138,9 @@ public class GuiUser implements ActionListener{
         showProductPanel.setLayout(null);
         showProductPanel.setBackground(mainColor);
 
+        JPanel menuPanel = menubar();
+        addMenuButton(showProductPanel,menuPanel);
+
         String price=Integer.toString(product.getPrice());
         String score=Double.toString(product.getScore());
         String name= product.getName();
@@ -207,6 +210,7 @@ public class GuiUser implements ActionListener{
             }
         });
 
+        showProductPanel.add(menuButton);
         frameUser.add(showProductPanel);
         frameUser.setVisible(true);
     }
@@ -382,6 +386,7 @@ public class GuiUser implements ActionListener{
             productPanel.add(proButton);
 
             proButton.addActionListener(e -> {
+                frameUser.getContentPane().removeAll();
                 showProduct(p);
             });
         }
