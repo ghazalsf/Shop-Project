@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class GuiAdmin implements ActionListener{
     User user;
@@ -29,9 +31,9 @@ public class GuiAdmin implements ActionListener{
     JButton contactUsButton = new JButton("ارتباط با ما");
     JButton menuButton = new JButton("منو");
     JButton searchButton = new JButton("جستجو");
-    JButton sortButton = new JButton("مرتب سازی از کمترین قیمت:");
-    JButton sortButtonBigger = new JButton("مرتب سازی از بیشترین قیمت:");
-    JButton sortButtonCategory = new JButton("مرتب سازی بر اساس دسته بندی:");
+    JButton sortButtonLeastPrice = new JButton("مرتب سازی از کمترین قیمت:");
+    JButton sortButtonMostPrice = new JButton("مرتب سازی از بیشترین قیمت:");
+    JButton sortButtonRate = new JButton("مرتب سازی بر اساس امتیاز:");
     JButton registerButton=new JButton("ثبت");
     JButton backButton = new JButton("برگشت");
     JButton confirmButton = new JButton("تایید نهایی");
@@ -250,34 +252,34 @@ public class GuiAdmin implements ActionListener{
 
         name.setFont(font.deriveFont(50f));
         searchButton.setFont(font.deriveFont(12f));
-        sortButton.setFont(font.deriveFont(12f));
-        sortButtonBigger.setFont(font.deriveFont(12f));
-        sortButtonCategory.setFont(font.deriveFont(12f));
+        sortButtonLeastPrice.setFont(font.deriveFont(12f));
+        sortButtonMostPrice.setFont(font.deriveFont(12f));
+        sortButtonRate.setFont(font.deriveFont(12f));
 
-        sortButton.setBounds(140, 50, 230, 25);
-        sortButtonBigger.setBounds(140, 90, 230, 25);
-        sortButtonCategory.setBounds(140, 130, 230, 25);
+        sortButtonLeastPrice.setBounds(140, 50, 230, 25);
+        sortButtonMostPrice.setBounds(140, 90, 230, 25);
+        sortButtonRate.setBounds(140, 130, 230, 25);
         addProduct.setBounds(140, 170,230,25);
 
         commandsPanel.setBackground(mainColor);
         searchButton.setBackground(forthColor);
         searchButton.setForeground(secondColor);
         name.setForeground(secondColor);
-        sortButton.setForeground(secondColor);
-        sortButton.setBackground(forthColor);
-        sortButtonBigger.setForeground(secondColor);
-        sortButtonBigger.setBackground(forthColor);
-        sortButtonCategory.setBackground(forthColor);
-        sortButtonCategory.setForeground(secondColor);
+        sortButtonLeastPrice.setForeground(secondColor);
+        sortButtonLeastPrice.setBackground(forthColor);
+        sortButtonMostPrice.setForeground(secondColor);
+        sortButtonMostPrice.setBackground(forthColor);
+        sortButtonRate.setBackground(forthColor);
+        sortButtonRate.setForeground(secondColor);
         addProduct.setBackground(forthColor);
         addProduct.setForeground(secondColor);
 
         commandsPanel.add(name);
         commandsPanel.add(searchBar);
         commandsPanel.add(searchButton);
-        commandsPanel.add(sortButton);
-        commandsPanel.add(sortButtonBigger);
-        commandsPanel.add(sortButtonCategory);
+        commandsPanel.add(sortButtonLeastPrice);
+        commandsPanel.add(sortButtonMostPrice);
+        commandsPanel.add(sortButtonRate);
 
         int amountOfProducts = products.size();
         int y = 0;
@@ -422,7 +424,7 @@ public class GuiAdmin implements ActionListener{
 
         JLabel emailLabel=new JLabel("آدرس ایمیل: flint.lockwood@gmail.com",SwingConstants.RIGHT);
         JLabel phonenumberLabel= new JLabel("شماره تماس: 02100000000 ",SwingConstants.RIGHT);
-        JLabel addressLabel=new JLabel("آدرس: وسط اقیانوس اطلس| چلچله خوش اشتها| حیاط پشتی منزل لاکوود",SwingConstants.RIGHT);
+        JLabel addressLabel=new JLabel("آدرس: وسط اقیانوس اطلس - چلچله خوش اشتها - حیاط پشتی منزل لاکوود",SwingConstants.RIGHT);
         JLabel telegramLabel= new JLabel("تلگرام:t.me/haghdazhdefo",SwingConstants.RIGHT);
 
         emailLabel.setFont(font.deriveFont(20f));
@@ -582,6 +584,39 @@ public class GuiAdmin implements ActionListener{
         main(foundProducts);
         return foundProducts;
     }
+    public void sortByLeastPrice(){
+        ArrayList<Product> allProducts = manageDB.getAllProducts();
+        Collections.sort(allProducts, new Comparator<Product>() {
+            @Override
+            public int compare(Product p1, Product p2) {
+                return p1.getPrice() - p2.getPrice(); // مرتب‌سازی بر اساس سن
+            }
+        });
+        frameAdmin.getContentPane().removeAll();
+        main(allProducts);
+    }
+    public void sortByMostPrice(){
+        ArrayList<Product> allProducts = manageDB.getAllProducts();
+        Collections.sort(allProducts, new Comparator<Product>() {
+            @Override
+            public int compare(Product p1, Product p2) {
+                return p2.getPrice() - p1.getPrice();
+            }
+        });
+        frameAdmin.getContentPane().removeAll();
+        main(allProducts);
+    }
+    public void sortByMostRate(){
+        ArrayList<Product> allProducts = manageDB.getAllProducts();
+        Collections.sort(allProducts, new Comparator<Product>() {
+            @Override
+            public int compare(Product p1, Product p2) {
+                return Double.compare(p2.getScore(), p1.getScore());
+            }
+        });
+        frameAdmin.getContentPane().removeAll();
+        main(allProducts);
+    }
 
     public String MD5hashPassword(String originalPass){
         try {
@@ -618,6 +653,9 @@ public class GuiAdmin implements ActionListener{
         exitAsAdmin.addActionListener(this);
         showInfoPanel.addActionListener(this);
         updateInfo.addActionListener(this);
+        sortButtonLeastPrice.addActionListener(this);
+        sortButtonMostPrice.addActionListener(this);
+        sortButtonRate.addActionListener(this);
     }
 
     @Override
@@ -661,6 +699,12 @@ public class GuiAdmin implements ActionListener{
             String searchString = searchBar.getText();
             System.out.println(searchString);
             searchNameAndCategory(searchString);
+        } else if(e.getSource() == sortButtonLeastPrice){
+            sortByLeastPrice();
+        } else if(e.getSource() == sortButtonMostPrice){
+            sortByMostPrice();
+        } else if(e.getSource() == sortButtonRate){
+            sortByMostRate();
         }
     }
 }
