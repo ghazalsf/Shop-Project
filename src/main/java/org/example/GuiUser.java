@@ -20,12 +20,15 @@ public class GuiUser implements ActionListener{
 
     User user;
     int price = 0;
+    ArrayList<Product> selectedProducts=new ArrayList<Product>();
     JFrame frameUser = new JFrame("hello");
     ManageDB manageDB = new ManageDB();
 
     JPanel infoPanel = new JPanel();
     JPanel productPanel = new JPanel();
     JPanel registerPanel = new JPanel();
+    JPanel showProductPanel = new JPanel();
+    JPanel selectedList = new JPanel();
 
     JButton addbutton =new JButton("اضافه کردن به سبد خرید");
     JButton submitbutton= new JButton("ثبت امتیاز");
@@ -133,10 +136,12 @@ public class GuiUser implements ActionListener{
         frameUser.setVisible(true);
     }
     public void showProduct(Product product){
-        JPanel showProductPanel = new JPanel();
         showProductPanel.setSize(1000, 800);
         showProductPanel.setLayout(null);
         showProductPanel.setBackground(mainColor);
+
+        JPanel menuPanel = menubar();
+        addMenuButton(showProductPanel,menuPanel);
 
         String price=Integer.toString(product.getPrice());
         String score=Double.toString(product.getScore());
@@ -199,7 +204,15 @@ public class GuiUser implements ActionListener{
         showProductPanel.add(submitbutton);
         showProductPanel.add(submitscorelabel);
         showProductPanel.add(addbutton);
+        addbutton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                removealbels();
+                selectedProducts.add(product);
+            }
+        });
 
+        showProductPanel.add(menuButton);
         frameUser.add(showProductPanel);
         frameUser.setVisible(true);
     }
@@ -373,6 +386,11 @@ public class GuiUser implements ActionListener{
             proButton.setBackground(forthColor);
             proButton.setForeground(secondColor);
             productPanel.add(proButton);
+
+            proButton.addActionListener(e -> {
+                frameUser.getContentPane().removeAll();
+                showProduct(p);
+            });
         }
 
         productPanel.revalidate();
@@ -517,9 +535,18 @@ public class GuiUser implements ActionListener{
         frameUser.add(contactUspanel);
         frameUser.setVisible(true);
     }
-    public void cart(ArrayList<Product> selectedProducts){
+    public void removealbels(){
+        for (Component component : selectedList.getComponents()) {
+            if (component instanceof JLabel) {
+                selectedList.remove(component);
+            }
+        }
+    }
+    public void cart(){
         int numberOfSelected = selectedProducts.size();
         int rows = numberOfSelected + 3;
+        int price=0;
+
         JPanel selectedList = new JPanel();
         selectedList.setBackground(mainColor);
         selectedList.setLayout(new GridLayout(rows, 1, 0, 10)); //hgap is 0 for consistent spacing
@@ -531,9 +558,9 @@ public class GuiUser implements ActionListener{
         buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10)); // FlowLayout for buttons with spacing
 
 
-//        cost.setFont(font.deriveFont(20f));
-        //backButton.setFont(font);
-        //confirmButton.setFont(font);
+        //cost.setFont(font.deriveFont(20f));
+        backButton.setFont(font.deriveFont(20f));
+        confirmButton.setFont(font.deriveFont(20f));
 
         for(Product p : selectedProducts){
             price= price+ p.getPrice();
@@ -567,11 +594,11 @@ public class GuiUser implements ActionListener{
         JLabel phoneNumberLabel =  new JLabel("شماره تماس: " + user.getPhoneNumber(), SwingConstants.RIGHT);
         JLabel budgetLabel =  new JLabel("موجودی: " + user.getBudget(), SwingConstants.RIGHT);
 
-//        SILabel.setFont(font.deriveFont(40f));
-//        NameLabel.setFont(font.deriveFont(25f));
-//        addressLabel.setFont(font.deriveFont(25f));
-//        phoneNumberLabel.setFont(font.deriveFont(25f));
-//        budgetLabel.setFont(font.deriveFont(25f));
+        SILabel.setFont(font.deriveFont(40f));
+        NameLabel.setFont(font.deriveFont(25f));
+        addressLabel.setFont(font.deriveFont(25f));
+        phoneNumberLabel.setFont(font.deriveFont(25f));
+        budgetLabel.setFont(font.deriveFont(25f));
 
         SILabel.setForeground(thirdColor);
         NameLabel.setForeground(thirdColor);
@@ -597,6 +624,8 @@ public class GuiUser implements ActionListener{
         frameUser.setVisible(true);
     }
     public void changeData(){
+
+        User tmpuser=user;
         JPanel registerPanel = new JPanel();
         registerPanel.setSize(800, 800);
         registerPanel.setLayout(null);
@@ -613,16 +642,16 @@ public class GuiUser implements ActionListener{
         JLabel repeatPasswordLabel =  new JLabel("تکرار رمز عبور: ", SwingConstants.LEFT);
         JLabel budgetLabel =  new JLabel("موجودی: ", SwingConstants.LEFT);
 
-//        titleLabel.setFont(font.deriveFont(40f));
-//        nameLabel.setFont(font.deriveFont(20f));
-//        lastNameLabel.setFont(font.deriveFont(20f));
-//        addressLabel.setFont(font.deriveFont(20f));
-//        emailLabel.setFont(font.deriveFont(20f));
-//        phoneNumberLabel.setFont(font.deriveFont(20f));
-//        userNameLabel.setFont(font.deriveFont(20f));
-//        passwordLabel.setFont(font.deriveFont(20f));
-//        repeatPasswordLabel.setFont(font.deriveFont(20f));
-//        budgetLabel.setFont(font.deriveFont(20f));
+        titleLabel.setFont(font.deriveFont(40f));
+        nameLabel.setFont(font.deriveFont(20f));
+        lastNameLabel.setFont(font.deriveFont(20f));
+        addressLabel.setFont(font.deriveFont(20f));
+        emailLabel.setFont(font.deriveFont(20f));
+        phoneNumberLabel.setFont(font.deriveFont(20f));
+        userNameLabel.setFont(font.deriveFont(20f));
+        passwordLabel.setFont(font.deriveFont(20f));
+        repeatPasswordLabel.setFont(font.deriveFont(20f));
+        budgetLabel.setFont(font.deriveFont(20f));
 
         titleLabel.setForeground(forthColor);
         nameLabel.setForeground(thirdColor);
@@ -698,7 +727,7 @@ public class GuiUser implements ActionListener{
         if (!budgetTextField.getText().equals(user.getBudget()));{
             user.setBudget(Integer.parseInt(budgetTextField.getText()));
         }
-
+        manageDB.editUser(tmpuser,user);
         Border border = BorderFactory.createLineBorder(forthColor, 2);
 
         nameTextField.setBorder(border);
@@ -856,6 +885,7 @@ public class GuiUser implements ActionListener{
         showInfoPanel.addActionListener(this);
         changeData.addActionListener(this);
         searchButton.addActionListener(this);
+        addbutton.addActionListener(this);
     }
 
     public String MD5hashPassword(String originalPass){
@@ -909,7 +939,7 @@ public class GuiUser implements ActionListener{
             contactUs();
         }else if (e.getSource() == cartButton) {
             frameUser.getContentPane().removeAll();
-            cart(manageDB.getAllProducts());
+            cart();
         }else if (e.getSource() == backButton) {
             frameUser.getContentPane().removeAll();
             main(manageDB.getAllProducts());
