@@ -185,8 +185,8 @@ public class ManageDB {
     }
 
     public void editUser(User userToEdit, User chanedUser){
-        String selectSQL = "SELECT * FROM products WHERE id = ?";
-        String updateSQL = "UPDATE products SET name = ?, lastName = ?, userName = ?, password = ?, phoneNumber = ?, email = ?, budget = ? WHERE id = ?";
+        String selectSQL = "SELECT * FROM products WHERE Username = ?";
+        String updateSQL = "UPDATE products SET name = ?, lastName = ?, userName = ?, password = ?, phoneNumber = ?, email = ?, budget = ? WHERE userName = ?";
 
         try (PreparedStatement selectStmt = connection.prepareStatement(selectSQL);
              PreparedStatement updateStmt = connection.prepareStatement(updateSQL)) {

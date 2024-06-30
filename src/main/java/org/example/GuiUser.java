@@ -19,12 +19,14 @@ import java.util.regex.Pattern;
 public class GuiUser implements ActionListener{
 
     User user;
+    ArrayList<Product> selectedProducts=new ArrayList<Product>();
     JFrame frameUser = new JFrame("hello");
     ManageDB manageDB = new ManageDB();
 
     JPanel infoPanel = new JPanel();
     JPanel productPanel = new JPanel();
     JPanel registerPanel = new JPanel();
+    JPanel showProductPanel = new JPanel();
 
     JButton addbutton =new JButton("اضافه کردن به سبد خرید");
     JButton submitbutton= new JButton("ثبت امتیاز");
@@ -131,7 +133,6 @@ public class GuiUser implements ActionListener{
         frameUser.setVisible(true);
     }
     public void showProduct(Product product){
-        JPanel showProductPanel = new JPanel();
         showProductPanel.setSize(1000, 800);
         showProductPanel.setLayout(null);
         showProductPanel.setBackground(mainColor);
@@ -197,6 +198,12 @@ public class GuiUser implements ActionListener{
         showProductPanel.add(submitbutton);
         showProductPanel.add(submitscorelabel);
         showProductPanel.add(addbutton);
+        addbutton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                selectedProducts.add(product);
+            }
+        });
 
         frameUser.add(showProductPanel);
         frameUser.setVisible(true);
@@ -515,7 +522,7 @@ public class GuiUser implements ActionListener{
         frameUser.add(contactUspanel);
         frameUser.setVisible(true);
     }
-    public void cart(ArrayList<Product> selectedProducts){
+    public void cart(){
         int numberOfSelected = selectedProducts.size();
         int rows = numberOfSelected + 3;
         int price=0;
@@ -596,6 +603,8 @@ public class GuiUser implements ActionListener{
         frameUser.setVisible(true);
     }
     public void changeData(){
+
+        User tmpuser=user;
         JPanel registerPanel = new JPanel();
         registerPanel.setSize(800, 800);
         registerPanel.setLayout(null);
@@ -697,7 +706,8 @@ public class GuiUser implements ActionListener{
         if (!budgetTextField.getText().equals(user.getBudget()));{
             user.setBudget(Integer.parseInt(budgetTextField.getText()));
         }
-
+        ManageDB db=new ManageDB();
+        db.editUser(tmpuser,user);
         Border border = BorderFactory.createLineBorder(forthColor, 2);
 
         nameTextField.setBorder(border);
@@ -740,6 +750,8 @@ public class GuiUser implements ActionListener{
         frameUser.add(titleLabel);
         frameUser.add(registerPanel);
         frameUser.setVisible(true);
+
+
     }
 
     public void doRegister(){
@@ -827,6 +839,7 @@ public class GuiUser implements ActionListener{
         exitAsUser.addActionListener(this);
         showInfoPanel.addActionListener(this);
         changeData.addActionListener(this);
+        addbutton.addActionListener(this);
     }
 
     public String MD5hashPassword(String originalPass){
@@ -880,7 +893,7 @@ public class GuiUser implements ActionListener{
             contactUs();
         }else if (e.getSource() == cartButton) {
             frameUser.getContentPane().removeAll();
-            cart(manageDB.getAllProducts());
+            cart();
         }else if (e.getSource() == backButton) {
             frameUser.getContentPane().removeAll();
             main(manageDB.getAllProducts());
@@ -895,6 +908,9 @@ public class GuiUser implements ActionListener{
         } else if (e.getSource() == changeData) {
             frameUser.getContentPane().removeAll();
             changeData();
+        } else if (e.getSource()==addbutton){
+
+
         }
     }
 }
