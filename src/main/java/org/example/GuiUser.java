@@ -378,6 +378,10 @@ public class GuiUser implements ActionListener{
             proButton.setBackground(forthColor);
             proButton.setForeground(secondColor);
             productPanel.add(proButton);
+
+            proButton.addActionListener(e -> {
+                showProduct(p);
+            });
         }
 
         productPanel.revalidate();
@@ -908,9 +912,6 @@ public class GuiUser implements ActionListener{
         } else if (e.getSource() == changeData) {
             frameUser.getContentPane().removeAll();
             changeData();
-        } else if (e.getSource()==addbutton){
-
-
         }
     }
 }
