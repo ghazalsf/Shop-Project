@@ -2,6 +2,7 @@ package org.example;
 
 import org.example.models.ManageDB;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -39,7 +40,7 @@ public class GuiAdmin implements ActionListener{
     JButton registerButton=new JButton("ثبت");
     JButton backButton = new JButton("برگشت");
     JButton confirmButton = new JButton("تایید نهایی");
-    JButton addProduct = new JButton("اضافه کردن محصول");
+    JButton addProductButton = new JButton("اضافه کردن محصول");
     JButton showInfoPanel = new JButton("اطلاعات کاربری");
     JButton exitAsAdmin = new JButton("خروج ادمین");
     JButton updateInfo = new JButton("ویرایش اطلاعات");
@@ -62,7 +63,6 @@ public class GuiAdmin implements ActionListener{
     JTextField passwordField =new JTextField();
     JTextField repeatPasswordField =new JTextField();
     JTextField adminsPasswordField =new JTextField();
-
     JTextField enterPassPF = new JTextField();
     JTextField staticPassFiled = new JTextField();
 
@@ -265,11 +265,12 @@ public class GuiAdmin implements ActionListener{
         sortButtonLeastPrice.setFont(font.deriveFont(12f));
         sortButtonMostPrice.setFont(font.deriveFont(12f));
         sortButtonRate.setFont(font.deriveFont(12f));
+        addProductButton.setFont(font.deriveFont(12f));
 
         sortButtonLeastPrice.setBounds(140, 50, 230, 25);
         sortButtonMostPrice.setBounds(140, 90, 230, 25);
         sortButtonRate.setBounds(140, 130, 230, 25);
-        addProduct.setBounds(140, 170,230,25);
+        addProductButton.setBounds(140, 170,230,25);
 
         commandsPanel.setBackground(mainColor);
         searchButton.setBackground(forthColor);
@@ -281,8 +282,8 @@ public class GuiAdmin implements ActionListener{
         sortButtonMostPrice.setBackground(forthColor);
         sortButtonRate.setBackground(forthColor);
         sortButtonRate.setForeground(secondColor);
-        addProduct.setBackground(forthColor);
-        addProduct.setForeground(secondColor);
+        addProductButton.setBackground(forthColor);
+        addProductButton.setForeground(secondColor);
 
         commandsPanel.add(name);
         commandsPanel.add(searchBar);
@@ -290,6 +291,7 @@ public class GuiAdmin implements ActionListener{
         commandsPanel.add(sortButtonLeastPrice);
         commandsPanel.add(sortButtonMostPrice);
         commandsPanel.add(sortButtonRate);
+        commandsPanel.add(addProductButton);
 
         int amountOfProducts = products.size();
         int y = 0;
@@ -311,6 +313,11 @@ public class GuiAdmin implements ActionListener{
             proButton.setBackground(forthColor);
             proButton.setForeground(secondColor);
             productPanel.add(proButton);
+
+            proButton.addActionListener(e -> {
+                frameAdmin.getContentPane().removeAll();
+                showProduct(p);
+            });
         }
 
         productPanel.revalidate();
@@ -322,6 +329,70 @@ public class GuiAdmin implements ActionListener{
         mainPanel.add(productPanel, BorderLayout.CENTER);
 
         frameAdmin.add(mainPanel);
+        frameAdmin.setVisible(true);
+    }
+    public void showProduct(Product product){
+        JPanel showProductPanel = new JPanel();
+        showProductPanel.setSize(1000, 800);
+        showProductPanel.setLayout(null);
+        showProductPanel.setBackground(mainColor);
+
+        JPanel menuPanel = menubar();
+        addMenuButton(showProductPanel,menuPanel);
+
+        String price=Integer.toString(product.getPrice());
+        String score=Double.toString(product.getScore());
+        String name= product.getName();
+
+        try {
+            File file = new File(product.getPictureAddress()); // Replace with your image file path
+            Image image = ImageIO.read(file);
+
+            // Create a JLabel to display the image
+            JLabel imageLabel = new JLabel(new ImageIcon(image));
+            imageLabel.setBounds(490,15,400,400);
+
+            // Add the label to the panel
+            showProductPanel.add(imageLabel);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        JLabel priceLabel=new JLabel("قیمت: "+price,SwingConstants.CENTER);
+        JLabel scoreLabel=new JLabel("امتیاز کاربران: "+score,SwingConstants.CENTER);
+        JLabel nameLabel=new JLabel(name,SwingConstants.CENTER);
+
+        priceLabel.setFont(font.deriveFont(20f));
+        scoreLabel.setFont(font.deriveFont(17f));
+        nameLabel.setFont(font.deriveFont(23f));
+
+        priceLabel.setBounds(400,450,200,50);
+        scoreLabel.setBounds(400,500,200,50);
+        nameLabel.setBounds(400,400,200,50);
+
+        showProductPanel.add(priceLabel);
+        showProductPanel.add(scoreLabel);
+        showProductPanel.add(nameLabel);
+
+        JButton deletebutton =new JButton("حذف محصول");
+        JButton editbutton =new JButton("ویرایش محصول");
+
+        deletebutton.setBounds(400,550,150,50);
+        editbutton.setBounds(400,600,150,50);
+
+        deletebutton.setForeground(secondColor);
+        deletebutton.setBackground(forthColor);
+        editbutton.setForeground(secondColor);
+        editbutton.setBackground(forthColor);
+
+        Border border = BorderFactory.createLineBorder(mainColor, 2);
+        deletebutton.setBorder(border);
+        editbutton.setBorder(border);
+
+        showProductPanel.add(deletebutton);
+        showProductPanel.add(editbutton);
+        frameAdmin.add(menuButton);
+        frameAdmin.add(showProductPanel);
         frameAdmin.setVisible(true);
     }
 
@@ -475,10 +546,10 @@ public class GuiAdmin implements ActionListener{
         addProductPanel.add(enterCategory);
         addProductPanel.add(enterPictureAddress);
 
-        addProduct.setBounds(460,530,100,50);
-        addProduct.setBackground(forthColor);
-        addProduct.setForeground(secondColor);
-        addProductPanel.add(addProduct);
+        addProductButton.setBounds(460,530,100,50);
+        addProductButton.setBackground(forthColor);
+        addProductButton.setForeground(secondColor);
+        addProductPanel.add(addProductButton);
 
         Product newProduct;
         int proPrice = Integer.parseInt(enterPrice.getText());
@@ -718,7 +789,7 @@ public class GuiAdmin implements ActionListener{
         showInfoPanel.addActionListener(this);
         updateInfo.addActionListener(this);
         searchButton.addActionListener(this);
-        addProduct.addActionListener(this);
+        addProductButton.addActionListener(this);
         sortButtonLeastPrice.addActionListener(this);
         sortButtonMostPrice.addActionListener(this);
         sortButtonRate.addActionListener(this);
@@ -774,7 +845,7 @@ public class GuiAdmin implements ActionListener{
         } else if(e.getSource()== searchButton){
             String searchString = searchBar.getText();
             searchNameAndCategory(searchString);
-        }else if (e.getSource()==addProduct){
+        }else if (e.getSource()== addProductButton){
             frameAdmin.getContentPane().removeAll();
             addProductAdmin();
             manageDB.addProductToDB(productToBeAdded);

@@ -52,7 +52,7 @@ public class GuiUser implements ActionListener{
     JButton confirmButton = new JButton("تایید نهایی");
     JButton showInfoPanel = new JButton("اطلاعات کاربری");
     JButton exitAsUser = new JButton("خروج کاربر");
-    JButton changeData = new JButton("ویرایشراطلاعات");
+    JButton changeData = new JButton("ویرایش اطلاعات");
 
     JTextField enterUserTF = new JTextField();
     JTextField nameTextField =new JTextField();
@@ -156,7 +156,7 @@ public class GuiUser implements ActionListener{
 
             // Create a JLabel to display the image
             JLabel imageLabel = new JLabel(new ImageIcon(image));
-            imageLabel.setBounds(490,15,500,500);
+            imageLabel.setBounds(100,15,400,400);
 
             // Add the label to the panel
             showProductPanel.add(imageLabel);
@@ -165,17 +165,17 @@ public class GuiUser implements ActionListener{
         }
 
 
-        JLabel priceLabel=new JLabel("قیمت: "+price,SwingConstants.RIGHT);
-        JLabel scoreLabel=new JLabel("امتیاز کاربران: "+score,SwingConstants.RIGHT);
-        JLabel nameLabel=new JLabel(name,SwingConstants.RIGHT);
+        JLabel priceLabel=new JLabel("قیمت: "+price,SwingConstants.CENTER);
+        JLabel scoreLabel=new JLabel("امتیاز کاربران: "+score,SwingConstants.CENTER);
+        JLabel nameLabel=new JLabel(name,SwingConstants.CENTER);
 
         priceLabel.setFont(font.deriveFont(20f));
         scoreLabel.setFont(font.deriveFont(17f));
         nameLabel.setFont(font.deriveFont(23f));
 
-        priceLabel.setBounds(750,550,200,50);
-        scoreLabel.setBounds(750,600,200,50);
-        nameLabel.setBounds(750,500,200,50);
+        priceLabel.setBounds(750,600,200,50);
+        scoreLabel.setBounds(750,650,200,50);
+        nameLabel.setBounds(750,550,200,50);
 
         showProductPanel.add(priceLabel);
         showProductPanel.add(scoreLabel);
