@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,7 +25,6 @@ public class GuiUser implements ActionListener{
     ArrayList<Product> selectedProducts=new ArrayList<Product>();
     JFrame frameUser = new JFrame("hello");
     ManageDB manageDB = new ManageDB();
-    ArrayList<Product> selectedProducts;
     Admin admin;
 
     JPanel infoPanel = new JPanel();
@@ -43,9 +44,9 @@ public class GuiUser implements ActionListener{
     JButton cartButton = new JButton("سبد خرید");
     JButton menuButton = new JButton("منو");
     JButton searchButton = new JButton("جستجو");
-    JButton sortButton = new JButton("مرتب سازی از کمترین قیمت:");
-    JButton sortButtonBigger = new JButton("مرتب سازی از بیشترین قیمت:");
-    JButton sortButtonCategory = new JButton("مرتب سازی بر اساس دسته بندی:");
+    JButton sortButtonLeastPrice = new JButton("مرتب سازی از کمترین قیمت:");
+    JButton sortButtonMostPrice = new JButton("مرتب سازی از بیشترین قیمت:");
+    JButton sortButtonRate = new JButton("مرتب سازی بر اساس امتیاز:");
     JButton registerButton=new JButton("ثبت");
     JButton backButton = new JButton("برگشت");
     JButton confirmButton = new JButton("تایید نهایی");
@@ -74,19 +75,19 @@ public class GuiUser implements ActionListener{
     Border border = BorderFactory.createLineBorder(forthColor, 2);
 
     GuiUser() {
-//        try {
-//            font = Font.createFont(Font.TRUETYPE_FONT, new File("Font\\Ayasamin.ttf"));
-//        } catch (FontFormatException e) {
-//            throw new RuntimeException(e);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
+        try {
+            font = Font.createFont(Font.TRUETYPE_FONT, new File("Font\\Ayasamin.ttf"));
+        } catch (FontFormatException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         frameUser.setSize(SIZE);
         frameUser.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frameUser.setTitle("help");
-        frameUser.setResizable(true);
-        login();
+        frameUser.setResizable(false);
         frameUser.setVisible(true);
+        login();
         addActionevent();
     }
     public void login() {
@@ -98,12 +99,12 @@ public class GuiUser implements ActionListener{
 
         JLabel enterL = new JLabel("ورود کاربر",SwingConstants.CENTER);
         enterL.setBounds(360,80,267,80);
-//        enterL.setFont(font.deriveFont(40f));
+        enterL.setFont(font.deriveFont(40f));
         enterL.setForeground(forthColor);
 
         JLabel enterUserL = new JLabel("نام کاربری خود را وارد کنید:",SwingConstants.CENTER);
         enterUserL.setBounds(360,200,267,80);
-//        enterUserL.setFont(font.deriveFont(25f));
+        enterUserL.setFont(font.deriveFont(25f));
         enterUserL.setForeground(secondColor);
 
         enterUserTF.setBounds(360,280,267,40);
@@ -113,7 +114,7 @@ public class GuiUser implements ActionListener{
         enterPassL.setBounds(360,340,267,80);
 
         enterPassL.setForeground(secondColor);
-//        enterPassL.setFont(font.deriveFont(25f));
+        enterPassL.setFont(font.deriveFont(25f));
 
         enterPassPF.setBounds(360,420,267,40);
         enterPassPF.setBorder(b);
@@ -121,11 +122,11 @@ public class GuiUser implements ActionListener{
         loginButton.setBounds(450,530,100,50);
         loginButton.setBackground(forthColor);
         loginButton.setForeground(secondColor);
-//        loginButton.setFont(font.deriveFont(25f));
+        loginButton.setFont(font.deriveFont(25f));
 
         newRegister.setBounds(400,600,200,50);
         flatButton(newRegister);
-//        newRegister.setFont(font.deriveFont(20f));
+        newRegister.setFont(font.deriveFont(20f));
 
         infoPanel.add(newRegister);
         infoPanel.add(enterL);
@@ -168,9 +169,9 @@ public class GuiUser implements ActionListener{
         JLabel scoreLabel=new JLabel("امتیاز کاربران: "+score,SwingConstants.RIGHT);
         JLabel nameLabel=new JLabel(name,SwingConstants.RIGHT);
 
-//        priceLabel.setFont(font.deriveFont(20f));
-//        scoreLabel.setFont(font.deriveFont(17f));
-//        nameLabel.setFont(font.deriveFont(23f));
+        priceLabel.setFont(font.deriveFont(20f));
+        scoreLabel.setFont(font.deriveFont(17f));
+        nameLabel.setFont(font.deriveFont(23f));
 
         priceLabel.setBounds(750,550,200,50);
         scoreLabel.setBounds(750,600,200,50);
@@ -183,7 +184,7 @@ public class GuiUser implements ActionListener{
 
         JLabel submitscorelabel= new JLabel("امتیاز مورد نظر را از 1 تا 5 وارد کنید",SwingConstants.CENTER);
         submitscorelabel.setForeground(forthColor);
-//        submitscorelabel.setFont(font.deriveFont(15f));
+        submitscorelabel.setFont(font.deriveFont(15f));
 
         JTextField scoreTextField=new JTextField();
 
@@ -248,14 +249,14 @@ public class GuiUser implements ActionListener{
     private void flatButton(JButton button) {
         button.setBorderPainted(false); // remove border
         button.setContentAreaFilled(false); // remove bg
-//        button.setFont(font.deriveFont(15f));
+        button.setFont(font.deriveFont(15f));
         button.setHorizontalAlignment(SwingConstants.CENTER);
     }
 
     public void addMenuButton(JPanel panel1, JPanel panel2){
         menuButton.setBounds(940,10,50,50);
         menuButton.setBackground(forthColor);
-//        menuButton.setFont(font.deriveFont(13f));
+        menuButton.setFont(font.deriveFont(13f));
         menuButton.setForeground(secondColor);
 
         final boolean[] panel2Visible = {false};
@@ -335,38 +336,40 @@ public class GuiUser implements ActionListener{
 
         JPanel menuPanel = menubar();
 
-        JTextField searchBar = new JTextField();
         searchBar.setBounds(140, 25, 150, 30);
 
+
+        JLabel name = new JLabel("فروشگاه هقداژدفو", SwingConstants.RIGHT);
+        name.setBounds(550, 50, 400, 100);
+
         searchButton.setBounds(290, 25, 80, 30);
+        sortButtonLeastPrice.setBounds(140, 65, 230, 30);
+        sortButtonMostPrice.setBounds(140, 105, 230, 30);
+        sortButtonRate.setBounds(140, 145, 230, 30);
 
-        JLabel name = new JLabel("هقداژدفو", SwingConstants.RIGHT);
-        name.setBounds(550, 50, 200, 100);
-        // name.setFont(font.deriveFont(50f));
-
-        sortButton.setBounds(140, 65, 230, 30);
-
-        sortButtonBigger.setBounds(140, 105, 230, 30);
-
-        sortButtonCategory.setBounds(140, 145, 230, 30);
+        name.setFont(font.deriveFont(50f));
+        searchButton.setFont(font.deriveFont(12f));
+        sortButtonLeastPrice.setFont(font.deriveFont(12f));
+        sortButtonMostPrice.setFont(font.deriveFont(12f));
+        sortButtonRate.setFont(font.deriveFont(12f));
 
         commandsPanel.setBackground(mainColor);
         searchButton.setBackground(forthColor);
         searchButton.setForeground(secondColor);
         name.setForeground(secondColor);
-        sortButton.setForeground(secondColor);
-        sortButton.setBackground(forthColor);
-        sortButtonBigger.setForeground(secondColor);
-        sortButtonBigger.setBackground(forthColor);
-        sortButtonCategory.setBackground(forthColor);
-        sortButtonCategory.setForeground(secondColor);
+        sortButtonLeastPrice.setForeground(secondColor);
+        sortButtonLeastPrice.setBackground(forthColor);
+        sortButtonMostPrice.setForeground(secondColor);
+        sortButtonMostPrice.setBackground(forthColor);
+        sortButtonRate.setBackground(forthColor);
+        sortButtonRate.setForeground(secondColor);
 
         commandsPanel.add(name);
         commandsPanel.add(searchBar);
         commandsPanel.add(searchButton);
-        commandsPanel.add(sortButton);
-        commandsPanel.add(sortButtonBigger);
-        commandsPanel.add(sortButtonCategory);
+        commandsPanel.add(sortButtonLeastPrice);
+        commandsPanel.add(sortButtonMostPrice);
+        commandsPanel.add(sortButtonRate);
 
         int amountOfProducts = products.size();
         int y = 0;
@@ -422,15 +425,15 @@ public class GuiUser implements ActionListener{
         JLabel passwordLabel =  new JLabel("رمز عبور: ", SwingConstants.LEFT);
         JLabel repeatPasswordLabel =  new JLabel("تکرار رمز عبور: ", SwingConstants.LEFT);
 
-//        titleLabel.setFont(font.deriveFont(40f));
-//        nameLabel.setFont(font.deriveFont(20f));
-//        lastNameLabel.setFont(font.deriveFont(20f));
-//        addressLabel.setFont(font.deriveFont(20f));
-//        emailLabel.setFont(font.deriveFont(20f));
-//        phoneNumberLabel.setFont(font.deriveFont(20f));
-//        userNameLabel.setFont(font.deriveFont(20f));
-//        passwordLabel.setFont(font.deriveFont(20f));
-//        repeatPasswordLabel.setFont(font.deriveFont(20f));
+        titleLabel.setFont(font.deriveFont(40f));
+        nameLabel.setFont(font.deriveFont(20f));
+        lastNameLabel.setFont(font.deriveFont(20f));
+        addressLabel.setFont(font.deriveFont(20f));
+        emailLabel.setFont(font.deriveFont(20f));
+        phoneNumberLabel.setFont(font.deriveFont(20f));
+        userNameLabel.setFont(font.deriveFont(20f));
+        passwordLabel.setFont(font.deriveFont(20f));
+        repeatPasswordLabel.setFont(font.deriveFont(20f));
 
         titleLabel.setForeground(forthColor);
         nameLabel.setForeground(thirdColor);
@@ -489,7 +492,7 @@ public class GuiUser implements ActionListener{
         registerPanel.add(passwordField);
         registerPanel.add(repeatPasswordField);
 
-//        registerButton.setFont(font.deriveFont(17f));
+        registerButton.setFont(font.deriveFont(17f));
         registerButton.setBounds(460,530,100,50);
         registerButton.setBackground(forthColor);
         registerButton.setForeground(secondColor);
@@ -506,30 +509,34 @@ public class GuiUser implements ActionListener{
         contactUspanel.setLayout(null);
         contactUspanel.setBackground(mainColor);
 
-        JLabel emailLabel=new JLabel("آدرس ایمیل: flint.lockwood@gmail.com",SwingConstants.RIGHT);
+        JLabel email = new JLabel("flint.lockwood@gmail.com");
+        JLabel emailLabel=new JLabel("آدرس ایمیل: ",SwingConstants.RIGHT);
         JLabel phonenumberLabel= new JLabel("شماره تماس: 02100000000 ",SwingConstants.RIGHT);
         JLabel addressLabel=new JLabel("آدرس: وسط اقیانوس اطلس| چلچله خوش اشتها| حیاط پشتی منزل لاکوود",SwingConstants.RIGHT);
         JLabel telegramLabel= new JLabel("تلگرام:t.me/haghdazhdefo",SwingConstants.RIGHT);
 
-//        emailLabel.setFont(font.deriveFont(20f));
-//        phonenumberLabel.setFont(font.deriveFont(20f));
-//        addressLabel.setFont(font.deriveFont(20f));
-//        telegramLabel.setFont(font.deriveFont(20f));
+        emailLabel.setFont(font.deriveFont(20f));
+        phonenumberLabel.setFont(font.deriveFont(20f));
+        addressLabel.setFont(font.deriveFont(20f));
+        telegramLabel.setFont(font.deriveFont(20f));
 
         emailLabel.setForeground(forthColor);
         phonenumberLabel.setForeground(forthColor);
         addressLabel.setForeground(forthColor);
         telegramLabel.setForeground(forthColor);
+        email.setForeground(forthColor);
 
-        emailLabel.setBounds(200,200,600,100);
+        emailLabel.setBounds(500,200,300,100);
         phonenumberLabel.setBounds(200,250,600,100);
         addressLabel.setBounds(200,300,600,100);
         telegramLabel.setBounds(200,350,600,100);
+        email.setBounds(520,200,300,100);
 
         contactUspanel.add(emailLabel);
         contactUspanel.add(phonenumberLabel);
         contactUspanel.add(addressLabel);
         contactUspanel.add(telegramLabel);
+        contactUspanel.add(email);
 
         JPanel menuPanel = menubar();
         addMenuButton(contactUspanel, menuPanel);
@@ -773,26 +780,6 @@ public class GuiUser implements ActionListener{
         frameUser.add(registerPanel);
         frameUser.setVisible(true);
     }
-    public ArrayList<Product> searchNameAndCategory(String searchString) {
-        ArrayList<Product> foundProducts = new ArrayList<>();
-        // Convert the search string to lowercase for case-insensitive matching
-        searchString = searchString.toLowerCase();
-        ArrayList<Product> products = manageDB.getAllProducts();
-        for (int i = 0; i < products.size(); i++) {
-            String productCategory = products.get(i).getCategory();
-            String productName = products.get(i).getName();
-            if (productCategory == null || productName == null)continue;
-            if (productCategory.contains(searchString) || productName.contains(searchString)){
-                foundProducts.add(products.get(i));
-            }
-        }
-        frameUser.getContentPane().removeAll();
-//        for (int i = 0; i < foundProducts.size(); i++) {
-//            System.out.println(foundProducts.get(i).getName());
-//        }
-        main(foundProducts);
-        return foundProducts;
-    }
 
     public void doRegister(){
         String name = nameTextField.getText();
@@ -855,6 +842,71 @@ public class GuiUser implements ActionListener{
 
         }
     }
+    public void sortByLeastPrice(){
+        ArrayList<Product> allProducts = manageDB.getAllProducts();
+        Collections.sort(allProducts, new Comparator<Product>() {
+            @Override
+            public int compare(Product p1, Product p2) {
+                return p1.getPrice() - p2.getPrice(); // مرتب‌سازی بر اساس سن
+            }
+        });
+        frameUser.getContentPane().removeAll();
+        main(allProducts);
+    }
+    public void sortByMostPrice(){
+        ArrayList<Product> allProducts = manageDB.getAllProducts();
+        Collections.sort(allProducts, new Comparator<Product>() {
+            @Override
+            public int compare(Product p1, Product p2) {
+                return p2.getPrice() - p1.getPrice();
+            }
+        });
+        frameUser.getContentPane().removeAll();
+        main(allProducts);
+    }
+    public void sortByMostRate(){
+        ArrayList<Product> allProducts = manageDB.getAllProducts();
+        Collections.sort(allProducts, new Comparator<Product>() {
+            @Override
+            public int compare(Product p1, Product p2) {
+                return Double.compare(p2.getScore(), p1.getScore());
+            }
+        });
+        frameUser.getContentPane().removeAll();
+        main(allProducts);
+    }
+
+    public ArrayList<Product> searchNameAndCategory(String searchString) {
+        ArrayList<Product> foundProducts = new ArrayList<>();
+        System.out.println("searchhhh");
+        System.out.println("searchstring" + searchString);
+        // Convert the search string to lowercase for case-insensitive matching
+        searchString = searchString.toLowerCase();
+        ArrayList<Product> products = manageDB.getAllProducts();
+        System.out.println(products.size());
+
+        for (int i = 0; i < products.size(); i++) {
+
+            System.out.println("product:"+products.get(i).getCategory());
+            System.out.println(products.get(i).getName());
+            String productCategory = products.get(i).getCategory();
+            String productName = products.get(i).getName();
+            if (productCategory == null || productName == null)continue;
+            System.out.println(productCategory.contains(searchString));
+            System.out.println(productName.contains(searchString));
+            if (productCategory.contains(searchString) || productName.contains(searchString)){
+                System.out.println("item founded");
+                foundProducts.add(products.get(i));
+            }
+        }
+        frameUser.getContentPane().removeAll();
+        System.out.println(foundProducts.size());
+        for (int i = 0; i < foundProducts.size(); i++) {
+            System.out.println(foundProducts.get(i).getName());
+        }
+        main(foundProducts);
+        return foundProducts;
+    }
     public Boolean validatePhoneNumber(String phoneNumber){
         String regex = "^09\\d{9}$";
         Pattern pattern = Pattern.compile(regex);
@@ -907,6 +959,9 @@ public class GuiUser implements ActionListener{
         exitAsUser.addActionListener(this);
         showInfoPanel.addActionListener(this);
         changeData.addActionListener(this);
+        sortButtonLeastPrice.addActionListener(this);
+        sortButtonMostPrice.addActionListener(this);
+        sortButtonRate.addActionListener(this);
         searchButton.addActionListener(this);
         addbutton.addActionListener(this);
     }
@@ -927,9 +982,8 @@ public class GuiUser implements ActionListener{
                 hexString.append(hex);
             }
             return hexString.toString();
-
-
         }
+
         catch (NoSuchAlgorithmException e) {
             System.err.println("MD5 hash algorithm doesn't work");
         }
@@ -979,9 +1033,16 @@ public class GuiUser implements ActionListener{
         } else if (e.getSource() == changeData) {
             frameUser.getContentPane().removeAll();
             changeData();
-        }else if(e.getSource()== searchButton){
+        } else if(e.getSource() == searchButton){
             String searchString = searchBar.getText();
+            System.out.println(searchString);
             searchNameAndCategory(searchString);
+        } else if(e.getSource() == sortButtonLeastPrice){
+            sortByLeastPrice();
+        } else if(e.getSource() == sortButtonMostPrice){
+            sortByMostPrice();
+        } else if(e.getSource() == sortButtonRate){
+            sortByMostRate();
         }
     }
 }

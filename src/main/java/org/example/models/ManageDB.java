@@ -240,7 +240,6 @@ public class ManageDB {
         }
     }
 
-
     public Boolean userloginCheck(String userName, String password){
         String selectSQL = "SELECT password FROM users WHERE username = ?";
 
@@ -320,7 +319,7 @@ public class ManageDB {
             throw new RuntimeException(e);
         }
     }
-    public Boolean adminRegisterCheck(String firstName, String lastName, String userName, String address, String email, String phoneNumber, String password, String password2){
+    public Boolean adminRegisterCheck(String firstName, String lastName, String userName, String address, String email, String phoneNumber, String password){
         String checkUserSQL = "SELECT username FROM admins WHERE username = ?";
         String insertUserSQL = "INSERT INTO admins (name, lastName, username, password, address, phoneNumber) VALUES (?, ?, ?, ?, ?, ?)";
 
@@ -334,7 +333,6 @@ public class ManageDB {
             } else {
                 // Username does not exist, register
                 try (PreparedStatement insertStmt = connection.prepareStatement(insertUserSQL)) {
-                    if(password.equals(password2)) {
                         insertStmt.setString(1, firstName);
                         insertStmt.setString(2, lastName);
                         insertStmt.setString(3, userName);
@@ -345,11 +343,7 @@ public class ManageDB {
                         insertStmt.executeUpdate();
                         System.out.println("admin registered successfully.");
                         return true;
-                    }else {
-                        System.out.println("passwords are different");
-                        return false;
                     }
-                }
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -408,4 +402,5 @@ public class ManageDB {
             throw new RuntimeException("Error finding product by name in the database", e);
         }
     }
+
 }
