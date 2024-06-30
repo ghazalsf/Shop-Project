@@ -185,8 +185,8 @@ public class ManageDB {
     }
 
     public void editUser(User userToEdit, User chanedUser){
-        String selectSQL = "SELECT * FROM products WHERE Username = ?";
-        String updateSQL = "UPDATE products SET name = ?, lastName = ?, userName = ?, password = ?, phoneNumber = ?, email = ?, budget = ? WHERE userName = ?";
+        String selectSQL = "SELECT * FROM users WHERE userName = ?";
+        String updateSQL = "UPDATE users SET name = ?, lastName = ?, userName = ?, password = ?, phoneNumber = ?, email = ?, budget = ? WHERE userName = ?";
 
         try (PreparedStatement selectStmt = connection.prepareStatement(selectSQL);
              PreparedStatement updateStmt = connection.prepareStatement(updateSQL)) {
@@ -211,6 +211,35 @@ public class ManageDB {
             throw new RuntimeException(e);
         }
     }
+
+    public void editProduct(Product productToEdit, Product chanedProduct){
+        String selectSQL = "SELECT * FROM products WHERE name = ?";
+        String updateSQL = "UPDATE products SET name = ?, price = ?, stock = ?, score = ?, category = ?, description = ?, pictureAddress = ? WHERE name = ?";
+
+        try (PreparedStatement selectStmt = connection.prepareStatement(selectSQL);
+             PreparedStatement updateStmt = connection.prepareStatement(updateSQL)) {
+
+            selectStmt.setString(1, productToEdit.getName());
+            ResultSet rs = selectStmt.executeQuery();
+
+            if (rs.next()) {
+                updateStmt.setString(1, chanedProduct.getName());
+                updateStmt.setInt(2, chanedProduct.getPrice());
+                updateStmt.setInt(3, chanedProduct.getStock());
+                updateStmt.setDouble(4, chanedProduct.getStock());
+                updateStmt.setString(5, chanedProduct.getCategory());
+                updateStmt.setString(6, chanedProduct.getDescription());
+                updateStmt.setString(7, chanedProduct.getPictureAddress());
+                updateStmt.executeUpdate();
+                System.out.println("Product updated successfully.");
+            } else {
+                System.out.println("Product not found.");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     public Boolean userloginCheck(String userName, String password){
         String selectSQL = "SELECT password FROM users WHERE username = ?";
