@@ -57,6 +57,7 @@ public class GuiUser implements ActionListener{
     JTextField passwordField =new JTextField();
     JTextField repeatPasswordField =new JTextField();
     JTextField enterPassPF = new JTextField();
+    JTextField searchBar = new JTextField();
 
     final Dimension SIZE = new Dimension(1000,800);
     Color mainColor = new Color(141, 141, 170);
@@ -77,9 +78,9 @@ public class GuiUser implements ActionListener{
         frameUser.setSize(SIZE);
         frameUser.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frameUser.setTitle("help");
-        frameUser.setResizable(true);
-        login();
+        frameUser.setResizable(false);
         frameUser.setVisible(true);
+        login();
         addActionevent();
     }
     public void login() {
@@ -318,12 +319,11 @@ public class GuiUser implements ActionListener{
 
         JPanel menuPanel = menubar();
 
-        JTextField searchBar = new JTextField();
         searchBar.setBounds(140, 25, 150, 30);
 
 
         JLabel name = new JLabel("فروشگاه هقداژدفو", SwingConstants.RIGHT);
-        name.setBounds(550, 50, 200, 100);
+        name.setBounds(550, 50, 400, 100);
 
         searchButton.setBounds(290, 25, 80, 30);
         sortButton.setBounds(140, 65, 230, 30);
@@ -806,6 +806,37 @@ public class GuiUser implements ActionListener{
 
         }
     }
+    public ArrayList<Product> searchNameAndCategory(String searchString) {
+        ArrayList<Product> foundProducts = new ArrayList<>();
+        System.out.println("searchhhh");
+        System.out.println("searchstring" + searchString);
+        // Convert the search string to lowercase for case-insensitive matching
+        searchString = searchString.toLowerCase();
+        ArrayList<Product> products = manageDB.getAllProducts();
+        System.out.println(products.size());
+
+        for (int i = 0; i < products.size(); i++) {
+
+            System.out.println("product:"+products.get(i).getCategory());
+            System.out.println(products.get(i).getName());
+            String productCategory = products.get(i).getCategory();
+            String productName = products.get(i).getName();
+            if (productCategory == null || productName == null)continue;
+            System.out.println(productCategory.contains(searchString));
+            System.out.println(productName.contains(searchString));
+            if (productCategory.contains(searchString) || productName.contains(searchString)){
+                System.out.println("item founded");
+                foundProducts.add(products.get(i));
+            }
+        }
+        frameUser.getContentPane().removeAll();
+        System.out.println(foundProducts.size());
+        for (int i = 0; i < foundProducts.size(); i++) {
+            System.out.println(foundProducts.get(i).getName());
+        }
+        main(foundProducts);
+        return foundProducts;
+    }
     public Boolean validatePhoneNumber(String phoneNumber){
         String regex = "^09\\d{9}$";
         Pattern pattern = Pattern.compile(regex);
@@ -848,9 +879,8 @@ public class GuiUser implements ActionListener{
                 hexString.append(hex);
             }
             return hexString.toString();
-
-
         }
+
         catch (NoSuchAlgorithmException e) {
             System.err.println("MD5 hash algorithm doesn't work");
         }
@@ -898,6 +928,10 @@ public class GuiUser implements ActionListener{
         } else if (e.getSource() == changeData) {
             frameUser.getContentPane().removeAll();
             changeData();
+        }else if(e.getSource() == searchButton){
+            String searchString = searchBar.getText();
+            System.out.println(searchString);
+            searchNameAndCategory(searchString);
         }
     }
 }

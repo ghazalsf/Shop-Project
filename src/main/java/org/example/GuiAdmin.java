@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 public class GuiAdmin implements ActionListener{
@@ -38,6 +40,7 @@ public class GuiAdmin implements ActionListener{
     JButton exitAsAdmin = new JButton("خروج ادمین");
     JButton updateInfo = new JButton("ویرایش اطلاعات");
 
+    JTextField searchBar = new JTextField();
     JTextField enterUserTF = new JTextField();
     JTextField nameTextField =new JTextField();
     JTextField lastNameTextField =new JTextField();
@@ -47,9 +50,11 @@ public class GuiAdmin implements ActionListener{
     JTextField userNameTextField =new JTextField();
     JTextField passwordField =new JTextField();
     JTextField repeatPasswordField =new JTextField();
-    JTextField enterPassPF = new JTextField();
-    JTextField staticPassFiled = new JTextField();
+    JTextField adminsPasswordField =new JTextField();
 
+    JTextField enterPassPF = new JTextField();
+
+    final String staticPass =  "sam";
 
     final Dimension SIZE = new Dimension(1000,800);
     Color mainColor = new Color(141, 141, 170);
@@ -82,7 +87,7 @@ public class GuiAdmin implements ActionListener{
 
         Border b = BorderFactory.createLineBorder(forthColor,2);
 
-        JLabel enterL = new JLabel("ورود کاربر",SwingConstants.CENTER);
+        JLabel enterL = new JLabel("ورود ادمین",SwingConstants.CENTER);
         enterL.setBounds(360,80,267,80);
         enterL.setFont(font.deriveFont(40f));
         enterL.setForeground(forthColor);
@@ -237,21 +242,21 @@ public class GuiAdmin implements ActionListener{
 
         JPanel menuPanel = menubar();
 
-        JTextField searchBar = new JTextField();
-        searchBar.setBounds(140, 10, 150, 25);
-
-        searchButton.setBounds(290, 10, 80, 25);
-
         JLabel name = new JLabel("فروشگاه هقداژدفو", SwingConstants.RIGHT);
-        name.setBounds(550, 50, 200, 100);
-         name.setFont(font.deriveFont(50f));
+
+        searchBar.setBounds(140, 10, 150, 25);
+        searchButton.setBounds(290, 10, 80, 25);
+        name.setBounds(550, 50, 400, 100);
+
+        name.setFont(font.deriveFont(50f));
+        searchButton.setFont(font.deriveFont(12f));
+        sortButton.setFont(font.deriveFont(12f));
+        sortButtonBigger.setFont(font.deriveFont(12f));
+        sortButtonCategory.setFont(font.deriveFont(12f));
 
         sortButton.setBounds(140, 50, 230, 25);
-
         sortButtonBigger.setBounds(140, 90, 230, 25);
-
         sortButtonCategory.setBounds(140, 130, 230, 25);
-
         addProduct.setBounds(140, 170,230,25);
 
         commandsPanel.setBackground(mainColor);
@@ -322,6 +327,7 @@ public class GuiAdmin implements ActionListener{
         JLabel userNameLabel =  new JLabel("نام کاربری: ", SwingConstants.LEFT);
         JLabel passwordLabel =  new JLabel("رمز عبور: ", SwingConstants.LEFT);
         JLabel repeatPasswordLabel =  new JLabel("تکرار رمز عبور: ", SwingConstants.LEFT);
+        JLabel adminsPasswordLabel =  new JLabel("رمز عبور ادمین ها: ", SwingConstants.LEFT);
 
         titleLabel.setFont(font.deriveFont(40f));
         nameLabel.setFont(font.deriveFont(20f));
@@ -332,6 +338,7 @@ public class GuiAdmin implements ActionListener{
         userNameLabel.setFont(font.deriveFont(20f));
         passwordLabel.setFont(font.deriveFont(20f));
         repeatPasswordLabel.setFont(font.deriveFont(20f));
+        adminsPasswordLabel.setFont(font.deriveFont(20f));
 
         titleLabel.setForeground(forthColor);
         nameLabel.setForeground(thirdColor);
@@ -342,6 +349,7 @@ public class GuiAdmin implements ActionListener{
         userNameLabel.setForeground(thirdColor);
         passwordLabel.setForeground(thirdColor);
         repeatPasswordLabel.setForeground(thirdColor);
+        adminsPasswordLabel.setForeground(thirdColor);
 
         titleLabel.setBounds(460,20,400,200);
         nameLabel.setBounds(550,100,400,200);
@@ -352,6 +360,7 @@ public class GuiAdmin implements ActionListener{
         userNameLabel.setBounds(550,300,400,200);
         passwordLabel.setBounds(550,340,400,200);
         repeatPasswordLabel.setBounds(550,380,400,200);
+        adminsPasswordLabel.setBounds(550, 420,400,200);
 
         registerPanel.add(titleLabel);
         registerPanel.add(nameLabel);
@@ -362,6 +371,7 @@ public class GuiAdmin implements ActionListener{
         registerPanel.add(userNameLabel);
         registerPanel.add(passwordLabel);
         registerPanel.add(repeatPasswordLabel);
+        registerPanel.add(adminsPasswordLabel);
 
         nameTextField.setBorder(border);
         lastNameTextField.setBorder(border);
@@ -371,6 +381,7 @@ public class GuiAdmin implements ActionListener{
         userNameTextField.setBorder(border);
         passwordField.setBorder(border);
         repeatPasswordField.setBorder(border);
+        adminsPasswordField.setBorder(border);
 
         nameTextField.setBounds(400,185,150,30);
         lastNameTextField.setBounds(400,225,150,30);
@@ -380,6 +391,7 @@ public class GuiAdmin implements ActionListener{
         userNameTextField.setBounds(400,385,150,30);
         passwordField.setBounds(400,425,150,30);
         repeatPasswordField.setBounds(400,464,150,30);
+        adminsPasswordField.setBounds(400,500,150,30);
 
         registerPanel.add(nameTextField);
         registerPanel.add(lastNameTextField);
@@ -389,9 +401,10 @@ public class GuiAdmin implements ActionListener{
         registerPanel.add(userNameTextField);
         registerPanel.add(passwordField);
         registerPanel.add(repeatPasswordField);
+        registerPanel.add(adminsPasswordField);
 
         registerButton.setFont(font.deriveFont(17f));
-        registerButton.setBounds(460,530,100,50);
+        registerButton.setBounds(480,570,100,50);
         registerButton.setBackground(forthColor);
         registerButton.setForeground(secondColor);
         registerPanel.add(registerButton);
@@ -490,6 +503,7 @@ public class GuiAdmin implements ActionListener{
         String phoneNumber = phoneNumberTextField.getText();
         String password1 = passwordField.getText();
         String password2 = repeatPasswordField.getText();
+        String adminsPass = adminsPasswordField.getText();
 
         Border redBorder = BorderFactory.createLineBorder(Color.RED,2);
 
@@ -501,6 +515,7 @@ public class GuiAdmin implements ActionListener{
         userNameTextField.setBorder(border);
         passwordField.setBorder(border);
         repeatPasswordField.setBorder(border);
+        adminsPasswordField.setBorder(border);
 
         if (name.isEmpty()){
             nameTextField.setBorder(redBorder);
@@ -518,17 +533,78 @@ public class GuiAdmin implements ActionListener{
             passwordField.setBorder(redBorder);
         } else if (password2.isEmpty()) {
             repeatPasswordField.setBorder(redBorder);
+        } else if (!adminsPass.equals(staticPass)) {
+            adminsPasswordField.setBorder(redBorder);
+            adminsPasswordField.setText("رمز ادمین ها اشتباه است.");
         }else {
-            Boolean isRegistered = manageDB.adminRegisterCheck(name, lastName, userName, address, email, phoneNumber, password1, password2);
-
-            if (isRegistered == true) {
-                frameAdmin.getContentPane().removeAll();
-                user = manageDB.findUserByUserName(userName);
-                main(manageDB.getAllProducts());
-            } else {
-                nameTextField.setText("خطایی رخ داده است. دوباره تلاش کنید");
+            password1 = MD5hashPassword(password1);
+            if (password1 != null) {
+                Boolean isRegistered = manageDB.adminRegisterCheck(name, lastName, userName, address, email, phoneNumber, password1);
+                if (isRegistered == true) {
+                    frameAdmin.getContentPane().removeAll();
+                    main(manageDB.getAllProducts());
+                } else {
+                    nameTextField.setText("خطایی رخ داده است. دوباره تلاش کنید");
+                }
+            }else {
+                System.out.println("خطایی رخ داده است. دوباره تلاش کنید.");
             }
         }
+    }
+    public ArrayList<Product> searchNameAndCategory(String searchString) {
+        ArrayList<Product> foundProducts = new ArrayList<>();
+        System.out.println("searchhhh");
+        System.out.println("searchstring" + searchString);
+        // Convert the search string to lowercase for case-insensitive matching
+        searchString = searchString.toLowerCase();
+        ArrayList<Product> products = manageDB.getAllProducts();
+        System.out.println(products.size());
+
+        for (int i = 0; i < products.size(); i++) {
+
+            System.out.println("product:"+products.get(i).getCategory());
+            System.out.println(products.get(i).getName());
+            String productCategory = products.get(i).getCategory();
+            String productName = products.get(i).getName();
+            if (productCategory == null || productName == null)continue;
+            System.out.println(productCategory.contains(searchString));
+            System.out.println(productName.contains(searchString));
+            if (productCategory.contains(searchString) || productName.contains(searchString)){
+                System.out.println("item founded");
+                foundProducts.add(products.get(i));
+            }
+        }
+        frameAdmin.getContentPane().removeAll();
+        System.out.println(foundProducts.size());
+        for (int i = 0; i < foundProducts.size(); i++) {
+            System.out.println(foundProducts.get(i).getName());
+        }
+        main(foundProducts);
+        return foundProducts;
+    }
+
+    public String MD5hashPassword(String originalPass){
+        try {
+            //computes the MD5 hash
+            MessageDigest digest = MessageDigest.getInstance("MD5");
+            byte[] hash = digest.digest(originalPass.getBytes());
+
+            //Convert byte array to hexadecimal string
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : hash) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) {
+                    hexString.append('0');
+                }
+                hexString.append(hex);
+            }
+            return hexString.toString();
+        }
+
+        catch (NoSuchAlgorithmException e) {
+            System.err.println("MD5 hash algorithm doesn't work");
+        }
+        return null;
     }
     private void addActionevent() {
         loginButton.addActionListener(this);
@@ -549,6 +625,7 @@ public class GuiAdmin implements ActionListener{
         if (e.getSource() == loginButton) {
             String loginUserName = enterUserTF.getText();
             String loginPass = enterPassPF.getText();
+            loginPass = MD5hashPassword(loginPass);
             Boolean isLoggedin = manageDB.adminLoginCheck(loginUserName, loginPass);
             if (isLoggedin == true){
                 frameAdmin.getContentPane().removeAll();
@@ -556,7 +633,7 @@ public class GuiAdmin implements ActionListener{
             }else {
                 enterUserTF.setText("خطایی رخ داده است. دوباره تلاش کنید");
             }
-        }else if (e.getSource() == newRegister) {
+        } else if (e.getSource() == newRegister) {
             frameAdmin.getContentPane().removeAll();
             register();
         } else if (e.getSource() == registerButton) {
@@ -567,19 +644,23 @@ public class GuiAdmin implements ActionListener{
         } else if (e.getSource() == contactUsButton) {
             frameAdmin.getContentPane().removeAll();
             contactUs();
-        }else if (e.getSource() == backButton) {
+        } else if (e.getSource() == backButton) {
             frameAdmin.getContentPane().removeAll();
             main(manageDB.getAllProducts());
-        } else if (e.getSource()==confirmButton) {
+        } else if (e.getSource() == confirmButton) {
             //To do
-        }else if (e.getSource()== exitAsAdmin){
+        } else if (e.getSource() == exitAsAdmin){
             frameAdmin.setVisible(false);
             new StartGui();
-        } else if (e.getSource()== showInfoPanel) {
+        } else if (e.getSource() == showInfoPanel) {
             frameAdmin.setVisible(false);
             showInfo();
         } else if (e.getSource() == updateInfo) {
             frameAdmin.getContentPane().removeAll();
+        }else if(e.getSource() == searchButton){
+            String searchString = searchBar.getText();
+            System.out.println(searchString);
+            searchNameAndCategory(searchString);
         }
     }
 }
