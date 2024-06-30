@@ -19,6 +19,7 @@ import java.util.regex.Pattern;
 public class GuiUser implements ActionListener{
 
     User user;
+    int price = 0;
     JFrame frameUser = new JFrame("hello");
     ManageDB manageDB = new ManageDB();
 
@@ -519,7 +520,6 @@ public class GuiUser implements ActionListener{
     public void cart(ArrayList<Product> selectedProducts){
         int numberOfSelected = selectedProducts.size();
         int rows = numberOfSelected + 3;
-        int price=0;
         JPanel selectedList = new JPanel();
         selectedList.setBackground(mainColor);
         selectedList.setLayout(new GridLayout(rows, 1, 0, 10)); //hgap is 0 for consistent spacing
@@ -833,6 +833,13 @@ public class GuiUser implements ActionListener{
             return true;
         } else {
             return false;
+        }
+    }
+    public void cartConfirmation (){
+        int budget = user.getBudget();
+        if (budget>= price){
+            int newBudget = budget- price;
+            user.setBudget(newBudget);
         }
     }
     private void addActionevent() {

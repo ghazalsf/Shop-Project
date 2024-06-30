@@ -11,12 +11,14 @@ import java.util.ArrayList;
 
 public class GuiAdmin implements ActionListener{
     User user;
+    Product productToBeAdded;
     JFrame frameAdmin = new JFrame("hello");
     ManageDB manageDB = new ManageDB();
 
     JPanel infoPanel = new JPanel();
     JPanel productPanel = new JPanel();
     JPanel registerPanel = new JPanel();
+    JPanel addProductPanel = new JPanel();
 
 
     JButton loginButton = new JButton("ورود");
@@ -36,6 +38,13 @@ public class GuiAdmin implements ActionListener{
     JButton exitAsAdmin = new JButton("خروج ادمین");
     JButton updateInfo = new JButton("ویرایش اطلاعات");
 
+    JTextField enterPrice = new JTextField();
+    JTextField enterScore = new JTextField();
+    JTextField enterStock = new JTextField();
+    JTextField enterName = new JTextField();
+    JTextField enterDescription = new JTextField();
+    JTextField enterCategory = new JTextField();
+    JTextField enterPictureAddress = new JTextField();
     JTextField enterUserTF = new JTextField();
     JTextField nameTextField =new JTextField();
     JTextField lastNameTextField =new JTextField();
@@ -272,6 +281,7 @@ public class GuiAdmin implements ActionListener{
         commandsPanel.add(sortButton);
         commandsPanel.add(sortButtonBigger);
         commandsPanel.add(sortButtonCategory);
+        commandsPanel.add(addProduct);
 
         int amountOfProducts = products.size();
         int y = 0;
@@ -400,6 +410,68 @@ public class GuiAdmin implements ActionListener{
         frameAdmin.setVisible(true);
     }
 
+    public void addProductAdmin(){
+        JLabel enterPriceL = new JLabel("قیمت محصول:");
+        JLabel enterScoreL = new JLabel("امتیاز محصول:");
+        JLabel enterStockL = new JLabel("تعداد محصول:");
+        JLabel enterNameL = new JLabel("نام محصول:");
+        JLabel enterDescriptionL = new JLabel("توضیحات محصول:");
+        JLabel enterCategoryL = new JLabel("دسته بندی محصول:");
+        JLabel enterPictureAddressL = new JLabel("ادرس عکس محصول:");
+
+        enterPriceL.setForeground(forthColor);
+        enterScoreL.setForeground(thirdColor);
+        enterStockL.setForeground(thirdColor);
+        enterNameL.setForeground(thirdColor);
+        enterDescriptionL.setForeground(thirdColor);
+        enterCategoryL.setForeground(thirdColor);
+        enterPictureAddressL.setForeground(thirdColor);
+
+        enterPriceL.setBounds(460,20,400,200);
+        enterScoreL.setBounds(550,100,400,200);
+        enterStockL.setBounds(550,140,400,200);
+        enterNameL.setBounds(550,180,400,200);
+        enterDescriptionL.setBounds(550,220,400,200);
+        enterCategoryL.setBounds(550,260,400,200);
+        enterPictureAddressL.setBounds(550,300,400,200);
+
+        enterPrice.setBounds(400,185,150,30);
+        enterScore.setBounds(400,225,150,30);
+        enterStock.setBounds(400,265,150,30);
+        enterName.setBounds(400,305,150,30);
+        enterDescription.setBounds(400,345,150,30);
+        enterCategory.setBounds(400,385,150,30);
+        enterPictureAddress.setBounds(400,425,150,39);
+
+        addProductPanel.add(enterPriceL);
+        addProductPanel.add(enterScoreL);
+        addProductPanel.add(enterStockL);
+        addProductPanel.add(enterNameL);
+        addProductPanel.add(enterDescriptionL);
+        addProductPanel.add(enterCategoryL);
+        addProductPanel.add(enterPictureAddressL);
+
+        addProductPanel.add(enterPrice);
+        addProductPanel.add(enterScore);
+        addProductPanel.add(enterStock);
+        addProductPanel.add(enterName);
+        addProductPanel.add(enterDescription);
+        addProductPanel.add(enterCategory);
+        addProductPanel.add(enterPictureAddress);
+
+        addProduct.setBounds(460,530,100,50);
+        addProduct.setBackground(forthColor);
+        addProduct.setForeground(secondColor);
+        addProductPanel.add(addProduct);
+
+        Product newProduct;
+        int proPrice = Integer.parseInt(enterPrice.getText());
+        double proScore = Double.parseDouble(enterScore.getText());
+        int proStock = Integer.parseInt(enterStock.getText());
+        newProduct = new Product(proPrice,proScore, proStock, enterName.getText(),enterDescription.getText(),enterCategory.getText(),enterPictureAddress.getText());
+        productToBeAdded = newProduct;
+    }
+
     public void userList(ArrayList<User> users){
         int numberOfUsers = users.size();
         int rows = numberOfUsers + 3;
@@ -409,7 +481,6 @@ public class GuiAdmin implements ActionListener{
 
         JLabel emptyLabel = new JLabel("   ");
 
-        JButton backButton = new JButton("برگشت");
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0)); // Create a panel with FlowLayout
         backButton.setPreferredSize(new Dimension(100, 30));
@@ -556,6 +627,7 @@ public class GuiAdmin implements ActionListener{
         showInfoPanel.addActionListener(this);
         updateInfo.addActionListener(this);
         searchButton.addActionListener(this);
+        addProduct.addActionListener(this);
     }
 
     @Override
@@ -597,6 +669,10 @@ public class GuiAdmin implements ActionListener{
         } else if(e.getSource()== searchButton){
             String searchString = searchBar.getText();
             searchNameAndCategory(searchString);
+        }else if (e.getSource()==addProduct){
+            frameAdmin.getContentPane().removeAll();
+            addProductAdmin();
+            manageDB.addProductToDB(productToBeAdded);
         }
     }
 }
