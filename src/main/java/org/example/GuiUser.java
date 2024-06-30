@@ -22,6 +22,8 @@ public class GuiUser implements ActionListener{
     int price = 0;
     JFrame frameUser = new JFrame("hello");
     ManageDB manageDB = new ManageDB();
+    ArrayList<Product> selectedProducts;
+    Admin admin;
 
     JPanel infoPanel = new JPanel();
     JPanel productPanel = new JPanel();
@@ -837,10 +839,31 @@ public class GuiUser implements ActionListener{
     }
     public void cartConfirmation (){
         int budget = user.getBudget();
+        Product tempP;
+        User temp = user;
+        int newBudget = budget- price;
+        user.setBudget(newBudget);
         if (budget>= price){
-            int newBudget = budget- price;
-            user.setBudget(newBudget);
+            for(Product p : selectedProducts){
+                if(p.getStock()>= 1){
+                    tempP = p;
+                    int newStock = p.getStock()-1;
+                    p.setStock(newStock);
+                    manageDB.editProduct(tempP,p);
+                }else{
+                    int notInStock = p.getPrice();
+                    newBudget = newBudget+ notInStock;
+                    price = price- notInStock;
+                    user.setBudget(newBudget);
+                    System.out.println("not enough in stock");
+                }
+            }
+            manageDB.editUser(temp,user);
         }
+        int sold = admin.getSold();
+        int newSold = sold + price;
+        admin.setSold(newSold);
+        selectedProducts.clear();
     }
     private void addActionevent() {
         loginButton.addActionListener(this);
@@ -914,7 +937,9 @@ public class GuiUser implements ActionListener{
             frameUser.getContentPane().removeAll();
             main(manageDB.getAllProducts());
         } else if (e.getSource()==confirmButton) {
-            //To do
+            cartConfirmation();
+            frameUser.getContentPane().removeAll();
+            main(manageDB.getAllProducts());
         } else if (e.getSource()== exitAsUser) {
             frameUser.setVisible(false);
             new StartGui();
