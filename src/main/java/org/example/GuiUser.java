@@ -27,6 +27,7 @@ public class GuiUser implements ActionListener{
     JPanel productPanel = new JPanel();
     JPanel registerPanel = new JPanel();
     JPanel showProductPanel = new JPanel();
+    JPanel selectedList = new JPanel();
 
     JButton addbutton =new JButton("اضافه کردن به سبد خرید");
     JButton submitbutton= new JButton("ثبت امتیاز");
@@ -201,6 +202,7 @@ public class GuiUser implements ActionListener{
         addbutton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                removealbels();
                 selectedProducts.add(product);
             }
         });
@@ -526,11 +528,18 @@ public class GuiUser implements ActionListener{
         frameUser.add(contactUspanel);
         frameUser.setVisible(true);
     }
+    public void removealbels(){
+        for (Component component : selectedList.getComponents()) {
+            if (component instanceof JLabel) {
+                selectedList.remove(component);
+            }
+        }
+    }
     public void cart(){
         int numberOfSelected = selectedProducts.size();
         int rows = numberOfSelected + 3;
         int price=0;
-        JPanel selectedList = new JPanel();
+
         selectedList.setBackground(mainColor);
         selectedList.setLayout(new GridLayout(rows, 1, 0, 10)); //hgap is 0 for consistent spacing
 
