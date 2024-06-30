@@ -185,8 +185,8 @@ public class ManageDB {
     }
 
     public void editUser(User userToEdit, User chanedUser){
-        String selectSQL = "SELECT * FROM products WHERE id = ?";
-        String updateSQL = "UPDATE products SET name = ?, lastName = ?, userName = ?, password = ?, phoneNumber = ?, email = ?, budget = ? WHERE id = ?";
+        String selectSQL = "SELECT * FROM users WHERE userName = ?";
+        String updateSQL = "UPDATE users SET name = ?, lastName = ?, userName = ?, password = ?, phoneNumber = ?, email = ?, budget = ? WHERE userName = ?";
 
         try (PreparedStatement selectStmt = connection.prepareStatement(selectSQL);
              PreparedStatement updateStmt = connection.prepareStatement(updateSQL)) {
@@ -202,6 +202,34 @@ public class ManageDB {
                 updateStmt.setString(5, chanedUser.getAddress());
                 updateStmt.setString(6, chanedUser.getPhoneNumber());
                 updateStmt.setInt(7, chanedUser.getBudget());
+                updateStmt.executeUpdate();
+                System.out.println("Product updated successfully.");
+            } else {
+                System.out.println("Product not found.");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void editProduct(Product productToEdit, Product chanedProduct){
+        String selectSQL = "SELECT * FROM products WHERE name = ?";
+        String updateSQL = "UPDATE products SET name = ?, price = ?, stock = ?, score = ?, category = ?, description = ?, pictureAddress = ? WHERE name = ?";
+
+        try (PreparedStatement selectStmt = connection.prepareStatement(selectSQL);
+             PreparedStatement updateStmt = connection.prepareStatement(updateSQL)) {
+
+            selectStmt.setString(1, productToEdit.getName());
+            ResultSet rs = selectStmt.executeQuery();
+
+            if (rs.next()) {
+                updateStmt.setString(1, chanedProduct.getName());
+                updateStmt.setInt(2, chanedProduct.getPrice());
+                updateStmt.setInt(3, chanedProduct.getStock());
+                updateStmt.setDouble(4, chanedProduct.getStock());
+                updateStmt.setString(5, chanedProduct.getCategory());
+                updateStmt.setString(6, chanedProduct.getDescription());
+                updateStmt.setString(7, chanedProduct.getPictureAddress());
                 updateStmt.executeUpdate();
                 System.out.println("Product updated successfully.");
             } else {
@@ -291,7 +319,7 @@ public class ManageDB {
             throw new RuntimeException(e);
         }
     }
-    public Boolean adminRegisterCheck(String firstName, String lastName, String userName, String address, String email, String phoneNumber, String password, String password2){
+    public Boolean adminRegisterCheck(String firstName, String lastName, String userName, String address, String email, String phoneNumber, String password){
         String checkUserSQL = "SELECT username FROM admins WHERE username = ?";
         String insertUserSQL = "INSERT INTO admins (name, lastName, username, password, address, phoneNumber) VALUES (?, ?, ?, ?, ?, ?)";
 
@@ -305,7 +333,6 @@ public class ManageDB {
             } else {
                 // Username does not exist, register
                 try (PreparedStatement insertStmt = connection.prepareStatement(insertUserSQL)) {
-                    if(password.equals(password2)) {
                         insertStmt.setString(1, firstName);
                         insertStmt.setString(2, lastName);
                         insertStmt.setString(3, userName);
@@ -316,11 +343,7 @@ public class ManageDB {
                         insertStmt.executeUpdate();
                         System.out.println("admin registered successfully.");
                         return true;
-                    }else {
-                        System.out.println("passwords are different");
-                        return false;
                     }
-                }
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -379,4 +402,5 @@ public class ManageDB {
             throw new RuntimeException("Error finding product by name in the database", e);
         }
     }
+
 }
